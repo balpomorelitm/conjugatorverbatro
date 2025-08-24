@@ -90,9 +90,6 @@ let totalBossesEncountered = 0;
 let currentBossNumber = 0;
 let correctAnswersTotal = 0;
 let currentLevel = 0;
-let lastBossUsed = null;
-let totalBossesEncountered = 0;
-let currentBossNumber = 0;
 
 // Temporary level goals for testing
 const LEVEL_GOAL_TIMER = 10;
@@ -508,8 +505,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   let timerTimeLeft = 0;
   let tickingSoundPlaying = false;
   let freeClues = 0;
-  let totalBossesEncountered = 0;
-  let currentBossNumber = 0;
   const defaultBackgroundColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--bg-color').trim();
 
@@ -3497,9 +3492,9 @@ function startBossBattle() {
 
   if (bossImage) {
     if (selectedBossKey === 'verbRepairer') {
-      bossImage.src = 'images/bossrepairer.webp';
+      bossImage.src = 'images/bosshack.webp';
     } else if (selectedBossKey === 'nuclearBomb') {
-      bossImage.src = 'images/bossnuclear.webp';
+      bossImage.src = 'images/boss_imageplaceholder.png';
     } else {
       bossImage.src = 'images/bosssg.webp';
     }

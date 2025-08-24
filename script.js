@@ -1006,6 +1006,25 @@ function displayNextBossVerb() {
   }
 
   function endBossBattle(playerWon, message = "") {
+    // Clear any boss-specific intervals
+    if (game.boss && game.boss.countdownInterval) {
+      clearInterval(game.boss.countdownInterval);
+      game.boss.countdownInterval = null;
+    }
+
+    // Reset nuclear bomb UI if active
+    const countdownDisplay = document.getElementById('nuclear-countdown');
+    if (countdownDisplay) {
+      countdownDisplay.style.display = 'none';
+      countdownDisplay.classList.remove('critical', 'warning', 'defused');
+    }
+
+    // Reset chuache box state
+    const chuacheBox = document.getElementById('chuache-box');
+    if (chuacheBox) {
+      chuacheBox.classList.remove('nuclear-mode');
+    }
+
     if (ansES) ansES.disabled = false;
 
     if (checkAnswerButton) checkAnswerButton.disabled = false;
@@ -1314,6 +1333,10 @@ function displayNextBossVerb() {
   }
 
   function resetLevelState() {
+    if (game.boss && game.boss.countdownInterval) {
+      clearInterval(game.boss.countdownInterval);
+      game.boss.countdownInterval = null;
+    }
     correctAnswersTotal = 0;
     currentLevel = 0;
 
@@ -3509,9 +3532,12 @@ function startBossBattle() {
 
 
   if (progressContainer) {
-    const bossTypeNumber =
-      selectedBossKey === 'verbRepairer' ? 1 :
-      selectedBossKey === 'skynetGlitch' ? 2 : 3;
+    const bossTypeMap = {
+      verbRepairer: 1,
+      skynetGlitch: 2,
+      nuclearBomb: 3
+    };
+    const bossTypeNumber = bossTypeMap[selectedBossKey] || 1;
 
     progressContainer.textContent =
       `Level Boss #${currentBossNumber} - ${bossTypeNumber}/3 (0/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
@@ -4169,6 +4195,10 @@ if (reflexiveBonus > 0) {
   }
 }
 function startTimerMode() {
+  if (game.boss && game.boss.countdownInterval) {
+    clearInterval(game.boss.countdownInterval);
+    game.boss.countdownInterval = null;
+  }
   totalQuestions = 0;
   totalCorrect = 0;
   totalIncorrect = 0;
@@ -4247,6 +4277,10 @@ function startTimerMode() {
 }
 
 function startLivesMode() {
+  if (game.boss && game.boss.countdownInterval) {
+    clearInterval(game.boss.countdownInterval);
+    game.boss.countdownInterval = null;
+  }
   totalQuestions = 0;
   totalCorrect = 0;
   totalIncorrect = 0;
@@ -4430,6 +4464,11 @@ function updateStreakForLifeDisplay() {
 }
 
 function quitToSettings() {
+  if (game.boss && game.boss.countdownInterval) {
+    clearInterval(game.boss.countdownInterval);
+  }
+  game.boss = null;
+  game.gameState = 'PLAYING';
   document.getElementById('timer-container').style.display = 'none';
   document.getElementById('game-screen').classList.remove('study-mode-active');
   clearInterval(countdownTimer);

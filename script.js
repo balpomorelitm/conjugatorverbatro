@@ -5272,6 +5272,28 @@ window.addEventListener('resize', () => {
     };
   }
 
+  function showStatsModal() {
+    const stats = calculateGameStats();
+    const statsContent = document.getElementById('stats-content');
+    let missedVerbsHtml = '';
+    if (verbsMissed.length) {
+      const uniqueMissed = [...new Set(verbsMissed.map(v => v.verb))];
+      missedVerbsHtml = `<div class="stat-row"><span class="stat-label">❌ Missed verbs:</span><span class="stat-value">${uniqueMissed.slice(0,3).join(', ')}</span></div>`;
+    }
+    statsContent.innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-row"><span class="stat-label">🎯 Accuracy:</span><span class="stat-value">${stats.accuracy}% (${stats.totalCorrect}/${stats.totalQuestions})</span></div>
+        <div class="stat-row"><span class="stat-label">⏱️ Average time:</span><span class="stat-value">${stats.avgTime}s per question</span></div>
+        <div class="stat-row"><span class="stat-label">🚀 Speed:</span><span class="stat-value">${stats.speedRating}</span></div>
+        <div class="stat-row"><span class="stat-label">🔥 Best streak:</span><span class="stat-value">${stats.bestStreak} in a row</span></div>
+        ${missedVerbsHtml}
+        <div class="encouragement">${stats.encouragement}</div>
+      </div>`;
+    document.getElementById('stats-modal').style.display = 'flex';
+    document.getElementById('stats-modal-backdrop').style.display = 'block';
+    document.body.classList.add('tooltip-open-no-scroll');
+  }
+
   // Call the function to load the records as soon as the page is ready
   displaySplashRecords();
 

@@ -4789,6 +4789,52 @@ if (irregularitiesContainer) {
 
     if (ansES) ansES.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });
     if (ansEN) ansEN.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });
+
+    const statsModal = document.getElementById('stats-modal');
+    const statsBackdrop = document.getElementById('stats-modal-backdrop');
+    const statsContinueButton = document.getElementById('stats-continue-button');
+    const closeStatsModalBtn = document.getElementById('close-stats-modal-btn');
+    function closeStatsModal() {
+      if (statsModal && statsBackdrop) {
+        statsModal.style.display = 'none';
+        statsBackdrop.style.display = 'none';
+        document.body.classList.remove('tooltip-open-no-scroll');
+      }
+    }
+    if (statsContinueButton) {
+      statsContinueButton.addEventListener('click', () => {
+        closeStatsModal();
+        qualifiesForRecord(score, selectedGameMode).then(qualifies => {
+          if (!qualifies) { fadeOutToMenu(quitToSettings); return; }
+          openNameModal('¿Cómo te llamas?', function(name) {
+            if (name) {
+              const recordData = {
+                name: name,
+                score: score,
+                mode: selectedGameMode,
+                streak: bestStreak,
+                level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
+              };
+              (async () => {
+                try {
+                  const { error } = await supabase.from('records').insert([recordData]);
+                  if (error) throw error;
+                  renderSetupRecords();
+                } catch (error) {
+                  console.error("Error saving record (statsContinue):", error.message);
+                } finally {
+                  fadeOutToMenu(quitToSettings);
+                }
+              })();
+            } else {
+              fadeOutToMenu(quitToSettings);
+            }
+          });
+        });
+      });
+    }
+    if (closeStatsModalBtn) closeStatsModalBtn.addEventListener('click', closeStatsModal);
+    if (statsBackdrop) statsBackdrop.addEventListener('click', closeStatsModal);
 function renderVerbTypeButtons() {
   const container = document.getElementById('verb-type-buttons');
   container.innerHTML = ''; 

@@ -645,4 +645,19 @@ const specificInfoData = {
            </table>
            <p>Notice how the infinitive ends in <strong>-se</strong> (e.g., levantar<strong>se</strong>, duchar<strong>se</strong>, llamar<strong>se</strong>).</p>`
   },
+    clueColorsInfo: {
+    title: "Clue Color Guide",
+    html: `<p>Each pronoun has its own color in the conjugation clues:</p>
+           <table class="tense-tooltip-table">
+             <tr><th>Pronoun</th><th>Color</th><th>Example</th></tr>
+             <tr><td>yo</td><td style="background: #ffbe0b; color: #000; padding: 2px 6px; border-radius: 3px;">Yellow</td><td>hablo</td></tr>
+             <tr><td>tú</td><td style="background: #fb5607; color: #fff; padding: 2px 6px; border-radius: 3px;">Orange</td><td>hablas</td></tr>
+             <tr><td>vos</td><td style="background: #ff8500; color: #fff; padding: 2px 6px; border-radius: 3px;">Dark Orange</td><td>hablás</td></tr>
+             <tr><td>él/ella/usted</td><td style="background: #ff006e; color: #fff; padding: 2px 6px; border-radius: 3px;">Pink</td><td>habla</td></tr>
+             <tr><td>nosotros/as</td><td style="background: #8338ec; color: #fff; padding: 2px 6px; border-radius: 3px;">Purple</td><td>hablamos</td></tr>
+             <tr><td>vosotros/as</td><td style="background: #3a86ff; color: #fff; padding: 2px 6px; border-radius: 3px;">Blue</td><td>habláis</td></tr>
+             <tr><td>ellos/ellas/ustedes</td><td style="background: #fffffc; color: #000; padding: 2px 6px; border-radius: 3px;">White</td><td>hablan</td></tr>
+           </table>
+           <p>The clues show conjugations in the traditional order, but only for the pronouns you selected for this game.</p>`
+  },
 };

@@ -1172,11 +1172,23 @@ function displayNextBossVerb() {
         if (currentQuestion.hintLevel === 0) {
           const conjTenseKey = currentQuestion.tenseKey;
           const conj = currentQuestion.verb.conjugations[conjTenseKey];
-          const botones = Object.entries(conj || {})
-            .filter(([pr]) => pr !== currentQuestion.pronoun)
-            .map(([, form]) => `<span class="hint-btn">${form}</span>`)
-            .join('');
-          feedback.innerHTML = `❌ <em>Clue 1:</em> ` + botones;
+		// Obtener pronombres activos de la configuración del jugador
+		const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
+		const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
+		
+		// Orden correcto de pronombres para mostrar
+		const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+		
+		// Filtrar y ordenar conjugaciones
+		const conjugationsToShow = pronounOrder
+		  .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
+		  .filter(pr => conj[pr]) // Asegurar que existe la conjugación
+		  .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+		  .join('');
+		
+		const botones = conjugationsToShow;
+          const tooltipText = "Orden de colores: yo(amarillo), tú(naranja), vos(naranja oscuro), él/ella(rosa), nosotros(morado), vosotros(azul), ellos/ellas(blanco)";
+		  feedback.innerHTML = `❌ <em>Clue 1:</em> <span title="${tooltipText}">ℹ️</span> ` + botones;
           playFromStart(soundElectricShock);
           currentQuestion.hintLevel = 1;
         }

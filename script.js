@@ -3858,6 +3858,10 @@ correct = possibleCorrectAnswers.includes(ans);
     feedback.innerHTML = ''; // Clear feedback area ONLY on correct answer.
     // *** MODIFICATION END ***
 
+    const responseTime = (Date.now() - questionStartTime) / 1000;
+    totalResponseTime += responseTime;
+    if (responseTime < fastestAnswer) fastestAnswer = responseTime;
+
     // Manejo del sonido
     if (soundCorrect) {
       soundCorrect.pause();
@@ -4034,6 +4038,13 @@ if (reflexiveBonus > 0) {
     return;   
   } else {
     // --- INCORRECT ANSWER ---
+    totalIncorrect++;
+    verbsMissed.push({
+      verb: currentQuestion.verb.infinitive_es,
+      english: currentQuestion.verb.infinitive_en,
+      tense: currentQuestion.tenseKey
+    });
+
     if (isStudyMode) {
       safePlay(soundWrongStudy);
     } else {

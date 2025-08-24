@@ -3403,6 +3403,8 @@ function prepareNextQuestion() {
     hintLevel: 0
   };
   startTime = Date.now();
+  questionStartTime = Date.now();
+  totalQuestions++;
   ansES.value = '';
   ansEN.value = '';
   updateClueButtonUI();

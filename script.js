@@ -4174,6 +4174,13 @@ if (reflexiveBonus > 0) {
   }
 }
 function startTimerMode() {
+  totalQuestions = 0;
+  totalCorrect = 0;
+  totalIncorrect = 0;
+  totalResponseTime = 0;
+  verbsMissed = [];
+  fastestAnswer = Infinity;
+  bestStreak = 0;
   totalBossesEncountered = 0;
   currentBossNumber = 0;
   document.getElementById('timer-container').style.display = 'flex';
@@ -4277,6 +4284,13 @@ function startTimerMode() {
 }
 
 function startLivesMode() {
+  totalQuestions = 0;
+  totalCorrect = 0;
+  totalIncorrect = 0;
+  totalResponseTime = 0;
+  verbsMissed = [];
+  fastestAnswer = Infinity;
+  bestStreak = 0;
   totalBossesEncountered = 0;
   currentBossNumber = 0;
   freeClues = 3;

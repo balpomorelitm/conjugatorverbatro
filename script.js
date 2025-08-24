@@ -4239,39 +4239,7 @@ function startTimerMode() {
           chuacheSpeaks('gameover');
       clearInterval(countdownTimer);
   
-      setTimeout(() => {
-        qualifiesForRecord(score, selectedGameMode).then(qualifies => {
-          if (!qualifies) {
-            fadeOutToMenu(quitToSettings);
-            return;
-          }
-          openNameModal('⏱️ Time is up! Your name?', function(name) {
-            if (name) {
-              const recordData = {
-                name: name,
-                score: score,
-                mode: selectedGameMode,
-                streak: bestStreak,
-                level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-              };
-
-              (async () => {
-                try {
-                  const { error } = await supabase.from('records').insert([recordData]);
-                  if (error) throw error;
-                  renderSetupRecords();
-                } catch (error) {
-                  console.error("Error saving record:", error.message);
-                } finally {
-                  fadeOutToMenu(quitToSettings);
-                }
-              })();
-            } else {
-              fadeOutToMenu(quitToSettings);
-            }
-          });
-        });
-      }, 2000);
+      setTimeout(() => { showStatsModal(); }, 2000);
     }
   }, 1000);
 }
@@ -4748,41 +4716,7 @@ if (irregularitiesContainer) {
             endButton.classList.add('electric-effect');
             setTimeout(() => endButton.classList.remove('electric-effect'), 1000);
 
-            setTimeout(() => {
-                qualifiesForRecord(score, selectedGameMode).then(qualifies => {
-                    if (!qualifies) {
-                        fadeOutToMenu(quitToSettings);
-                        return;
-                    }
-                    openNameModal('¿Cómo te llamas?', function(name) {
-
-                        if (name) {
-                            const recordData = {
-                                name: name,
-                                score: score,
-                                mode: selectedGameMode,
-                                streak: bestStreak,
-                                level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-                            };
-
-                            (async () => {
-                                try {
-                                    const { error } = await supabase.from('records').insert([recordData]);
-                                    if (error) throw error;
-                                    renderSetupRecords();
-                                } catch (error) {
-                                    console.error("Error saving record (endButton):", error.message);
-                                } finally {
-                                    fadeOutToMenu(quitToSettings);
-                                }
-                            })();
-                        } else {
-                            fadeOutToMenu(quitToSettings);
-                        }
-                    });
-                });
-            }, 2000);
-
+            setTimeout(() => { showStatsModal(); }, 2000);
 
         });
     }

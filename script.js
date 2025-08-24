@@ -4124,7 +4124,8 @@ if (reflexiveBonus > 0) {
                         .filter(([pr]) => pr !== currentQuestion.pronoun)
                         .map(([, form]) => `<span class="hint-btn">${form}</span>`)
                         .join('');
-                    feedback.innerHTML = `❌ <em>Clue 1:</em> ` + botones;
+                    feedback.innerHTML = `❌ <em>Clue 1:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + botones;
+
                     playFromStart(soundElectricShock);
                     currentQuestion.hintLevel = 1;
                 }
@@ -4140,7 +4141,8 @@ if (reflexiveBonus > 0) {
                         .filter(([pr]) => pr !== currentQuestion.pronoun)
                         .map(([, form]) => `<span class="hint-btn">${form}</span>`)
                         .join('');
-                    feedback.innerHTML = `❌ <em>Clue 2:</em> ` + botones;
+                    feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + botones;
+
                     playFromStart(soundElectricShock);
                     currentQuestion.hintLevel = 2;
                 }

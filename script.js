@@ -5249,6 +5249,29 @@ window.addEventListener('resize', () => {
     });
   }
 
+  function calculateGameStats() {
+    const accuracy = totalQuestions ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+    const avgTime = totalQuestions ? (totalResponseTime / totalQuestions).toFixed(1) : 0;
+    let speedRating = 'Steady';
+    if (avgTime < 3) speedRating = '⚡ Lightning';
+    else if (avgTime < 5) speedRating = '🚀 Fast';
+    else if (avgTime < 8) speedRating = '🐢 Careful';
+    let encouragement = 'Keep practicing!';
+    if (accuracy >= 90) encouragement = '🏆 Excellent work!';
+    else if (accuracy >= 75) encouragement = '👍 Great job!';
+    else if (accuracy >= 50) encouragement = '📚 Good effort!';
+    return {
+      accuracy,
+      avgTime,
+      speedRating,
+      encouragement,
+      totalQuestions,
+      totalCorrect,
+      bestStreak,
+      fastestAnswer: fastestAnswer === Infinity ? 0 : fastestAnswer.toFixed(1)
+    };
+  }
+
   // Call the function to load the records as soon as the page is ready
   displaySplashRecords();
 

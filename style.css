@@ -949,7 +949,13 @@ button:active {
   text-shadow:1px 1px #111;  /* contorno sutil que evita que “se coma” el fuego */
   cursor:default;
 }
-
+.hint-btn.yo { background-color: #ffbe0b; color: #000; }
+.hint-btn.tú { background-color: #fb5607; color: #fff; }
+.hint-btn.vos { background-color: #ff8500; color: #fff; }
+.hint-btn.él { background-color: #ff006e; color: #fff; }
+.hint-btn.nosotros { background-color: #8338ec; color: #fff; }
+.hint-btn.vosotros { background-color: #3a86ff; color: #fff; }
+.hint-btn.ellos { background-color: #fffffc; color: #000; }
 #feedback-area em {
   font-style: normal;
   opacity: 0.8;

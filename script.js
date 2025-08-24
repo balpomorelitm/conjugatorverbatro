@@ -1391,9 +1391,14 @@ function displayNextBossVerb() {
     updateLevelText(newText);
   }
   let totalPlayedSeconds = 0;
-  let totalQuestions = 0;           
-  let totalCorrect = 0;  
-  let initialRawVerbData = [];  
+  let totalQuestions = 0;
+  let totalCorrect = 0;
+  let totalIncorrect = 0;
+  let totalResponseTime = 0;
+  let verbsMissed = [];
+  let fastestAnswer = Infinity;
+  let questionStartTime = 0;
+  let initialRawVerbData = [];
   const gameScreen   = document.getElementById('game-screen');
   const quitButton   = document.getElementById('quit-button');
   const scoreDisplay = document.getElementById('score-display');

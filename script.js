@@ -766,6 +766,114 @@ document.addEventListener('DOMContentLoaded', async () => {
         startNuclearCountdown();
         displayNextBossVerb();
       }
+    },
+    mirrorT1000: {
+      name: 'T-1000 Mirror',
+      description: 'The T-1000 mimics your conjugations in reverse.',
+      verbsToComplete: 1, // Will be overridden based on difficulty
+      init: function() {
+        // Adjust verbs needed based on difficulty
+        if (currentOptions.mode === 'receptive') {
+          this.verbsToComplete = 1;
+        } else if (currentOptions.mode === 'productive_easy') {
+          this.verbsToComplete = 2;
+        } else if (currentOptions.mode === 'productive') {
+          this.verbsToComplete = 3;
+        }
+
+        // Filter verbs based on current game selection
+        const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
+        const selectedVerbInfinitives = selectedVerbElements.map(btn => btn.dataset.value);
+
+        let verbsToConsider = [];
+        if (selectedVerbInfinitives.length > 0) {
+          verbsToConsider = allVerbData.filter(v =>
+            selectedVerbInfinitives.includes(v.infinitive_es)
+          );
+        } else {
+          const selectedTypeBtns = Array.from(document.querySelectorAll('.verb-type-button.selected:not(:disabled)'));
+          const selectedTypes = selectedTypeBtns.map(b => b.dataset.value);
+
+          verbsToConsider = allVerbData.filter(v =>
+            currentOptions.tenses.some(tenseKey =>
+              (v.types[tenseKey] || []).some(typeInVerb =>
+                selectedTypes.includes(typeInVerb)
+              )
+            )
+          );
+        }
+
+        // Filter for available conjugations
+        const filteredVerbs = verbsToConsider.filter(v =>
+          currentOptions.tenses.some(tenseKey => v.conjugations[tenseKey] !== undefined)
+        );
+
+        const shuffled = filteredVerbs.sort(() => Math.random() - 0.5);
+        const selected = shuffled.slice(0, this.verbsToComplete);
+
+        if (selected.length < this.verbsToComplete) {
+          console.error('Not enough compatible verbs for T-1000 Mirror boss.');
+          endBossBattle(false, 'ERROR: Not enough compatible verbs.');
+          return;
+        }
+
+        const pronounList = window.pronouns || pronouns;
+        const challengeVerbs = [];
+
+        selected.forEach(verb => {
+          const possibleTenses = currentOptions.tenses.filter(t =>
+            verb.conjugations[t] !== undefined
+          );
+          const tense = possibleTenses[Math.floor(Math.random() * possibleTenses.length)];
+          const pronoun = pronounList[Math.floor(Math.random() * pronounList.length)];
+
+          let correctAnswer, englishInfinitive;
+
+          if (currentOptions.mode === 'receptive') {
+            correctAnswer = verb.conjugations[tense][pronoun];
+            englishInfinitive = verb.infinitive_en;
+          } else if (currentOptions.mode === 'productive_easy') {
+            correctAnswer = verb.conjugations[tense][pronoun];
+          } else {
+            correctAnswer = verb.conjugations[tense][pronoun];
+            englishInfinitive = verb.infinitive_en;
+          }
+
+          if (!correctAnswer) {
+            console.error(`Missing conjugation for ${verb.infinitive_es} in ${tense} (${pronoun}).`);
+            return;
+          }
+
+          challengeVerbs.push({
+            infinitive: verb.infinitive_es,
+            englishInfinitive: englishInfinitive,
+            tense,
+            pronoun,
+            correctAnswer,
+            reversedAnswer: correctAnswer.split('').reverse().join(''),
+            conjugations: [correctAnswer]
+          });
+        });
+
+        if (challengeVerbs.length < this.verbsToComplete) {
+          console.error('Not enough challenge verbs for T-1000 Mirror boss.');
+          endBossBattle(false, 'ERROR: Not enough compatible verbs.');
+          return;
+        }
+
+        game.boss = {
+          id: 'mirrorT1000',
+          verbsCompleted: 0,
+          challengeVerbs,
+          totalVerbsNeeded: this.verbsToComplete,
+          explanationShown: false
+        };
+
+        console.log('T-1000 Mirror challenge verbs:', game.boss.challengeVerbs);
+
+        // Show explanation before first verb
+        showT1000Explanation();
+      }
     }
   };
 
@@ -901,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       countdownDisplay.classList.add('defused');
     }
     if (progressContainer) {
-      progressContainer.textContent = `Level Boss #${currentBossNumber} - 3/3 (${game.boss.totalVerbsNeeded}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+      progressContainer.textContent = `Level Boss #${currentBossNumber} - 3/4 (${game.boss.totalVerbsNeeded}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
     }
 
     endNuclearBoss(true, 'BOMB DEFUSED!');
@@ -927,6 +1035,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Call the standard end boss battle
     endBossBattle(success, message);
+  }
+
+  function showT1000Explanation() {
+    if (!game.boss || game.boss.id !== 'mirrorT1000') return;
+    if (game.boss.explanationShown) {
+      displayNextBossVerb();
+      return;
+    }
+
+    const tenseEl = document.getElementById('tense-label');
+    if (tenseEl) tenseEl.textContent = 'Mirror Challenge';
+    if (qPrompt) {
+      qPrompt.innerHTML =
+        'The T-1000 shows conjugations <span class="boss-challenge">reversed</span>. Type the correct form to defeat it.';
+    }
+
+    game.boss.explanationShown = true;
+
+    setTimeout(() => {
+      displayNextBossVerb();
+    }, 3000);
   }
 
 function displayNextBossVerb() {
@@ -976,6 +1105,24 @@ function displayNextBossVerb() {
         `<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
 
       promptHTML = `${tenseBadge}: "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
+    } else if (game.boss.id === 'mirrorT1000') {
+      if (tenseEl) {
+        tenseEl.textContent = `Mirror the T-1000 (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded})`;
+      }
+      const tKey = currentChallenge.tense;
+      const tenseObj = tenses.find(t => t.value === tKey) || {};
+      const tenseLabel = tenseObj.name || tKey;
+      const infoKey = tenseObj.infoKey || '';
+      const tenseBadge =
+        `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}` +
+        `<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
+
+      let baseInf = currentChallenge.infinitive;
+      if (currentOptions.mode === 'receptive' || currentOptions.mode === 'productive') {
+        baseInf = currentChallenge.englishInfinitive || currentChallenge.infinitive;
+      }
+
+      promptHTML = `${tenseBadge} "${baseInf}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span> <span class="boss-challenge">${currentChallenge.reversedAnswer}</span>`;
     }
 
     if (qPrompt) {
@@ -3535,12 +3682,13 @@ function startBossBattle() {
     const bossTypeMap = {
       verbRepairer: 1,
       skynetGlitch: 2,
-      nuclearBomb: 3
+      nuclearBomb: 3,
+      mirrorT1000: 4
     };
     const bossTypeNumber = bossTypeMap[selectedBossKey] || 1;
 
     progressContainer.textContent =
-      `Level Boss #${currentBossNumber} - ${bossTypeNumber}/3 (0/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
+      `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (0/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
     progressContainer.style.color = '#FF0000';
   }
 
@@ -3611,7 +3759,9 @@ function checkAnswer() {
         ? currentChallenge.glitchedForm
         : game.boss.id === 'skynetGlitch'
           ? `${currentChallenge.pronoun} - ${currentChallenge.glitchedConjugation} (${currentChallenge.tense})`
-          : `${currentChallenge.infinitive} - ${currentChallenge.pronoun} (${currentChallenge.tense})`;
+          : game.boss.id === 'mirrorT1000'
+            ? `${currentChallenge.reversedAnswer} (${currentChallenge.pronoun}, ${currentChallenge.tense})`
+            : `${currentChallenge.infinitive} - ${currentChallenge.pronoun} (${currentChallenge.tense})`;
 
     if (userInput === correctAnswer) {
       game.boss.verbsCompleted++;
@@ -3623,11 +3773,12 @@ function checkAnswer() {
         if (game.boss.id === 'verbRepairer') bossTypeNumber = 1;
         else if (game.boss.id === 'skynetGlitch') bossTypeNumber = 2;
         else if (game.boss.id === 'nuclearBomb') bossTypeNumber = 3;
+        else if (game.boss.id === 'mirrorT1000') bossTypeNumber = 4;
 
 
         const currentBossNumber = currentLevel + 1;
         const currentBoss = bosses[game.boss.id];
-        progressContainer.textContent = `Level Boss #${currentBossNumber} - ${bossTypeNumber}/3 (${game.boss.verbsCompleted}/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
+        progressContainer.textContent = `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (${game.boss.verbsCompleted}/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
 
       }
       if (feedback)

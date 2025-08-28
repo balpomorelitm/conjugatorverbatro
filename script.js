@@ -876,8 +876,180 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   };
+function showT1000Explanation() {
+  if (!game.boss || game.boss.id !== 'mirrorT1000') return;
+  
+  const tenseEl = document.getElementById('tense-label');
+  if (tenseEl) tenseEl.textContent = 'T-1000 MIRROR ACTIVATED';
+  
+  let explanationHTML = `
+    <div class="t1000-explanation">
+      <div class="t1000-title">🤖 T-1000 MIRROR ACTIVATED 🤖</div>
+      <div class="t1000-subtitle">"I can mimic anything... including your conjugations. But in REVERSE."</div>
+      <div class="t1000-example">
+        <strong>EXAMPLE:</strong><br>
+  `;
+  
+  if (currentOptions.mode === 'receptive') {
+    explanationHTML += `
+        Normal: Spanish "comes" → English "you eat"<br>
+        <span class="t1000-mirror">MIRROR MODE: Spanish "comes" → Type "tae uoy"</span>
+    `;
+  } else if (currentOptions.mode === 'productive_easy') {
+    explanationHTML += `
+        Normal: "Present: hablar + tú" → "hablas"<br>
+        <span class="t1000-mirror">MIRROR MODE: "Present: hablar + tú" → Type "salbah"</span>
+    `;
+  } else {
+    explanationHTML += `
+        Normal: "Present: to speak + tú" → "hablas"<br>
+        <span class="t1000-mirror">MIRROR MODE: "Present: to speak + tú" → Type "salbah"</span>
+    `;
+  }
+  
+  explanationHTML += `
+      </div>
+      <div class="t1000-ready">Ready to face your reflection?</div>
+    </div>
+  `;
+  
+  if (qPrompt) {
+    qPrompt.innerHTML = explanationHTML;
+  }
+  
+  if (ansES) {
+    ansES.value = '';
+    ansES.placeholder = 'Click here when ready...';
+    ansES.addEventListener('focus', startT1000Battle, { once: true });
+    ansES.focus();
+  }
+}
 
-  /**
+function startT1000Battle() {
+  if (ansES) {
+    ansES.placeholder = 'Type the answer BACKWARDS...';
+  }
+  displayNextT1000Verb();
+}
+function displayNextT1000Verb() {
+  if (!game.boss || game.boss.id !== 'mirrorT1000' || !game.boss.challengeVerbs) {
+    console.error("T-1000 boss battle state is missing.");
+    return;
+  }
+  
+  const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
+  if (!currentChallenge) {
+    console.error("No current T-1000 challenge found.");
+    return;
+  }
+
+  const tenseEl = document.getElementById('tense-label');
+  if (tenseEl) {
+    tenseEl.textContent = `T-1000 Mirror (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded})`;
+  }
+  
+  let promptHTML = '';
+  const tKey = currentChallenge.tense;
+  const tenseObj = tenses.find(t => t.value === tKey) || {};
+  const tenseLabel = tenseObj.name || tKey;
+  const infoKey = tenseObj.infoKey || '';
+  const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
+
+  if (currentOptions.mode === 'receptive') {
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.correctAnswer}" → <span class="t1000-hint">(Reverse the English translation)</span>`;
+  } else if (currentOptions.mode === 'productive_easy') {
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span> → <span class="t1000-hint">(${currentChallenge.correctAnswer} → ${currentChallenge.reversedAnswer})</span>`;
+  } else {
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.englishInfinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span> → <span class="t1000-hint">(Type conjugation backwards)</span>`;
+  }
+
+  if (qPrompt) {
+    qPrompt.innerHTML = promptHTML;
+    
+    // Add click listeners for info badges
+    const promptBadge = qPrompt.querySelector('.tense-badge');
+    const promptIcon = qPrompt.querySelector('.context-info-icon');
+    if (promptBadge && promptBadge.dataset.infoKey) {
+      promptBadge.addEventListener('click', () => {
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal(promptBadge.dataset.infoKey);
+      });
+    }
+    if (promptIcon && promptIcon.dataset.infoKey) {
+      promptIcon.addEventListener('click', e => {
+        e.stopPropagation();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal(promptIcon.dataset.infoKey);
+      });
+    }
+  }
+
+  if (ansES) {
+    ansES.value = '';
+    ansES.focus();
+  }
+}
+
+	function validateT1000Answer(userInput, currentChallenge) {
+  const cleanInput = userInput.trim().toLowerCase();
+  
+  if (currentOptions.mode === 'receptive') {
+    // For receptive mode, we need to reverse the English translation
+    const verbData = currentChallenge;
+    const tense = currentChallenge.tenseKey || currentChallenge.tense;
+    const spanishForm = currentChallenge.correctAnswer;
+    
+    // Get the English translation (this is complex, so we'll use a simplified approach)
+    const englishTranslations = getEnglishTranslation(verbData, tense, currentChallenge.pronoun);
+    
+    if (englishTranslations.length > 0) {
+      // Check if any of the possible translations, when reversed, match user input
+      return englishTranslations.some(translation => {
+        const reversedTranslation = translation.toLowerCase().split('').reverse().join('');
+        return cleanInput === reversedTranslation;
+      });
+    }
+    return false;
+  } else {
+    // For productive modes, reverse the Spanish conjugation
+    const reversedCorrect = currentChallenge.correctAnswer.toLowerCase().split('').reverse().join('');
+    return cleanInput === reversedCorrect;
+  }
+}
+
+function getEnglishTranslation(verbData, tense, pronoun) {
+  // Simplified English translation logic
+  // This should match the logic used in the main game for receptive mode
+  const pronounMap = {
+    'yo': ['I'],
+    'tú': ['you'],
+    'él': ['he', 'she'],
+    'nosotros': ['we'],
+    'vosotros': ['you'],
+    'ellos': ['they']
+  };
+  
+  const englishPronouns = pronounMap[pronoun] || [pronoun];
+  const conjugationsEN = verbData.conjugations_en && verbData.conjugations_en[tense];
+  
+  if (!conjugationsEN) {
+    return [`${englishPronouns[0]} ${verbData.infinitive_en.replace('to ', '')}`];
+  }
+  
+  const translations = [];
+  englishPronouns.forEach(engPronoun => {
+    const formKey = engPronoun === 'I' ? 'I' : engPronoun.toLowerCase();
+    const verbForm = conjugationsEN[formKey];
+    if (verbForm) {
+      translations.push(`${engPronoun.toLowerCase()} ${verbForm.toLowerCase()}`);
+    }
+  });
+  
+  return translations.length > 0 ? translations : [`${englishPronouns[0]} ${verbData.infinitive_en.replace('to ', '')}`];
+}
+
+	
+	/**
    * Glitch an infinitive by hiding one letter (excluding the ending).
    */
   function glitchInfinitive(inf) {
@@ -1063,6 +1235,11 @@ function displayNextBossVerb() {
       console.error("Boss battle state is missing.");
       return;
     }
+	  // Special handling for T-1000 Mirror Boss
+	  if (game.boss.id === 'mirrorT1000') {
+	    displayNextT1000Verb();
+	    return;
+	  }
     const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
     if (!currentChallenge) {
       console.error("No current boss challenge found.");
@@ -1196,7 +1373,9 @@ function displayNextBossVerb() {
     }
 
     setTimeout(() => {
-      document.body.classList.remove('boss-battle-bg');
+	document.body.classList.remove('boss-battle-bg', 't1000-mode');
+	document.getElementById('game-screen').classList.remove('t1000-active');
+	if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
       if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
       if (bossImage) bossImage.classList.add('hidden');
       if (chuacheImage) chuacheImage.classList.remove('hidden', 'fade-out');
@@ -3648,8 +3827,18 @@ function startBossBattle() {
   if (selectedGameMode === 'study') return;
   totalBossesEncountered++;
   currentBossNumber++;
+if (selectedBossKey === 'mirrorT1000') {
+  document.body.classList.add('boss-battle-bg', 't1000-mode');
+  document.getElementById('game-screen').classList.add('t1000-active');
+} else {
+  if (selectedBossKey === 'mirrorT1000') {
+  document.body.classList.add('boss-battle-bg', 't1000-mode');
+  document.getElementById('game-screen').classList.add('t1000-active');
+} else {
   document.body.classList.add('boss-battle-bg');
-  if (gameContainer) gameContainer.classList.add('boss-battle-bg');
+}
+
+}if (gameContainer) gameContainer.classList.add('boss-battle-bg');
 
 
   let bossKeys = Object.keys(bosses);
@@ -3660,15 +3849,17 @@ function startBossBattle() {
   const currentBoss = bosses[selectedBossKey];
   game.lastBossUsed = selectedBossKey;
 
-  if (bossImage) {
-    if (selectedBossKey === 'verbRepairer') {
-      bossImage.src = 'images/bosshack.webp';
-    } else if (selectedBossKey === 'nuclearBomb') {
-      bossImage.src = 'images/boss_imageplaceholder.png';
-    } else {
-      bossImage.src = 'images/bosssg.webp';
-    }
-  }
+	if (bossImage) {
+	  if (selectedBossKey === 'verbRepairer') {
+	    bossImage.src = 'images/bossrepairer.webp';
+	  } else if (selectedBossKey === 'nuclearBomb') {
+	    bossImage.src = 'images/bossnuclear.webp';
+	  } else if (selectedBossKey === 'mirrorT1000') {
+	    bossImage.src = 'images/bosst1000.webp'; // You'll need to add this image
+	  } else {
+	    bossImage.src = 'images/bosssg.webp';
+	  }
+	}
 
   game.boss = {
     id: selectedBossKey,
@@ -3743,6 +3934,94 @@ function checkAnswer() {
       return;
     }
 
+    // SPECIAL HANDLING FOR T-1000 MIRROR BOSS
+    if (game.boss.id === 'mirrorT1000') {
+      const isCorrect = validateT1000Answer(ansES.value, currentChallenge);
+      
+      if (isCorrect) {
+        game.boss.verbsCompleted++;
+        game.score += 75; // Higher reward for difficulty
+        score = game.score;
+        updateScore();
+        
+        if (progressContainer) {
+          progressContainer.textContent = `Level Boss #${currentBossNumber} - T-1000 (${game.boss.verbsCompleted}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+        }
+        
+        let feedbackText = '';
+        if (currentOptions.mode === 'receptive') {
+          const englishTranslations = getEnglishTranslation(currentChallenge, currentChallenge.tense, currentChallenge.pronoun);
+          const originalEnglish = englishTranslations[0] || 'translation';
+          const reversedEnglish = originalEnglish.split('').reverse().join('');
+          feedbackText = `✅ Mirror shattered! "${originalEnglish}" → "${reversedEnglish}" (+75 points)`;
+        } else {
+          feedbackText = `✅ Perfect reflection! "${currentChallenge.correctAnswer}" → "${currentChallenge.reversedAnswer}" (+75 points)`;
+        }
+        
+        if (feedback) feedback.textContent = feedbackText;
+        safePlay(soundCorrect);
+
+        if (game.boss.verbsCompleted >= game.boss.totalVerbsNeeded) {
+          endBossBattle(true);
+        } else {
+          setTimeout(displayNextT1000Verb, 1500);
+        }
+      } else {
+        // Handle wrong answer for T-1000
+        game.score = Math.max(0, game.score - 20);
+        score = game.score;
+        updateScore();
+        
+        if (selectedGameMode === 'timer') {
+          const penalty = calculateTimePenalty(currentLevel);
+          timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
+          checkTickingSound();
+          showTimeChange(-penalty);
+        } else if (selectedGameMode === 'lives') {
+          const penalty = 1 + currentLevel;
+          remainingLives -= penalty;
+          currentStreakForLife = 0;
+          updateTotalCorrectForLifeDisplay();
+          updateStreakForLifeDisplay();
+          updateGameTitle();
+          if (remainingLives <= 0) {
+            safePlay(soundGameOver);
+            chuacheSpeaks('gameover');
+            if (gameTitle) gameTitle.textContent = '💀 ¡Estás MUERTO!';
+            endBossBattle(false);
+            return;
+          }
+        }
+
+        streak = 0;
+        multiplier = 1.0;
+        
+        let correctAnswerText = '';
+        if (currentOptions.mode === 'receptive') {
+          const englishTranslations = getEnglishTranslation(currentChallenge, currentChallenge.tense, currentChallenge.pronoun);
+          const originalEnglish = englishTranslations[0] || 'translation';
+          const reversedEnglish = originalEnglish.split('').reverse().join('');
+          correctAnswerText = `❌ The correct mirror was: "${originalEnglish}" → "${reversedEnglish}"`;
+        } else {
+          correctAnswerText = `❌ The correct mirror was: "${currentChallenge.correctAnswer}" → "${currentChallenge.reversedAnswer}"`;
+        }
+        
+        if (feedback) feedback.textContent = correctAnswerText;
+        safePlay(soundWrong);
+
+        if (gameContainer) {
+          gameContainer.classList.add('shake');
+          setTimeout(() => gameContainer.classList.remove('shake'), 500);
+        }
+
+        setTimeout(displayNextT1000Verb, 2000);
+      }
+
+      if (ansES) ansES.value = '';
+      return;
+    }
+
+    // EXISTING LOGIC FOR OTHER BOSSES
     const rawUserInput = ansES.value;
     const rawCorrectAnswer = currentChallenge.correctAnswer;
 
@@ -3759,9 +4038,7 @@ function checkAnswer() {
         ? currentChallenge.glitchedForm
         : game.boss.id === 'skynetGlitch'
           ? `${currentChallenge.pronoun} - ${currentChallenge.glitchedConjugation} (${currentChallenge.tense})`
-          : game.boss.id === 'mirrorT1000'
-            ? `${currentChallenge.reversedAnswer} (${currentChallenge.pronoun}, ${currentChallenge.tense})`
-            : `${currentChallenge.infinitive} - ${currentChallenge.pronoun} (${currentChallenge.tense})`;
+          : `${currentChallenge.infinitive} - ${currentChallenge.pronoun} (${currentChallenge.tense})`;
 
     if (userInput === correctAnswer) {
       game.boss.verbsCompleted++;
@@ -3773,12 +4050,10 @@ function checkAnswer() {
         if (game.boss.id === 'verbRepairer') bossTypeNumber = 1;
         else if (game.boss.id === 'skynetGlitch') bossTypeNumber = 2;
         else if (game.boss.id === 'nuclearBomb') bossTypeNumber = 3;
-        else if (game.boss.id === 'mirrorT1000') bossTypeNumber = 4;
-
 
         const currentBossNumber = currentLevel + 1;
         const currentBoss = bosses[game.boss.id];
-        progressContainer.textContent = `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (${game.boss.verbsCompleted}/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
+        progressContainer.textContent = `Level Boss #${currentBossNumber} - ${bossTypeNumber}/3 (${game.boss.verbsCompleted}/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
 
       }
       if (feedback)
@@ -3872,6 +4147,7 @@ function checkAnswer() {
     return;
   }
 
+  // [EL RESTO DE TU CÓDIGO PERMANECE IGUAL...]
   // feedback.innerHTML is NO LONGER cleared here.
   const isStudyMode = (selectedGameMode === 'study');
   let possibleCorrectAnswers = [];
@@ -3960,7 +4236,7 @@ const pronounGroupMap = {
         }
         return;
     } else if (engProns.length === 0 && spPronouns.length === 0) {
-       console.error(`Modo Receptivo: No se encontraron pronombres en español para la forma '<span class="math-inline">{spanishForm}' del verbo '{verbData.infinitive_es}'.`);
+       console.error(`Modo Receptivo: No se encontraron pronombres en español para la forma '${spanishForm}' del verbo '${verbData.infinitive_es}'.`);
        feedback.innerHTML = `Error: No se pudo procesar la pregunta. La pista es el infinitivo: <strong>${verbData.infinitive_en}</strong>.`;
        playFromStart(soundElectricShock);
        currentQuestion.hintLevel = 1;
@@ -4345,6 +4621,7 @@ if (reflexiveBonus > 0) {
     // *** MODIFICATION END ***
   }
 }
+	
 function startTimerMode() {
   if (game.boss && game.boss.countdownInterval) {
     clearInterval(game.boss.countdownInterval);

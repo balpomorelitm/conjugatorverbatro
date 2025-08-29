@@ -1329,69 +1329,49 @@ function displayNextBossVerb() {
     }
   }
 
-  function endBossBattle(playerWon, message = "") {
-    // Clear any boss-specific intervals
-    if (game.boss && game.boss.countdownInterval) {
-      clearInterval(game.boss.countdownInterval);
-      game.boss.countdownInterval = null;
-    }
+function endBossBattle(playerWon, message = "") {
+  if (ansES) ansES.disabled = false;
 
-    // Reset nuclear bomb UI if active
-    const countdownDisplay = document.getElementById('nuclear-countdown');
-    if (countdownDisplay) {
-      countdownDisplay.style.display = 'none';
-      countdownDisplay.classList.remove('critical', 'warning', 'defused');
-    }
-
-    // Reset chuache box state
-    const chuacheBox = document.getElementById('chuache-box');
-    if (chuacheBox) {
-      chuacheBox.classList.remove('nuclear-mode');
-    }
-
-    if (ansES) ansES.disabled = false;
-
-    if (checkAnswerButton) checkAnswerButton.disabled = false;
-    if (skipButton) skipButton.disabled = false;
-    if (clueButton) {
-      clueButton.disabled = false;
-      updateClueButtonUI();
-    }
-
-    const tenseEl = document.getElementById('tense-label');
-
-    if (playerWon) {
-      game.score += 500;
-      score = game.score; // keep legacy score in sync
-      if (qPrompt) qPrompt.textContent = 'SYSTEM RESTORED';
-      if (tenseEl) tenseEl.textContent = 'Boss defeated!';
-      if (feedback) feedback.innerHTML = '<span class="feedback-points">Boss Bonus: +500 Points!</span>';
-      updateScore();
-    } else {
-      if (qPrompt) qPrompt.textContent = message || 'SYSTEM FAILURE';
-      if (tenseEl) tenseEl.textContent = message ? '' : 'Try again next time.';
-    }
-
-    setTimeout(() => {
-	document.body.classList.remove('boss-battle-bg', 't1000-mode');
-	document.getElementById('game-screen').classList.remove('t1000-active');
-	if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
-      if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
-      if (bossImage) bossImage.classList.add('hidden');
-      if (chuacheImage) chuacheImage.classList.remove('hidden', 'fade-out');
-      if (progressContainer) {
-        progressContainer.style.color = '';
-      }
-
-      game.verbsInPhaseCount = 0;
-      game.gameState = 'PLAYING';
-      game.boss = null;
-
-      if (progressContainer) updateProgressUI();
-
-      prepareNextQuestion();
-    }, 3000);
+  if (checkAnswerButton) checkAnswerButton.disabled = false;
+  if (skipButton) skipButton.disabled = false;
+  if (clueButton) {
+    clueButton.disabled = false;
+    updateClueButtonUI();
   }
+
+  const tenseEl = document.getElementById('tense-label');
+
+  if (playerWon) {
+    game.score += 500;
+    score = game.score; // keep legacy score in sync
+    if (qPrompt) qPrompt.textContent = 'SYSTEM RESTORED';
+    if (tenseEl) tenseEl.textContent = 'Boss defeated!';
+    if (feedback) feedback.innerHTML = '<span class="feedback-points">Boss Bonus: +500 Points!</span>';
+    updateScore();
+  } else {
+    if (qPrompt) qPrompt.textContent = message || 'SYSTEM FAILURE';
+    if (tenseEl) tenseEl.textContent = message ? '' : 'Try again next time.';
+  }
+
+  setTimeout(() => {
+    document.body.classList.remove('boss-battle-bg', 't1000-mode');
+    document.getElementById('game-screen').classList.remove('t1000-active');
+    if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
+    if (bossImage) bossImage.classList.add('hidden');
+    if (chuacheImage) chuacheImage.classList.remove('hidden', 'fade-out');
+    if (progressContainer) {
+      progressContainer.style.color = '';
+    }
+
+    game.verbsInPhaseCount = 0;
+    game.gameState = 'PLAYING';
+    game.boss = null;
+
+    if (progressContainer) updateProgressUI();
+
+    prepareNextQuestion();
+  }, 3000);
+}
 
 
   function resetBackgroundColor() {
@@ -3827,19 +3807,8 @@ function startBossBattle() {
   if (selectedGameMode === 'study') return;
   totalBossesEncountered++;
   currentBossNumber++;
-if (selectedBossKey === 'mirrorT1000') {
-  document.body.classList.add('boss-battle-bg', 't1000-mode');
-  document.getElementById('game-screen').classList.add('t1000-active');
-} else {
-  if (selectedBossKey === 'mirrorT1000') {
-  document.body.classList.add('boss-battle-bg', 't1000-mode');
-  document.getElementById('game-screen').classList.add('t1000-active');
-} else {
   document.body.classList.add('boss-battle-bg');
-}
-
-}if (gameContainer) gameContainer.classList.add('boss-battle-bg');
-
+  if (gameContainer) gameContainer.classList.add('boss-battle-bg');
 
   let bossKeys = Object.keys(bosses);
   if (bossKeys.length > 1 && game.lastBossUsed) {
@@ -3849,17 +3818,24 @@ if (selectedBossKey === 'mirrorT1000') {
   const currentBoss = bosses[selectedBossKey];
   game.lastBossUsed = selectedBossKey;
 
-	if (bossImage) {
-	  if (selectedBossKey === 'verbRepairer') {
-	    bossImage.src = 'images/bossrepairer.webp';
-	  } else if (selectedBossKey === 'nuclearBomb') {
-	    bossImage.src = 'images/bossnuclear.webp';
-	  } else if (selectedBossKey === 'mirrorT1000') {
-	    bossImage.src = 'images/bosst1000.webp'; // You'll need to add this image
-	  } else {
-	    bossImage.src = 'images/bosssg.webp';
-	  }
-	}
+  if (bossImage) {
+    if (selectedBossKey === 'verbRepairer') {
+      bossImage.src = 'images/bossrepairer.webp';
+    } else if (selectedBossKey === 'nuclearBomb') {
+      bossImage.src = 'images/bossnuclear.webp';
+    } else if (selectedBossKey === 'mirrorT1000') {
+      bossImage.src = 'images/bosssg.webp'; // Usar imagen existente temporalmente
+    } else {
+      bossImage.src = 'images/bosssg.webp';
+    }
+  }
+
+  // Apply special styling for T-1000 Mirror Boss
+  if (selectedBossKey === 'mirrorT1000') {
+    document.body.classList.remove('boss-battle-bg');
+    document.body.classList.add('boss-battle-bg', 't1000-mode');
+    document.getElementById('game-screen').classList.add('t1000-active');
+  }
 
   game.boss = {
     id: selectedBossKey,
@@ -3868,15 +3844,12 @@ if (selectedBossKey === 'mirrorT1000') {
     totalVerbsNeeded: currentBoss.verbsToComplete
   };
 
-
   if (progressContainer) {
-    const bossTypeMap = {
-      verbRepairer: 1,
-      skynetGlitch: 2,
-      nuclearBomb: 3,
-      mirrorT1000: 4
-    };
-    const bossTypeNumber = bossTypeMap[selectedBossKey] || 1;
+    const bossTypeNumber =
+      selectedBossKey === 'verbRepairer' ? 1 :
+      selectedBossKey === 'skynetGlitch' ? 2 : 
+      selectedBossKey === 'nuclearBomb' ? 3 :
+      selectedBossKey === 'mirrorT1000' ? 4 : 1;
 
     progressContainer.textContent =
       `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (0/${currentBoss.verbsToComplete}) | Total Score: ${score}`;

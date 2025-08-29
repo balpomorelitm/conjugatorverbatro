@@ -936,6 +936,8 @@ function displayNextT1000Verb() {
     console.error("T-1000 boss battle state is missing.");
     return;
   }
+
+  totalQuestions++;
   
   const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
   if (!currentChallenge) {
@@ -1235,11 +1237,12 @@ function displayNextBossVerb() {
       console.error("Boss battle state is missing.");
       return;
     }
-	  // Special handling for T-1000 Mirror Boss
-	  if (game.boss.id === 'mirrorT1000') {
-	    displayNextT1000Verb();
-	    return;
-	  }
+          // Special handling for T-1000 Mirror Boss
+          if (game.boss.id === 'mirrorT1000') {
+            displayNextT1000Verb();
+            return;
+          }
+    totalQuestions++;
     const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
     if (!currentChallenge) {
       console.error("No current boss challenge found.");
@@ -3909,6 +3912,7 @@ function checkAnswer() {
     if (!game.boss || !Array.isArray(game.boss.challengeVerbs)) {
       console.error('Boss state is missing.');
       if (ansES) ansES.value = '';
+      console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
       return;
     }
 
@@ -3926,6 +3930,7 @@ function checkAnswer() {
       const isCorrect = validateT1000Answer(ansES.value, currentChallenge);
       
       if (isCorrect) {
+        totalCorrect++;
         game.boss.verbsCompleted++;
         game.score += 75; // Higher reward for difficulty
         score = game.score;
@@ -3955,6 +3960,7 @@ function checkAnswer() {
         }
       } else {
         // Handle wrong answer for T-1000
+        totalIncorrect++;
         game.score = Math.max(0, game.score - 20);
         score = game.score;
         updateScore();
@@ -3976,6 +3982,7 @@ function checkAnswer() {
             chuacheSpeaks('gameover');
             if (gameTitle) gameTitle.textContent = '💀 ¡Estás MUERTO!';
             endBossBattle(false);
+            console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
             return;
           }
         }
@@ -4028,6 +4035,7 @@ function checkAnswer() {
           : `${currentChallenge.infinitive} - ${currentChallenge.pronoun} (${currentChallenge.tense})`;
 
     if (userInput === correctAnswer) {
+      totalCorrect++;
       game.boss.verbsCompleted++;
       game.score += 50;
       score = game.score; // keep legacy score in sync
@@ -4059,6 +4067,7 @@ function checkAnswer() {
         displayNextBossVerb();
       }
     } else {
+      totalIncorrect++;
       game.score = Math.max(0, game.score - 20);
       score = game.score; // keep legacy score in sync
       updateScore();
@@ -4131,6 +4140,7 @@ function checkAnswer() {
     }
 
     if (ansES) ansES.value = '';
+    console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
     return;
   }
 
@@ -4289,6 +4299,7 @@ correct = possibleCorrectAnswers.includes(ans);
 }
 
   if (correct) {
+    totalCorrect++;
     // *** MODIFICATION START ***
     feedback.innerHTML = ''; // Clear feedback area ONLY on correct answer.
     // *** MODIFICATION END ***
@@ -4545,7 +4556,8 @@ if (reflexiveBonus > 0) {
                     }
                 })();
             }
-            return; 
+            console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
+            return;
         }
     } else {
         updateGameTitle();
@@ -4564,6 +4576,7 @@ if (!hintIsAlreadyShowing) {
     // If hintIsAlreadyShowing is true, this block is skipped, preserving the existing hint.
     // *** MODIFICATION END ***
   }
+  console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
 }
 	
 function startTimerMode() {

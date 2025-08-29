@@ -1481,58 +1481,72 @@ function endBossBattle(playerWon, message = "") {
     return 25 * Math.pow(2, level - 3);
   }
 
-  function displayClue() {
-    if (currentOptions.mode === 'receptive') {
-      const verbData = currentQuestion.verb;
-      feedback.innerHTML = `💡 The English infinitive is <strong>${verbData.infinitive_en}</strong>.`;
-      ansEN.value = '';
-      setTimeout(() => ansEN.focus(), 0);
-    } else if (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy') {
-      if (currentOptions.mode === 'productive_easy') {
-        if (currentQuestion.hintLevel === 0) {
-          const conjTenseKey = currentQuestion.tenseKey;
-          const conj = currentQuestion.verb.conjugations[conjTenseKey];
-		// Obtener pronombres activos de la configuración del jugador
-		const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
-		const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
-		
-		// Orden correcto de pronombres para mostrar
-		const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
-		
-		// Filtrar y ordenar conjugaciones
-		const conjugationsToShow = pronounOrder
-		  .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
-		  .filter(pr => conj[pr]) // Asegurar que existe la conjugación
-		  .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
-		  .join('');
-		
-		const botones = conjugationsToShow;
-          const tooltipText = "Orden de colores: yo(amarillo), tú(naranja), vos(naranja oscuro), él/ella(rosa), nosotros(morado), vosotros(azul), ellos/ellas(blanco)";
-		  feedback.innerHTML = `❌ <em>Clue 1:</em> <span title="${tooltipText}">ℹ️</span> ` + botones;
-          playFromStart(soundElectricShock);
-          currentQuestion.hintLevel = 1;
-        }
-      } else {
-        if (currentQuestion.hintLevel === 0) {
-          feedback.innerHTML = `❌ <em>Clue 1:</em> infinitive is <strong>${currentQuestion.verb.infinitive_es}</strong>.`;
-          playFromStart(soundElectricShock);
-          currentQuestion.hintLevel = 1;
-        } else if (currentQuestion.hintLevel === 1) {
-          const conjTenseKey = currentQuestion.tenseKey;
-          const conj = currentQuestion.verb.conjugations[conjTenseKey];
-          const botones = Object.entries(conj || {})
-            .filter(([pr]) => pr !== currentQuestion.pronoun)
-            .map(([, form]) => `<span class="hint-btn">${form}</span>`)
-            .join('');
-          feedback.innerHTML = `❌ <em>Clue 2:</em> ` + botones;
-          playFromStart(soundElectricShock);
-          currentQuestion.hintLevel = 2;
-        }
+// Add this new unified function
+function displayUnifiedClue() {
+  if (currentOptions.mode === 'receptive') {
+    const verbData = currentQuestion.verb;
+    feedback.innerHTML = `💡 The English infinitive is <strong>${verbData.infinitive_en}</strong>.`;
+    ansEN.value = '';
+    setTimeout(() => ansEN.focus(), 0);
+  } else if (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy') {
+    if (currentOptions.mode === 'productive_easy') {
+      if (currentQuestion.hintLevel === 0) {
+        const conjTenseKey = currentQuestion.tenseKey;
+        const conj = currentQuestion.verb.conjugations[conjTenseKey];
+        
+        // Get active pronouns from player configuration
+        const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
+        const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
+        
+        // Correct pronoun order for display
+        const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+        
+        // Filter and order conjugations
+        const conjugationsToShow = pronounOrder
+          .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
+          .filter(pr => conj[pr]) // Ensure conjugation exists
+          .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+          .join('');
+        
+        const tooltipText = "Color order: yo(yellow), tú(orange), vos(dark orange), él/ella(pink), nosotros(purple), vosotros(blue), ellos/ellas(white)";
+        feedback.innerHTML = `❌ <em>Clue 1:</em> <span title="${tooltipText}">ℹ️</span> ` + conjugationsToShow;
+        playFromStart(soundElectricShock);
+        currentQuestion.hintLevel = 1;
       }
-      ansES.value = '';
-      setTimeout(() => ansES.focus(), 0);
+    } else {
+      if (currentQuestion.hintLevel === 0) {
+        feedback.innerHTML = `❌ <em>Clue 1:</em> infinitive is <strong>${currentQuestion.verb.infinitive_es}</strong>.`;
+        playFromStart(soundElectricShock);
+        currentQuestion.hintLevel = 1;
+      } else if (currentQuestion.hintLevel === 1) {
+        const conjTenseKey = currentQuestion.tenseKey;
+        const conj = currentQuestion.verb.conjugations[conjTenseKey];
+        
+        // Use the same color system as the clue button
+        const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
+        const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
+        const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+        
+        const conjugationsToShow = pronounOrder
+          .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
+          .filter(pr => conj[pr])
+          .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+          .join('');
+        
+        feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
+        playFromStart(soundElectricShock);
+        currentQuestion.hintLevel = 2;
+      }
     }
+    ansES.value = '';
+    setTimeout(() => ansES.focus(), 0);
   }
+}
+
+// Update the existing displayClue function to use the unified system
+function displayClue() {
+  displayUnifiedClue();
+}
 
   function onClueButtonClick() {
     feedback.innerHTML = '';
@@ -4540,56 +4554,13 @@ if (reflexiveBonus > 0) {
 
     // *** MODIFICATION START ***
     // Check if a hint is already showing. If not, generate a new one.
-    const hintIsAlreadyShowing = feedback.innerHTML.includes('💡') || feedback.innerHTML.includes('❌') || feedback.innerHTML.includes('hint-btn');
-    if (!hintIsAlreadyShowing) {
-        if (currentOptions.mode === 'receptive') {
-            let hintMessage = `💡 The English infinitive is <strong>${currentQuestion.verb.infinitive_en}</strong>.`;
-            if (possibleCorrectAnswers && possibleCorrectAnswers.length > 0) {
-                const exampleAnswers = possibleCorrectAnswers.slice(0, Math.min(possibleCorrectAnswers.length, 3)).map(a => `'${a}'`);
-            } else {
-                hintMessage += `<br>Could not determine specific example answers. Check verb data.`;
-            }
+const hintIsAlreadyShowing = feedback.innerHTML.includes('💡') || 
+                            feedback.innerHTML.includes('❌') || 
+                            feedback.innerHTML.includes('hint-btn');
 
-            feedback.innerHTML = hintMessage;
-            ansEN.value = '';
-            setTimeout(() => ansEN.focus(), 0);
-            return;
-        } else if (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy') {
-            if (currentOptions.mode === 'productive_easy') {
-                if (currentQuestion.hintLevel === 0) {
-                    const conjTenseKey = currentQuestion.tenseKey;
-                    const conj = currentQuestion.verb.conjugations[conjTenseKey];
-                    const botones = Object.entries(conj || {})
-                        .filter(([pr]) => pr !== currentQuestion.pronoun)
-                        .map(([, form]) => `<span class="hint-btn">${form}</span>`)
-                        .join('');
-                    feedback.innerHTML = `❌ <em>Clue 1:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + botones;
-
-                    playFromStart(soundElectricShock);
-                    currentQuestion.hintLevel = 1;
-                }
-            } else {
-                if (currentQuestion.hintLevel === 0) {
-                    feedback.innerHTML = `❌ <em>Clue 1:</em> infinitive is <strong>${currentQuestion.verb.infinitive_es}</strong>.`;
-                    playFromStart(soundElectricShock);
-                    currentQuestion.hintLevel = 1;
-                } else if (currentQuestion.hintLevel === 1) {
-                    const conjTenseKey = currentQuestion.tenseKey;
-                    const conj = currentQuestion.verb.conjugations[conjTenseKey];
-                    const botones = Object.entries(conj || {})
-                        .filter(([pr]) => pr !== currentQuestion.pronoun)
-                        .map(([, form]) => `<span class="hint-btn">${form}</span>`)
-                        .join('');
-                    feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + botones;
-
-                    playFromStart(soundElectricShock);
-                    currentQuestion.hintLevel = 2;
-                }
-            }
-            ansES.value = '';
-            setTimeout(() => ansES.focus(), 0);
-        }
-    }
+if (!hintIsAlreadyShowing) {
+    displayUnifiedClue();
+}
     // If hintIsAlreadyShowing is true, this block is skipped, preserving the existing hint.
     // *** MODIFICATION END ***
   }

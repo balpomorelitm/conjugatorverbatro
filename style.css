@@ -2269,7 +2269,7 @@ button:active {
   /*width: 100vw;
   height: 100vh;*/
   min-height: auto;
-  overflow-y: auto;
+  overflow-y: hidden;
   max-width: 800px;
   margin: 0 auto;  
   padding: 20px; /* Añadir padding interno si no lo hereda o lo quieres específico */

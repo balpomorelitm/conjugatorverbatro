@@ -983,8 +983,6 @@ function displayNextT1000Verb() {
     return;
   }
 
-  totalQuestions++;
-  
   const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
   if (!currentChallenge) {
     console.error("No current T-1000 challenge found.");
@@ -993,9 +991,25 @@ function displayNextT1000Verb() {
 
   const tenseEl = document.getElementById('tense-label');
   if (tenseEl) {
-    tenseEl.textContent = `T-1000 Mirror (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded})`;
+    // Add tooltip to boss title
+    tenseEl.innerHTML = `<span class="boss-title-with-tooltip" data-info-key="t1000BossInfo">T-1000 Mirror (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded}) <span class="context-info-icon" data-info-key="t1000BossInfo"></span></span>`;
+    const tooltipIcon = tenseEl.querySelector('.context-info-icon');
+    const titleWithTooltip = tenseEl.querySelector('.boss-title-with-tooltip');
+    if (tooltipIcon) {
+      tooltipIcon.addEventListener('click', e => {
+        e.stopPropagation();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal('t1000BossInfo');
+      });
+    }
+    if (titleWithTooltip) {
+      titleWithTooltip.addEventListener('click', () => {
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal('t1000BossInfo');
+      });
+    }
   }
-  
+
   let promptHTML = '';
   const tKey = currentChallenge.tense;
   const tenseObj = tenses.find(t => t.value === tKey) || {};
@@ -1003,18 +1017,17 @@ function displayNextT1000Verb() {
   const infoKey = tenseObj.infoKey || '';
   const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
 
+  // NEW: Do not show the reversed answer
   if (currentOptions.mode === 'receptive') {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.correctAnswer}" → <span class="t1000-hint">(Reverse the English translation)</span>`;
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.correctAnswer}" → <span class="t1000-hint">(Type the English translation backwards)</span>`;
   } else if (currentOptions.mode === 'productive_easy') {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span> → <span class="t1000-hint">(${currentChallenge.correctAnswer} → ${currentChallenge.reversedAnswer})</span>`;
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
   } else {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.englishInfinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span> → <span class="t1000-hint">(Type conjugation backwards)</span>`;
+    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.englishInfinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
   }
 
   if (qPrompt) {
     qPrompt.innerHTML = promptHTML;
-    
-    // Add click listeners for info badges
     const promptBadge = qPrompt.querySelector('.tense-badge');
     const promptIcon = qPrompt.querySelector('.context-info-icon');
     if (promptBadge && promptBadge.dataset.infoKey) {
@@ -1034,9 +1047,11 @@ function displayNextT1000Verb() {
 
   if (ansES) {
     ansES.value = '';
+    ansES.placeholder = 'Type the conjugation backwards...';
     ansES.focus();
   }
 }
+
 
 	function validateT1000Answer(userInput, currentChallenge) {
   const cleanInput = userInput.trim().toLowerCase();
@@ -1284,7 +1299,7 @@ function displayNextBossVerb() {
     return;
   }
 
-  // Manejo especial para T-1000 Mirror Boss
+  // Special handling for T-1000 Mirror Boss
   if (game.boss.id === 'mirrorT1000') {
     displayNextT1000Verb();
     return;
@@ -1299,29 +1314,33 @@ function displayNextBossVerb() {
   const tenseEl = document.getElementById('tense-label');
   let promptHTML = '';
 
+  // Añadir tooltips específicos para cada boss
   if (game.boss.id === 'verbRepairer') {
-    if (tenseEl) tenseEl.textContent = 'Repair the corrupted verb';
+    if (tenseEl) {
+      tenseEl.innerHTML = `<span class="boss-title-with-tooltip" data-info-key="verbRepairerBossInfo">Digital Corrupted (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded}) <span class="context-info-icon" data-info-key="verbRepairerBossInfo"></span></span>`;
+    }
     const tKey = currentChallenge.tense;
     const tenseObj = tenses.find(t => t.value === tKey) || {};
     const tenseLabel = tenseObj.name || tKey;
     const infoKey = tenseObj.infoKey || '';
     const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
     promptHTML = `${tenseBadge} <span class="boss-challenge">${currentChallenge.glitchedForm}</span>`;
-    
+
   } else if (game.boss.id === 'skynetGlitch') {
-    if (tenseEl) tenseEl.textContent = `Skynet Decode & Conjugate (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded})`;
-    
+    if (tenseEl) {
+      tenseEl.innerHTML = `<span class="boss-title-with-tooltip" data-info-key="skynetGlitchBossInfo">Skynet Glitch (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded}) <span class="context-info-icon" data-info-key="skynetGlitchBossInfo"></span></span>`;
+    }
     const tKey = currentChallenge.tense;
     const tenseObj = tenses.find(t => t.value === tKey) || {};
     const tenseLabel = tenseObj.name || tKey;
     const infoKey = tenseObj.infoKey || '';
     const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
-    
-    // Mostrar infinitivo glitcheado y pronombre glitcheado
     promptHTML = `${tenseBadge}: <span class="boss-challenge">${currentChallenge.glitchedInfinitive}</span> – <span class="boss-challenge-pronoun">${currentChallenge.glitchedPronoun}</span>`;
-    
+
   } else if (game.boss.id === 'nuclearBomb') {
-    if (tenseEl) tenseEl.textContent = `Defuse the bomb! (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded})`;
+    if (tenseEl) {
+      tenseEl.innerHTML = `<span class="boss-title-with-tooltip" data-info-key="nuclearBombBossInfo">Nuclear Countdown (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded}) <span class="context-info-icon" data-info-key="nuclearBombBossInfo"></span></span>`;
+    }
     const tKey = currentChallenge.tense;
     const tenseObj = tenses.find(t => t.value === tKey) || {};
     const tenseLabel = tenseObj.name || tKey;
@@ -1330,10 +1349,29 @@ function displayNextBossVerb() {
     promptHTML = `${tenseBadge}: "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
   }
 
+  // Añadir event listeners para los tooltips de los títulos
+  if (tenseEl) {
+    const tooltipIcon = tenseEl.querySelector('.context-info-icon');
+    const titleWithTooltip = tenseEl.querySelector('.boss-title-with-tooltip');
+    if (tooltipIcon) {
+      tooltipIcon.addEventListener('click', e => {
+        e.stopPropagation();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        const infoKey = tooltipIcon.dataset.infoKey;
+        if (infoKey) openSpecificModal(infoKey);
+      });
+    }
+    if (titleWithTooltip) {
+      titleWithTooltip.addEventListener('click', () => {
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        const infoKey = titleWithTooltip.dataset.infoKey;
+        if (infoKey) openSpecificModal(infoKey);
+      });
+    }
+  }
+
   if (qPrompt) {
     qPrompt.innerHTML = promptHTML;
-
-    // Añadir event listeners para los badges informativos
     const promptBadge = qPrompt.querySelector('.tense-badge');
     const promptIcon = qPrompt.querySelector('.context-info-icon');
     if (promptBadge && promptBadge.dataset.infoKey) {
@@ -1356,6 +1394,7 @@ function displayNextBossVerb() {
     ansES.focus();
   }
 }
+
 
 function endBossBattle(playerWon, message = "") {
   if (ansES) ansES.disabled = false;
@@ -1592,7 +1631,52 @@ function displayClue() {
     feedback.innerHTML = '';
 
     if (game.gameState === 'BOSS_BATTLE') {
-      if (game.boss && game.boss.id === 'skynetGlitch') {
+      if (game.boss && game.boss.id === 'mirrorT1000') {
+        // NUEVO SISTEMA DE PISTAS PARA T-1000
+        if (freeClues > 0) {
+          freeClues--;
+        } else {
+          if (selectedGameMode === 'timer') {
+            const penalty = calculateTimePenalty(currentLevel);
+            timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
+            checkTickingSound();
+            showTimeChange(-penalty);
+          } else if (selectedGameMode === 'lives') {
+            const penalty = 1 + currentLevel;
+            remainingLives -= penalty;
+            updateGameTitle();
+          }
+          streak = 0;
+        }
+
+        const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
+        if (!currentChallenge) return;
+
+        // Determinar qué pista mostrar
+        if (!game.boss.hintLevel) game.boss.hintLevel = 0;
+
+        if (game.boss.hintLevel === 0) {
+          // Primera pista: mostrar la conjugación normal
+          feedback.innerHTML = `💡 <em>Clue 1:</em> The normal conjugation is: <strong>${currentChallenge.correctAnswer}</strong>`;
+          game.boss.hintLevel = 1;
+        } else if (game.boss.hintLevel === 1) {
+          // Segunda pista: mostrar la conjugación normal → al revés
+          feedback.innerHTML = `💡 <em>Final Clue:</em> <strong>${currentChallenge.correctAnswer}</strong> → <strong>${currentChallenge.reversedAnswer}</strong>`;
+          game.boss.hintLevel = 2;
+        } else {
+          // Ya se usaron todas las pistas
+          feedback.innerHTML = `💡 No more clues available.`;
+        }
+
+        playFromStart(soundElectricShock);
+        updateClueButtonUI();
+
+        if (ansES) {
+          ansES.value = '';
+          setTimeout(() => ansES.focus(), 0);
+        }
+        return;
+      } else if (game.boss && game.boss.id === 'skynetGlitch') {
         if (selectedGameMode !== 'timer' && selectedGameMode !== 'lives') {
           timerTimeLeft = Math.max(0, timerTimeLeft - 3);
           checkTickingSound();

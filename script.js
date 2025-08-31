@@ -1402,24 +1402,36 @@ function endBossBattle(playerWon, message = "") {
 }
 
 
-  function resetBackgroundColor() {
-    const gameMainPanel = document.getElementById('game-main-panel');
-    const gameHeaderPanel = document.getElementById('game-header-panel');
-    const bottomPanel = document.getElementById('bottom-panel');
-    const chuacheBox = document.getElementById('chuache-box');
+function resetBackgroundColor() {
+  const gameMainPanel = document.getElementById('game-main-panel');
+  const gameHeaderPanel = document.getElementById('game-header-panel');
+  const bottomPanel = document.getElementById('bottom-panel');
+  const chuacheBox = document.getElementById('chuache-box');
 
-    document.body.style.backgroundColor = '';
-    if (gameMainPanel) gameMainPanel.style.backgroundColor = '';
-    if (gameHeaderPanel) gameHeaderPanel.style.backgroundColor = '';
-    if (bottomPanel) bottomPanel.style.backgroundColor = '';
-    if (chuacheBox) chuacheBox.style.backgroundColor = '';
+  // Resetear estilos inline
+  document.body.style.backgroundColor = '';
+  document.body.style.background = '';
+  if (gameMainPanel) {
+    gameMainPanel.style.backgroundColor = '';
+    gameMainPanel.style.background = '';
+  }
+  if (gameHeaderPanel) {
+    gameHeaderPanel.style.backgroundColor = '';
+    gameHeaderPanel.style.background = '';
+  }
+  if (bottomPanel) {
+    bottomPanel.style.backgroundColor = '';
+    bottomPanel.style.background = '';
+  }
+  if (chuacheBox) {
+    chuacheBox.style.backgroundColor = '';
+    chuacheBox.style.background = '';
   }
 
-  /**
-   * Updates the body's background class based on the current level.
-   * Activates a special background for level 8 and higher.
-   * @param {number} level - The current game level.
-   */
+  // Limpiar clases CSS problemáticas
+  document.body.classList.remove('iridescent-level', 'boss-battle-bg', 't1000-mode');
+}
+	
   function updateBackgroundForLevel(level) {
     const body = document.body;
     if (level >= 8) {
@@ -4923,82 +4935,229 @@ function updateStreakForLifeDisplay() {
 }
 
 function quitToSettings() {
+
+  // Timer principal del juego (modo timer)
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+  
+  // Timers de boss battles (especialmente nuclear bomb)
   if (game.boss && game.boss.countdownInterval) {
     clearInterval(game.boss.countdownInterval);
+    game.boss.countdownInterval = null;
   }
+  
+  // Cualquier otro timer que pueda existir
+  if (typeof typeInterval !== 'undefined' && typeInterval) {
+    clearInterval(typeInterval);
+    typeInterval = null;
+  }
+  
+  // Detener sonido de ticking
+  if (soundTicking) {
+    soundTicking.pause();
+    soundTicking.currentTime = 0;
+  }
+  tickingSoundPlaying = false;
+  
+  // Pausar música de juego
+  if (gameMusic) {
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
+  }
+  
+
+  // Resetear estado de boss battle
   game.boss = null;
   game.gameState = 'PLAYING';
-  document.getElementById('timer-container').style.display = 'none';
-  document.getElementById('game-screen').classList.remove('study-mode-active');
-  clearInterval(countdownTimer);
+  
+  // Resetear variables de juego
+  totalBossesEncountered = 0;
+  currentBossNumber = 0;
+  correctAnswersTotal = 0;
+  currentLevel = 0;
+  
+  // Ocultar elementos específicos del juego
+  const timerContainer = document.getElementById('timer-container');
+  const gameScreen = document.getElementById('game-screen');
+  const configFlowScreen = document.getElementById('config-flow-screen');
+  
+  if (timerContainer) timerContainer.style.display = 'none';
+  if (gameScreen) gameScreen.classList.remove('study-mode-active', 't1000-active');
+  
+  // Detener animaciones de burbujas
   stopBubbles();
-  gameMusic.pause();
-  gameMusic.currentTime = 0;
+  
+  // Cambiar a música de menú
   currentMusic = menuMusic;
   if (musicPlaying) {
     menuMusic.volume = targetVolume;
     safePlay(menuMusic);
   }
+  
+  // Actualizar iconos de música
   if (musicIcon) {
     musicIcon.src = musicPlaying ? 'images/musicon.webp' : 'images/musicoff.webp';
     musicIcon.alt = musicPlaying ? 'Music on' : 'Music off';
   }
-  musicToggle.style.display = 'none';
-  volumeSlider.disabled = false;
-
-  // Add this block to reset the fire animation
+  
+  // Ocultar controles de música del juego
+  const musicToggle = document.getElementById('music-toggle');
+  const volumeSlider = document.getElementById('volume-slider');
+  if (musicToggle) musicToggle.style.display = 'none';
+  if (volumeSlider) {
+    volumeSlider.disabled = false;
+    volumeSlider.style.display = 'none';
+  }
+  
+  // Resetear fuego de streak
   const streakFireEl = document.getElementById('streak-fire');
   if (streakFireEl) {
     streakFireEl.style.height = '0px';
     streakFireEl.style.opacity = '0';
+    streakFireEl.style.setProperty('--fire-rise-height', '-5em');
   }
-
-  // Restore header character visibility for the next game
+  
+  // Restaurar visibilidad del personaje del header
   const headerChar = document.querySelector('.header-char');
   if (headerChar) {
     headerChar.style.visibility = 'visible';
+    headerChar.style.display = '';
   }
+  
+  // Aplicar configuración de visibilidad de Chuache
   applyChuacheVisibility();
+  
 
-    gameScreen.style.display = 'none';
-    configFlowScreen.style.display = 'flex'; // Mostrar la nueva pantalla de flujo
-    //document.getElementById('setup-records').classList.remove('hidden');
+  // Limpiar clases del body
+  document.body.classList.remove(
+    'boss-battle-bg', 
+    't1000-mode', 
+    'game-active', 
+    'iridescent-level',
+    'level-up-shake',
+    'tooltip-open-no-scroll'
+  );
+  
+  // Limpiar clases de elementos específicos
+  if (gameScreen) {
+    gameScreen.classList.remove('t1000-active', 'fade-out');
+  }
+  
+  const gameContainer = document.getElementById('game-container');
+  if (gameContainer) {
+    gameContainer.classList.remove('boss-battle-bg', 'shake', 'level-up-shake');
+  }
+  
 
-    // Resetear el estado del flujo de configuración
-    selectedMode = null;
-    selectedDifficulty = null;
+  resetBackgroundColor();
+  
+
+  // Resetear variables de modo y dificultad
+  selectedMode = null;
+  selectedDifficulty = null;
+  window.selectedGameMode = null;
+  selectedGameMode = null;
+  
+  // Limpiar selecciones provisionales
+  if (gameModesContainer) {
     gameModesContainer.querySelectorAll('.config-flow-button').forEach(btn => {
-        btn.classList.remove('confirmed-selection', 'provisional-selection');
-        btn.disabled = false;
+      btn.classList.remove('confirmed-selection', 'provisional-selection');
+      btn.disabled = false;
+      btn.style.display = '';
     });
+  }
+  
+  if (difficultyButtonsContainer) {
     difficultyButtonsContainer.querySelectorAll('.config-flow-button').forEach(btn => {
-        btn.classList.remove('confirmed-selection', 'provisional-selection');
-        btn.disabled = false;
+      btn.classList.remove('confirmed-selection', 'provisional-selection');
+      btn.disabled = false;
+      btn.style.display = '';
     });
+  }
+  
 
-    // Resetear selecciones de detalles a sus valores por defecto (tus funciones renderTenseButtons, etc.)
-    renderTenseButtons(); // Esto debería seleccionar "Present" por defecto
-    initTenseDropdown(); // Reinicializar listeners de dropdown si es necesario
-    renderVerbButtons(); // Debería seleccionar los regulares no reflexivos por defecto
+  // Reinicializar componentes con sus valores por defecto
+  if (typeof renderTenseButtons === 'function') {
+    renderTenseButtons(); // Selecciona "Present" por defecto
+  }
+  if (typeof initTenseDropdown === 'function') {
+    initTenseDropdown();
+  }
+  if (typeof renderVerbButtons === 'function') {
+    renderVerbButtons(); // Verbos por defecto
+  }
+  if (typeof initVerbDropdown === 'function') {
     initVerbDropdown();
+  }
+  if (typeof renderPronounButtons === 'function') {
     renderPronounButtons(); // "vos" desactivado por defecto
+  }
+  if (typeof initPronounDropdown === 'function') {
     initPronounDropdown();
-    renderVerbTypeButtons(); // Debería seleccionar "regular" por defecto
-    filterVerbTypes(); // Aplicar filtros basados en los tiempos por defecto
+  }
+  if (typeof renderVerbTypeButtons === 'function') {
+    renderVerbTypeButtons(); // "regular" seleccionado por defecto
+  }
+  if (typeof filterVerbTypes === 'function') {
+    filterVerbTypes();
+  }
+  
+  // Resetear botones de toggle
+  const reflexBtn = document.getElementById('toggle-reflexive');
+  if (reflexBtn) {
+    reflexBtn.classList.remove('selected');
+  }
+  
+  const ignoreAccentsBtn = document.getElementById('toggle-ignore-accents');
+  if (ignoreAccentsBtn) {
+    ignoreAccentsBtn.classList.add('selected');
+  }
+  
 
-    const reflexBtn = document.getElementById('toggle-reflexive');
-    if (reflexBtn) {
-        reflexBtn.classList.remove('selected');
-    }
-    if (toggleIgnoreAccentsBtn) {
-        toggleIgnoreAccentsBtn.classList.add('selected');
-    }
-
-    navigateToStep('splash'); // Volver al inicio del flujo
+  // Ocultar pantalla de juego y mostrar configuración
+  if (gameScreen) gameScreen.style.display = 'none';
+  if (configFlowScreen) configFlowScreen.style.display = 'flex';
+  
+  // Navegar al paso inicial del flujo
+  if (typeof navigateToStep === 'function') {
+    navigateToStep('splash');
+  }
+  
+  // Reproducir animación del header
+  if (typeof playHeaderIntro === 'function') {
     playHeaderIntro();
-    checkFinalStartButtonState(); // Para el estado inicial del botón
-}
+  }
+  
+  // Verificar estado del botón de inicio final
+  if (typeof checkFinalStartButtonState === 'function') {
+    checkFinalStartButtonState();
+  }
+  
 
+  // Cerrar cualquier modal o tooltip abierto
+  const modals = document.querySelectorAll('.specific-modal, .hof-overlay');
+  const backdrops = document.querySelectorAll('.specific-modal-backdrop');
+  
+  modals.forEach(modal => {
+    if (modal) modal.style.display = 'none';
+  });
+  
+  backdrops.forEach(backdrop => {
+    if (backdrop) backdrop.style.display = 'none';
+  });
+  
+  // Cerrar tooltips
+  const tooltip = document.getElementById('tooltip');
+  if (tooltip) tooltip.style.display = 'none';
+  
+
+  // Actualizar records en la pantalla de splash
+  if (typeof displaySplashRecords === 'function') {
+    displaySplashRecords();
+  }
+}
 function fadeOutToMenu(callback) {
   const screen = document.getElementById('game-screen');
   if (!screen) { callback(); return; }

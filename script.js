@@ -86,7 +86,7 @@ function safePlay(audio) {
 }
 
 // Level progression state
-let totalBossesEncountered = 0;
+let bossesEncounteredTotal = 0;
 let currentBossNumber = 0;
 let correctAnswersTotal = 0;
 let currentLevel = 0;
@@ -3943,7 +3943,7 @@ function prepareNextQuestion() {
 
 function startBossBattle() {
   if (selectedGameMode === 'study') return;
-  totalBossesEncountered++;
+  bossesEncounteredTotal++;
   currentBossNumber++;
   document.body.classList.add('boss-battle-bg');
   if (gameContainer) gameContainer.classList.add('boss-battle-bg');
@@ -4712,7 +4712,7 @@ function startTimerMode() {
   verbsMissed = [];
   fastestAnswer = Infinity;
   bestStreak = 0;
-  totalBossesEncountered = 0;
+  bossesEncounteredTotal = 0;
   currentBossNumber = 0;
   document.getElementById('timer-container').style.display = 'flex';
   freeClues = 3;
@@ -4794,7 +4794,7 @@ function startLivesMode() {
   verbsMissed = [];
   fastestAnswer = Infinity;
   bestStreak = 0;
-  totalBossesEncountered = 0;
+  bossesEncounteredTotal = 0;
   currentBossNumber = 0;
   freeClues = 3;
   updateClueButtonUI();
@@ -5057,7 +5057,7 @@ function quitToSettings() {
   game.gameState = 'PLAYING';
   
   // Resetear variables de juego
-  totalBossesEncountered = 0;
+  bossesEncounteredTotal = 0;
   currentBossNumber = 0;
   correctAnswersTotal = 0;
   currentLevel = 0;
@@ -5355,7 +5355,7 @@ finalStartGameButton.addEventListener('click', async () => {
     } else if (window.selectedGameMode === 'lives') {
         startLivesMode();
     } else {
-        totalBossesEncountered = 0;
+        bossesEncounteredTotal = 0;
         currentBossNumber = 0;
         freeClues = 0;
         updateClueButtonUI();

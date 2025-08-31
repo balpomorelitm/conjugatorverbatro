@@ -4750,10 +4750,59 @@ function skipQuestion() {
     streak = 0;
     multiplier = 1.0;
     updateScore();
-        timerTimeLeft = Math.max(0, timerTimeLeft - 3);
-        checkTickingSound();
-        showTimeChange(-3);
-	
+   // *** CORRECCIÓN: USAR LOS MISMOS PENALTIES QUE UN ERROR ***
+  if (selectedGameMode === 'timer') {
+    const penalty = calculateTimePenalty(currentLevel);  // ← CAMBIO: usar penalty escalado
+    timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
+    checkTickingSound();
+    showTimeChange(-penalty);
+  } else if (selectedGameMode === 'lives') {
+    const penalty = 1 + currentLevel;  // ← CAMBIO: usar penalty escalado
+    remainingLives -= penalty;
+    currentStreakForLife = 0;
+    updateStreakForLifeDisplay();
+    updateGameTitle();
+    updateTotalCorrectForLifeDisplay();
+
+    // Verificar game over
+    if (remainingLives <= 0) {
+      safePlay(soundGameOver);
+      chuacheSpeaks('gameover');
+      gameTitle.textContent = '💀¡Estás MUERTO!💀';
+      checkAnswerButton.disabled = true;
+      clueButton.disabled = true;
+      skipButton.disabled = true;
+      ansEN.disabled = true;
+      ansES.disabled = true;
+
+      if (name) {
+        const recordData = {
+          name: name,
+          score: score,
+          mode: selectedGameMode,
+          streak: bestStreak,
+          level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
+        };
+        (async () => {
+          try {
+            const { error } = await supabase.from('records').insert([recordData]);
+            if (error) throw error;
+            renderSetupRecords();
+            quitToSettings();
+          } catch (error) {
+            console.error(error.message);
+          }
+        })();
+      }
+      return; // NO llamamos a prepareNextQuestion
+    }
+  } else {
+    // Study mode o otros modos
+    timerTimeLeft = Math.max(0, timerTimeLeft - 3);
+    checkTickingSound();
+    showTimeChange(-3);
+  }
+
     let feedbackMessage;
 
     if (currentOptions.mode === 'receptive') {

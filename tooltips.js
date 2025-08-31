@@ -661,3 +661,72 @@ const specificInfoData = {
            <p>The clues show conjugations in the traditional order, but only for the pronouns you selected for this game.</p>`
   },
 };
+
+const bossTooltips = {
+  verbRepairerBossInfo: {
+    title: "Digital Corrupted Boss",
+    html: `<p><strong>🔧 How to defeat this boss:</strong></p>
+           <p>The digital interference has <strong>corrupted conjugated verbs</strong> by replacing random letters with underscores (_).</p>
+           <p><strong>Your mission:</strong> Look at the corrupted form and type the <strong>complete, correct conjugation</strong>.</p>
+           <p><strong>Example:</strong> If you see "hab_amos" → type "hablamos"</p>
+           <p><strong>Strategy:</strong> Use your knowledge of conjugation patterns and context clues from the tense and meaning to fill in the missing letters.</p>
+           <p><strong>Boss defeats:</strong> 3 correct repairs</p>`
+  },
+  
+  skynetGlitchBossInfo: {
+    title: "Skynet Glitch Boss", 
+    html: `<p><strong>🤖 How to defeat this boss:</strong></p>
+           <p>Skynet has corrupted both the <strong>infinitive and pronoun</strong> by removing random letters (shown as _).</p>
+           <p><strong>Your mission:</strong> Decode both the infinitive and pronoun, then conjugate correctly.</p>
+           <p><strong>Example:</strong> "com_r – _ú" → decode as "comer – tú" → type "comes"</p>
+           <p><strong>Strategy:</strong> 
+           <ul>
+             <li>First, figure out the complete infinitive (com_r = comer)</li>
+             <li>Then, identify the pronoun (_ú = tú)</li>
+             <li>Finally, conjugate using the given tense</li>
+           </ul></p>
+           <p><strong>Boss defeats:</strong> 2 verbs (Normal mode) or 3 verbs (Hard mode)</p>`
+  },
+  
+  nuclearBombBossInfo: {
+    title: "Nuclear Countdown Boss",
+    html: `<p><strong>💣 How to defeat this boss:</strong></p>
+           <p>A nuclear bomb is counting down! You have <strong>30 seconds</strong> to defuse it by correctly conjugating verbs.</p>
+           <p><strong>Your mission:</strong> Conjugate verbs quickly and accurately before time runs out.</p>
+           <p><strong>Time pressure:</strong> Unlike normal gameplay, you have a <strong>hard 30-second limit</strong> for the entire boss battle.</p>
+           <p><strong>Strategy:</strong> 
+           <ul>
+             <li>Work quickly but accurately</li>
+             <li>Use the clue button if you're stuck (costs time/lives but better than exploding!)</li>
+             <li>Focus on verbs you know well to save time</li>
+           </ul></p>
+           <p><strong>Boss defeats:</strong> 4 correct conjugations within 30 seconds</p>
+           <p><strong>⚠️ Warning:</strong> If time runs out, it's instant game over!</p>`
+  },
+  
+  t1000BossInfo: {
+    title: "T-1000 Mirror Boss",
+    html: `<p><strong>🪞 How to defeat this boss:</strong></p>
+           <p>The T-1000 mimics everything in reverse! You must type your conjugations <strong>backwards</strong>.</p>
+           <p><strong>Your mission:</strong> Conjugate the verb normally in your head, then type it <strong>backwards</strong>.</p>
+           <p><strong>Examples:</strong></p>
+           <ul>
+             <li>"hablar – yo" (Present) → think "hablo" → type "olbah"</li>
+             <li>"comer – tú" (Present) → think "comes" → type "semoc"</li>
+           </ul>
+           <p><strong>Strategy:</strong> 
+           <ul>
+             <li>First, work out the normal conjugation</li>
+             <li>Then reverse each letter: first becomes last, etc.</li>
+             <li>Use clues if you're unsure of the normal conjugation</li>
+           </ul></p>
+           <p><strong>Clue system:</strong></p>
+           <ul>
+             <li><em>Clue 1:</em> Shows the normal conjugation</li>
+             <li><em>Final Clue:</em> Shows normal → reversed</li>
+           </ul>
+           <p><strong>Boss defeats:</strong> 1 verb (Easy), 2 verbs (Normal), 3 verbs (Hard)</p>`
+  }
+};
+
+Object.assign(specificInfoData, bossTooltips);

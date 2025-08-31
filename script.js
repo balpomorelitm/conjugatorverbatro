@@ -5246,12 +5246,20 @@ function fadeOutToMenu(callback) {
   const screen = document.getElementById('game-screen');
   if (!screen) { callback(); return; }
   screen.classList.add('fade-out');
-  const handler = () => {
+  let done = false;
+  const cleanup = () => {
+    if (done) return;
+    done = true;
+    clearTimeout(fallback);
     screen.classList.remove('fade-out');
-    screen.removeEventListener('animationend', handler);
+    screen.removeEventListener('transitionend', onEnd);
     callback();
   };
-  screen.addEventListener('animationend', handler);
+  const onEnd = e => {
+    if (e.target === screen) cleanup();
+  };
+  screen.addEventListener('transitionend', onEnd);
+  const fallback = setTimeout(cleanup, 700);
 }
     remainingLives = 5;
 

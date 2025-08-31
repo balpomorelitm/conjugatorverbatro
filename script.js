@@ -5216,17 +5216,64 @@ if (irregularitiesContainer) {
     if (clueButton) clueButton.addEventListener('click', onClueButtonClick);
     if (skipButton) skipButton.addEventListener('click', skipQuestion);
     if (endButton) {
-        endButton.addEventListener('click', () => {
-            playFromStart(soundElectricShock);
-            safePlay(soundGameOver);
-            chuacheSpeaks('gameover');
-            endButton.classList.add('electric-effect');
-            setTimeout(() => endButton.classList.remove('electric-effect'), 1000);
+  endButton.addEventListener('click', () => {
+    playFromStart(soundElectricShock);
+    safePlay(soundGameOver);
+    chuacheSpeaks('gameover');
+    endButton.classList.add('electric-effect');
+    setTimeout(() => endButton.classList.remove('electric-effect'), 1000);
 
-            setTimeout(() => { showStatsModal(); }, 2000);
-
-        });
+    // *** CORRECCIÓN: LIMPIAR ESTADO COMPLETAMENTE ***
+    
+    // 1. Detener todos los timers
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
     }
+    
+    // 2. Detener timers de boss battles
+    if (game.boss && game.boss.countdownInterval) {
+      clearInterval(game.boss.countdownInterval);
+      game.boss.countdownInterval = null;
+    }
+    
+    // 3. Detener sonido de ticking
+    if (soundTicking) {
+      soundTicking.pause();
+      soundTicking.currentTime = 0;
+    }
+    tickingSoundPlaying = false;
+    
+    // 4. Limpiar estado de boss battle
+    game.boss = null;
+    game.gameState = 'PLAYING';
+    
+    // 5. Deshabilitar todos los controles de juego
+    checkAnswerButton.disabled = true;
+    clueButton.disabled = true;
+    skipButton.disabled = true;
+    endButton.disabled = true;
+    ansEN.disabled = true;
+    ansES.disabled = true;
+    
+    // 6. Limpiar clases CSS problemáticas
+    document.body.classList.remove('boss-battle-bg', 't1000-mode', 'game-active');
+    const gameScreen = document.getElementById('game-screen');
+    if (gameScreen) {
+      gameScreen.classList.remove('t1000-active');
+    }
+    
+    // 7. Resetear background a normal
+    resetBackgroundColor();
+    
+    // *** FIN DE LA CORRECCIÓN ***
+
+    // Mostrar estadísticas después de 2 segundos
+    setTimeout(() => { 
+      showStatsModal(); 
+    }, 2000);
+  });
+}
 
     if (ansES) ansES.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });
     if (ansEN) ansEN.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });

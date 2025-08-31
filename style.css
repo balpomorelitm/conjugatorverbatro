@@ -4405,6 +4405,17 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   border-color: #808080 !important;
   text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
 }
+.boss-challenge-pronoun {
+  color: #ff8888;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  animation: glitch-text 1s steps(2, end) infinite;
+}
+
+.boss-challenge-pronoun::before {
+  content: "👤 ";
+  color: #ffaa00;
+}
 .stats-grid { display: flex; flex-direction: column; gap: 15px; }
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: rgba(255,255,255,0.1); border-radius: 5px; }
 .stat-label { font-weight: bold; color: var(--accent-color-blue); }

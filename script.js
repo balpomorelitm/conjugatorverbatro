@@ -534,6 +534,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       description: 'Una interferencia digital ha dañado los verbos.',
       verbsToComplete: 3,
       init: function() {
+        const multiplier = this.reappearanceMultiplier || 1;
+        this.baseVerbsToComplete = this.baseVerbsToComplete || this.verbsToComplete;
+        this.verbsToComplete = Math.floor(this.baseVerbsToComplete * multiplier);
+
         // Step 1: Filter all verbs to those with long infinitives and at least one regular tense.
         const filteredVerbs = allVerbData.filter(v => {
           if (!v.infinitive_es || v.infinitive_es.length <= 5) return false;
@@ -585,7 +589,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         game.boss = {
           id: 'verbRepairer',
           verbsCompleted: 0,
-          challengeVerbs
+          challengeVerbs,
+          totalVerbsNeeded: this.verbsToComplete
         };
 
         console.log('Digital Corrupted challenge verbs:', game.boss.challengeVerbs);
@@ -607,6 +612,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else if (currentOptions.mode === 'productive') {
         this.verbsToComplete = 3; // Modo difícil
       }
+      const multiplier = this.reappearanceMultiplier || 1;
+      this.verbsToComplete = Math.floor(this.verbsToComplete * multiplier);
 
       // Filtrar verbos según la selección actual del jugador
       const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
@@ -732,6 +739,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       verbsToComplete: 4,
       timeLimit: 30, // 30 seconds
       init: function() {
+        const multiplier = this.reappearanceMultiplier || 1;
+        this.baseVerbsToComplete = this.baseVerbsToComplete || this.verbsToComplete;
+        this.verbsToComplete = Math.floor(this.baseVerbsToComplete * multiplier);
+
         // Filter verbs from current game selection
         const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
         const selectedVerbInfinitives = selectedVerbElements.map(btn => btn.dataset.value);
@@ -826,6 +837,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (currentOptions.mode === 'productive') {
           this.verbsToComplete = 3;
         }
+        const multiplier = this.reappearanceMultiplier || 1;
+        this.verbsToComplete = Math.floor(this.verbsToComplete * multiplier);
 
         // Filter verbs based on current game selection
         const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
@@ -1409,11 +1422,12 @@ function endBossBattle(playerWon, message = "") {
   const tenseEl = document.getElementById('tense-label');
 
   if (playerWon) {
-    game.score += 500;
+    const bonusPoints = 500 * (game.boss?.reappearanceMultiplier || 1);
+    game.score += bonusPoints;
     score = game.score; // keep legacy score in sync
     if (qPrompt) qPrompt.textContent = 'SYSTEM RESTORED';
     if (tenseEl) tenseEl.textContent = 'Boss defeated!';
-    if (feedback) feedback.innerHTML = '<span class="feedback-points">Boss Bonus: +500 Points!</span>';
+    if (feedback) feedback.innerHTML = `<span class="feedback-points">Boss Bonus: +${bonusPoints} Points!</span>`;
     updateScore();
   } else {
     if (qPrompt) qPrompt.textContent = message || 'SYSTEM FAILURE';
@@ -3956,6 +3970,11 @@ function startBossBattle() {
   const currentBoss = bosses[selectedBossKey];
   game.lastBossUsed = selectedBossKey;
 
+  // Determine multiplier based on how many boss cycles the player has completed
+  const cycleIndex = Math.floor((currentBossNumber - 1) / 4);
+  const cycleMultiplier = Math.pow(2, cycleIndex);
+  currentBoss.reappearanceMultiplier = cycleMultiplier;
+
   if (bossImage) {
     if (selectedBossKey === 'verbRepairer') {
       bossImage.src = 'images/bossrepairer.webp';
@@ -3973,25 +3992,6 @@ function startBossBattle() {
     document.body.classList.remove('boss-battle-bg');
     document.body.classList.add('boss-battle-bg', 't1000-mode');
     document.getElementById('game-screen').classList.add('t1000-active');
-  }
-
-  game.boss = {
-    id: selectedBossKey,
-    verbsCompleted: 0,
-    challengeVerbs: [],
-    totalVerbsNeeded: currentBoss.verbsToComplete
-  };
-
-  if (progressContainer) {
-    const bossTypeNumber =
-      selectedBossKey === 'verbRepairer' ? 1 :
-      selectedBossKey === 'skynetGlitch' ? 2 : 
-      selectedBossKey === 'nuclearBomb' ? 3 :
-      selectedBossKey === 'mirrorT1000' ? 4 : 1;
-
-    progressContainer.textContent =
-      `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (0/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
-    progressContainer.style.color = '#FF0000';
   }
 
   if (chuacheImage) {
@@ -4012,6 +4012,22 @@ function startBossBattle() {
   if (ansEN) ansEN.disabled = true;
 
   currentBoss.init();
+
+  if (game.boss) {
+    game.boss.reappearanceMultiplier = cycleMultiplier;
+  }
+
+  if (progressContainer && game.boss) {
+    const bossTypeNumber =
+      selectedBossKey === 'verbRepairer' ? 1 :
+      selectedBossKey === 'skynetGlitch' ? 2 :
+      selectedBossKey === 'nuclearBomb' ? 3 :
+      selectedBossKey === 'mirrorT1000' ? 4 : 1;
+
+    progressContainer.textContent =
+      `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (0/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+    progressContainer.style.color = '#FF0000';
+  }
 
   if (checkAnswerButton) checkAnswerButton.disabled = false;
   if (skipButton) skipButton.disabled = true;
@@ -4053,7 +4069,9 @@ function checkAnswer() {
       if (isCorrect) {
         totalCorrect++;
         game.boss.verbsCompleted++;
-        game.score += 75; // Higher reward for difficulty
+        const basePoints = 75;
+        const pointsEarned = basePoints * (game.boss.reappearanceMultiplier || 1);
+        game.score += pointsEarned; // Higher reward for difficulty
         score = game.score;
         updateScore();
         
@@ -4066,9 +4084,9 @@ function checkAnswer() {
           const englishTranslations = getEnglishTranslation(currentChallenge, currentChallenge.tense, currentChallenge.pronoun);
           const originalEnglish = englishTranslations[0] || 'translation';
           const reversedEnglish = originalEnglish.split('').reverse().join('');
-          feedbackText = `✅ Mirror shattered! "${originalEnglish}" → "${reversedEnglish}" (+75 points)`;
+          feedbackText = `✅ Mirror shattered! "${originalEnglish}" → "${reversedEnglish}" (+${pointsEarned} points)`;
         } else {
-          feedbackText = `✅ Perfect reflection! "${currentChallenge.correctAnswer}" → "${currentChallenge.reversedAnswer}" (+75 points)`;
+          feedbackText = `✅ Perfect reflection! "${currentChallenge.correctAnswer}" → "${currentChallenge.reversedAnswer}" (+${pointsEarned} points)`;
         }
         
         if (feedback) feedback.textContent = feedbackText;
@@ -4158,7 +4176,9 @@ function checkAnswer() {
     if (userInput === correctAnswer) {
       totalCorrect++;
       game.boss.verbsCompleted++;
-      game.score += 50;
+      const basePoints = 50;
+      const pointsEarned = basePoints * (game.boss.reappearanceMultiplier || 1);
+      game.score += pointsEarned;
       score = game.score; // keep legacy score in sync
       updateScore();
       if (progressContainer) {
@@ -4173,7 +4193,7 @@ function checkAnswer() {
 
       }
       if (feedback)
-        feedback.textContent = `✅ Correct! "${challengeDisplay}" → "${rawCorrectAnswer}" (+50 points)`;
+        feedback.textContent = `✅ Correct! "${challengeDisplay}" → "${rawCorrectAnswer}" (+${pointsEarned} points)`;
 
       safePlay(soundCorrect);
 

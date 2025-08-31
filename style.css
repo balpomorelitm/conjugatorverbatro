@@ -4416,6 +4416,16 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   content: "👤 ";
   color: #ffaa00;
 }
+.boss-title-with-tooltip {
+  cursor: help;
+  position: relative;
+  padding-right: 25px;
+}
+
+.boss-title-with-tooltip:hover {
+  color: #ffff00;
+  text-shadow: 0 0 5px rgba(255,255,0,0.5);
+}
 .stats-grid { display: flex; flex-direction: column; gap: 15px; }
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: rgba(255,255,255,0.1); border-radius: 5px; }
 .stat-label { font-weight: bold; color: var(--accent-color-blue); }

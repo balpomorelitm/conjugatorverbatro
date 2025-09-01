@@ -82,13 +82,20 @@ if ('serviceWorker' in navigator) {
   window.recorderEnabled = false;
 }
 
-function safePlay(audio) {
-  if (!audio || typeof audio.play !== 'function') return;
-  const p = audio.play();
+function safePlay(media) {
+  if (!media || (typeof media.play !== 'function' && !media.src)) return;
+
+  // Si es un video, configurar propiedades adicionales
+  if (media.tagName && media.tagName.toLowerCase() === 'video') {
+    media.muted = true;
+    media.playsInline = true;
+  }
+
+  const p = media.play();
   if (p && typeof p.catch === 'function') {
     p.catch(err => {
       if (err.name !== 'AbortError') {
-        console.error('Audio play failed:', err);
+        console.error('Media play failed:', err);
       }
     });
   }
@@ -1053,7 +1060,7 @@ function displayNextT1000Verb() {
   if (qPrompt) {
     qPrompt.innerHTML = promptHTML;
     const promptBadge = qPrompt.querySelector('.tense-badge');
-    const promptIcon = qPrompt.querySelector('.context-info-icon');
+const promptIcon = qPrompt.querySelector('.context-info-icon');
     if (promptBadge && promptBadge.dataset.infoKey) {
       promptBadge.addEventListener('click', () => {
         if (typeof soundClick !== 'undefined') safePlay(soundClick);
@@ -1468,6 +1475,12 @@ function endBossBattle(playerWon, message = "") {
   } else {
     if (qPrompt) qPrompt.textContent = message || 'SYSTEM FAILURE';
     if (tenseEl) tenseEl.textContent = message ? '' : 'Try again next time.';
+  }
+
+  // Pausar video si existe
+  if (bossImage && bossImage.tagName && bossImage.tagName.toLowerCase() === 'video') {
+    bossImage.pause();
+    bossImage.currentTime = 0;
   }
 
   setTimeout(() => {
@@ -3991,6 +4004,25 @@ function prepareNextQuestion() {
   }
 }
 
+// Función para configurar video de boss
+function configureBossVideo(bossImage, videoSrc) {
+  // Cambiar el elemento img a video si es necesario
+  if (bossImage.tagName.toLowerCase() === 'img') {
+    const video = document.createElement('video');
+    video.id = bossImage.id;
+    video.className = bossImage.className;
+    video.style.cssText = bossImage.style.cssText;
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true; // Importante para autoplay
+    video.playsInline = true; // Para dispositivos móviles
+
+    bossImage.parentNode.replaceChild(video, bossImage);
+    return video;
+  }
+  return bossImage;
+}
+
 function startBossBattle() {
   if (selectedGameMode === 'study') return;
   bossesEncounteredTotal++;
@@ -4024,13 +4056,34 @@ function startBossBattle() {
 
   if (bossImage) {
     if (selectedBossKey === 'verbRepairer') {
-      bossImage.src = 'images/bossrepairer.webp';
+      // Asegurar que es una imagen para Boss 1
+      if (bossImage.tagName.toLowerCase() === 'video') {
+        const img = document.createElement('img');
+        img.id = bossImage.id;
+        img.className = bossImage.className;
+        img.style.cssText = bossImage.style.cssText;
+        bossImage.parentNode.replaceChild(img, bossImage);
+        bossImage = img;
+      }
+      bossImage.src = 'images/bosshack.webp';
+    } else if (selectedBossKey === 'skynetGlitch') {
+      // Configurar como video para Boss 2
+      bossImage = configureBossVideo(bossImage, 'images/bosssg.webm');
+      bossImage.src = 'images/bosssg.webm';
+      safePlay(bossImage); // Iniciar reproducción
     } else if (selectedBossKey === 'nuclearBomb') {
       // Skip assigning src so the nuclear boss image remains hidden
     } else if (selectedBossKey === 'mirrorT1000') {
-      bossImage.src = 'images/bosssg.webp'; // Usar imagen existente temporalmente
-    } else {
-      bossImage.src = 'images/bosssg.webp';
+      // Asegurar que es una imagen para Boss 3
+      if (bossImage.tagName.toLowerCase() === 'video') {
+        const img = document.createElement('img');
+        img.id = bossImage.id;
+        img.className = bossImage.className;
+        img.style.cssText = bossImage.style.cssText;
+        bossImage.parentNode.replaceChild(img, bossImage);
+        bossImage = img;
+      }
+      bossImage.src = 'images/bosst-1000.webp';
     }
   }
 

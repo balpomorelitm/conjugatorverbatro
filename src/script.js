@@ -529,7 +529,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Elements for Boss Battle transitions
   const gameContainer = document.getElementById('game-container');
   const chuacheImage = document.getElementById('chuache-image');
-  const bossImage = document.getElementById('boss-image');
+  // Use a mutable reference because startBossBattle may replace the element
+  let bossImage = document.getElementById('boss-image');
   const progressContainer = document.getElementById('level-text');
 
   const game = {

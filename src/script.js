@@ -549,7 +549,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     currentVerbIndex: 0,
     isGameOver: false,
     boss: null, // Will hold the current boss battle state
-
+    scanlineRemoved: false,
     lastBossUsed: null // Track the previously selected boss
   };
 
@@ -1537,6 +1537,12 @@ function endBossBattle(playerWon, message = "") {
     game.verbsInPhaseCount = 0;
     game.gameState = 'PLAYING';
     game.boss = null;
+
+    if (!game.scanlineRemoved && bossesEncounteredTotal === 1) {
+      const gs = document.getElementById('game-screen');
+      if (gs) gs.classList.add('no-scanline');
+      game.scanlineRemoved = true;
+    }
 
     if (progressContainer) updateProgressUI();
 
@@ -5225,6 +5231,7 @@ function quitToSettings() {
   currentBossNumber = 0;
   correctAnswersTotal = 0;
   currentLevel = 0;
+  game.scanlineRemoved = false;
   
   // Ocultar elementos específicos del juego
   const timerContainer = document.getElementById('timer-container');
@@ -5232,7 +5239,7 @@ function quitToSettings() {
   const configFlowScreen = document.getElementById('config-flow-screen');
   
   if (timerContainer) timerContainer.style.display = 'none';
-  if (gameScreen) gameScreen.classList.remove('study-mode-active', 't1000-active');
+  if (gameScreen) gameScreen.classList.remove('study-mode-active', 't1000-active', 'no-scanline');
   
   // Detener animaciones de burbujas
   stopBubbles();

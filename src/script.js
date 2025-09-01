@@ -1,30 +1,30 @@
 let typeInterval; // Variable global para controlar el intervalo de la animación
 
-const soundCorrect = new Audio('sounds/correct.mp3');
-const soundWrong = new Audio('sounds/wrong.mp3');
-const soundWrongStudy = new Audio('sounds/wongstudy.mp3');
-const soundClick = new Audio('sounds/click.mp3');
-const soundStart = new Audio('sounds/start-verb.mp3');
-const soundSkip = new Audio('sounds/skip.mp3');
-const menuMusic = new Audio('sounds/musicmenu.mp3');
-const gameMusic = new Audio('sounds/musicgame.mp3');
+const soundCorrect = new Audio('../assets/sounds/correct.mp3');
+const soundWrong = new Audio('../assets/sounds/wrong.mp3');
+const soundWrongStudy = new Audio('../assets/sounds/wongstudy.mp3');
+const soundClick = new Audio('../assets/sounds/click.mp3');
+const soundStart = new Audio('../assets/sounds/start-verb.mp3');
+const soundSkip = new Audio('../assets/sounds/skip.mp3');
+const menuMusic = new Audio('../assets/sounds/musicmenu.mp3');
+const gameMusic = new Audio('../assets/sounds/musicgame.mp3');
 let currentMusic = menuMusic;
-const soundGameOver = new Audio('sounds/gameover.mp3');
-const soundbubblepop = new Audio('sounds/soundbubblepop.mp3');
-const soundLifeGained = new Audio('sounds/soundLifeGained.mp3');
-const soundElectricShock = new Audio('sounds/electricshock.mp3');
-const soundTicking = new Audio('sounds/ticking.mp3');
-const chuacheSound = new Audio('sounds/talks.mp3');
-const soundLevelUp = new Audio('sounds/levelup.mp3');
+const soundGameOver = new Audio('../assets/sounds/gameover.mp3');
+const soundbubblepop = new Audio('../assets/sounds/soundbubblepop.mp3');
+const soundLifeGained = new Audio('../assets/sounds/soundLifeGained.mp3');
+const soundElectricShock = new Audio('../assets/sounds/electricshock.mp3');
+const soundTicking = new Audio('../assets/sounds/ticking.mp3');
+const chuacheSound = new Audio('../assets/sounds/talks.mp3');
+const soundLevelUp = new Audio('../assets/sounds/levelup.mp3');
 // Boss Battle Sounds - Add after existing sound declarations
-const bossDigitalCorrupted = new Audio('sounds/bossDigitalCorrupted.mp3');
-const systemRepaired = new Audio('sounds/systemRepaired.mp3');
-const bossSkynetGlitch = new Audio('sounds/bossSkynetGlitch.mp3');
-const bossNuclearCountdown = new Audio('sounds/bossNuclearCountdown.mp3');
-const nuclearExplosion = new Audio('sounds/nuclearExplosion.mp3');
-const bombDefused = new Audio('sounds/bombDefused.mp3');
-const bossT1000Mirror = new Audio('sounds/bossT1000Mirror.mp3');
-const mirrorShattered = new Audio('sounds/mirrorShattered.mp3');
+const bossDigitalCorrupted = new Audio('../assets/sounds/bossDigitalCorrupted.mp3');
+const systemRepaired = new Audio('../assets/sounds/systemRepaired.mp3');
+const bossSkynetGlitch = new Audio('../assets/sounds/bossSkynetGlitch.mp3');
+const bossNuclearCountdown = new Audio('../assets/sounds/bossNuclearCountdown.mp3');
+const nuclearExplosion = new Audio('../assets/sounds/nuclearExplosion.mp3');
+const bombDefused = new Audio('../assets/sounds/bombDefused.mp3');
+const bossT1000Mirror = new Audio('../assets/sounds/bossT1000Mirror.mp3');
+const mirrorShattered = new Audio('../assets/sounds/mirrorShattered.mp3');
 menuMusic.loop = true;
 gameMusic.loop = true;
 
@@ -226,7 +226,7 @@ function applyChuacheVisibility() {
   }
 }
 // Begin fetching verb data as early as possible to utilize the preload
-const verbosJsonPromise = fetch('verbos.json')
+const verbosJsonPromise = fetch('../verbos.json')
   .then(resp => {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     return resp.json();
@@ -342,7 +342,7 @@ function chuacheSpeaks(type) {
   lastChuacheIndex[type] = index;
   const message = messages[index];
 
-  image.src = "images/chuachetalks.gif";
+  image.src = "../assets/images/chuachetalks.gif";
   bubble.textContent = message;
   bubble.classList.remove("hidden");
   if (type === "wrong" || type === "skip") bubble.classList.add("error");
@@ -351,7 +351,7 @@ function chuacheSpeaks(type) {
   playFromStart(chuacheSound);
 
   setTimeout(() => {
-    image.src = "images/conjuchuache.webp";
+    image.src = "../assets/images/conjuchuache.webp";
     bubble.classList.add("hidden");
     bubble.classList.remove("error");
   }, 3000);
@@ -3022,14 +3022,14 @@ musicToggle.addEventListener('click', () => {
     currentMusic.volume = targetVolume;  // inicia directamente al 20%
     safePlay(currentMusic);
     if (musicIcon) {
-      musicIcon.src = 'images/musicon.webp';
+      musicIcon.src = '../assets/images/musicon.webp';
       musicIcon.alt = 'Music on';
     }
     volumeSlider.disabled = false;
   } else {
     currentMusic.pause();
     if (musicIcon) {
-      musicIcon.src = 'images/musicoff.webp';
+      musicIcon.src = '../assets/images/musicoff.webp';
       musicIcon.alt = 'Music off';
     }
     volumeSlider.disabled = true;
@@ -4065,11 +4065,11 @@ function startBossBattle() {
         bossImage.parentNode.replaceChild(img, bossImage);
         bossImage = img;
       }
-      bossImage.src = 'images/bosshack.webp';
+      bossImage.src = '../assets/images/bosshack.webp';
     } else if (selectedBossKey === 'skynetGlitch') {
       // Configurar como video para Boss 2
-      bossImage = configureBossVideo(bossImage, 'images/bosssg.webm');
-      bossImage.src = 'images/bosssg.webm';
+      bossImage = configureBossVideo(bossImage, '../assets/images/bosssg.webm');
+      bossImage.src = '../assets/images/bosssg.webm';
       safePlay(bossImage); // Iniciar reproducción
     } else if (selectedBossKey === 'nuclearBomb') {
       // Skip assigning src so the nuclear boss image remains hidden
@@ -4083,7 +4083,7 @@ function startBossBattle() {
         bossImage.parentNode.replaceChild(img, bossImage);
         bossImage = img;
       }
-      bossImage.src = 'images/bosst-1000.webp';
+      bossImage.src = '../assets/images/bosst-1000.webp';
     }
   }
 
@@ -5202,7 +5202,7 @@ function quitToSettings() {
   
   // Actualizar iconos de música
   if (musicIcon) {
-    musicIcon.src = musicPlaying ? 'images/musicon.webp' : 'images/musicoff.webp';
+    musicIcon.src = musicPlaying ? '../assets/images/musicon.webp' : '../assets/images/musicoff.webp';
     musicIcon.alt = musicPlaying ? 'Music on' : 'Music off';
   }
   
@@ -5499,7 +5499,7 @@ finalStartGameButton.addEventListener('click', async () => {
             } else {
                 gameMusic.pause();
                 if (musicIcon) {
-                    musicIcon.src = 'images/musicoff.webp';
+                    musicIcon.src = '../assets/images/musicoff.webp';
                     musicIcon.alt = 'Music off';
                 }
             }
@@ -5927,7 +5927,7 @@ function updateGameTitle() {
   const livesWrapper = document.getElementById('lives-count-wrapper');
   if (livesWrapper) {
     if (selectedGameMode === 'lives') {
-      livesWrapper.innerHTML = `<span id="lives-count">${remainingLives}</span><img src="images/heart.webp" alt="life" style="width:40px; height:40px; vertical-align: middle; margin-left: 6px;">`;
+      livesWrapper.innerHTML = `<span id="lives-count">${remainingLives}</span><img src="../assets/images/heart.webp" alt="life" style="width:40px; height:40px; vertical-align: middle; margin-left: 6px;">`;
     } else {
       livesWrapper.innerHTML = '';
     }

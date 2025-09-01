@@ -4,9 +4,9 @@
   <meta charset="UTF-8"/>
   <link rel="icon" href="favicon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="preload" href="fonts/Schwarzenegger.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/PixelSerif_16px_v02.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="verbos.json" as="fetch" crossorigin="anonymous">
+  <link rel="preload" href="../assets/fonts/Schwarzenegger.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/PixelSerif_16px_v02.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../verbos.json" as="fetch" crossorigin="anonymous">
    <style>
     body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
     .screen { border: 1px solid #ccc; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
@@ -18,7 +18,7 @@
     input[type="text"] { padding: 5px; width: 200px; }
   </style>
 
-<link  rel="stylesheet" href="style.css">
+<link  rel="stylesheet" href="../src/style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body id="game-container" class="is-loading">
@@ -79,8 +79,8 @@
   </div>
 
   <header class="main-header">
-          <img loading="lazy" src="images/conjucityhk.webp" class="header-city" alt="city"/>
-          <img loading="lazy" src="images/conjuchuache.webp" class="header-char" alt="char"/>
+          <img loading="lazy" src="../assets/images/conjucityhk.webp" class="header-city" alt="city"/>
+          <img loading="lazy" src="../assets/images/conjuchuache.webp" class="header-char" alt="char"/>
           <h1 class="glitch-title">
                 <span class="big-letter">T</span>HE
                 <span class="big-letter">C</span>ONJUGATOR
@@ -89,7 +89,7 @@
 
   <div class="music-controls">
     <button id="music-toggle" class="music-button" title="Toggle music">
-      <img id="music-icon" src="images/musicon.webp" alt="Music on">
+      <img id="music-icon" src="../assets/images/musicon.webp" alt="Music on">
     </button>
     <input type="range" id="volume-slider"
         min="0" max="1" step="0.05" value="0.6"
@@ -301,8 +301,8 @@
       <div id="chuache-box">
         <div id="character-container">
           <div id="speech-bubble" class="speech-bubble hidden">You just got lucky.</div>
-          <img id="chuache-image" src="images/conjuchuache.webp" alt="Chuache">
-          <img id="boss-image" src="images/bosssg.webm" alt="Skynet Glitch Boss" class="hidden">
+          <img id="chuache-image" src="../assets/images/conjuchuache.webp" alt="Chuache">
+          <img id="boss-image" src="../assets/images/bosssg.webm" alt="Skynet Glitch Boss" class="hidden">
         </div>
         <!-- ADD this inside the chuache-box div -->
         <div id="nuclear-countdown" class="nuclear-countdown" style="display: none;">
@@ -363,12 +363,12 @@
       const SUPABASE_URL = "https://dmaztdtlixwcnwcgwsnp.supabase.co";
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtYXp0ZHRsaXh3Y253Y2d3c25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzOTE3OTEsImV4cCI6MjA2NTk2Nzc5MX0.F-jBVWM9usSxXQPd-5JDeZUPg6JcOh-FY8tbFXSgGDo";
     </script>
-    <script src="tooltips.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="../src/tooltips.js" defer></script>
+    <script src="../src/script.js" defer></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js");
+        navigator.serviceWorker.register("../src/service-worker.js");
       });
     }
   </script>

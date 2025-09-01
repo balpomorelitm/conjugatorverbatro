@@ -1084,30 +1084,40 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
   }
 }
 
+        function validateT1000Answer(userInput, currentChallenge) {
+  let cleanInput = userInput.trim().toLowerCase();
+  if (currentOptions.ignoreAccents) {
+    cleanInput = removeAccents(cleanInput);
+  }
 
-	function validateT1000Answer(userInput, currentChallenge) {
-  const cleanInput = userInput.trim().toLowerCase();
-  
   if (currentOptions.mode === 'receptive') {
     // For receptive mode, we need to reverse the English translation
     const verbData = currentChallenge;
     const tense = currentChallenge.tenseKey || currentChallenge.tense;
     const spanishForm = currentChallenge.correctAnswer;
-    
+
     // Get the English translation (this is complex, so we'll use a simplified approach)
     const englishTranslations = getEnglishTranslation(verbData, tense, currentChallenge.pronoun);
-    
+
     if (englishTranslations.length > 0) {
       // Check if any of the possible translations, when reversed, match user input
       return englishTranslations.some(translation => {
-        const reversedTranslation = translation.toLowerCase().split('').reverse().join('');
+        let reversedTranslation = translation.toLowerCase();
+        if (currentOptions.ignoreAccents) {
+          reversedTranslation = removeAccents(reversedTranslation);
+        }
+        reversedTranslation = reversedTranslation.split('').reverse().join('');
         return cleanInput === reversedTranslation;
       });
     }
     return false;
   } else {
     // For productive modes, reverse the Spanish conjugation
-    const reversedCorrect = currentChallenge.correctAnswer.toLowerCase().split('').reverse().join('');
+    let reversedCorrect = currentChallenge.correctAnswer.toLowerCase();
+    if (currentOptions.ignoreAccents) {
+      reversedCorrect = removeAccents(reversedCorrect);
+    }
+    reversedCorrect = reversedCorrect.split('').reverse().join('');
     return cleanInput === reversedCorrect;
   }
 }

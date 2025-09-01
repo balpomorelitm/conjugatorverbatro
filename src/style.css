@@ -4337,6 +4337,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   text-align: center;
   color: #2c2c2c;
   box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.2);
+  font-family: 'Rubik Glitch', var(--font-pixel);
 }
 
 .t1000-title {
@@ -4388,7 +4389,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   color: #1a1a1a;
   text-shadow: 0 0 2px rgba(255,255,255,0.3);
   font-weight: bold;
-  font-family: 'Courier New', monospace;
+  font-family: 'Rubik Glitch', 'Courier New', monospace;
 
   /* Mirror effect: horizontally flip text */
   transform: scaleX(-1);
@@ -4399,6 +4400,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
 #game-screen.t1000-active #answer-input-es::placeholder {
   color: #606060;
   font-style: italic;
+  font-family: 'Rubik Glitch', 'Courier New', monospace;
   /* Placeholder text should also be mirrored for consistency */
   transform: scaleX(-1);
 }
@@ -4414,6 +4416,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   background: linear-gradient(145deg, #c8c8c8, #e0e0e0);
   border: 2px solid #909090;
   color: #2c2c2c;
+  font-family: 'Rubik Glitch', var(--font-pixel);
 }
 
 #game-screen.t1000-active .tense-badge {

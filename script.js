@@ -1189,6 +1189,8 @@ function getEnglishTranslation(verbData, tense, pronoun) {
     const countdownDisplay = document.getElementById('nuclear-countdown');
     const chuacheBox = document.getElementById('chuache-box');
 
+    if (bossImage) bossImage.classList.add('hidden');
+
     // Hide Chuache and show countdown
     if (chuacheBox) {
       chuacheBox.classList.add('nuclear-mode');
@@ -3979,7 +3981,7 @@ function startBossBattle() {
     if (selectedBossKey === 'verbRepairer') {
       bossImage.src = 'images/bossrepairer.webp';
     } else if (selectedBossKey === 'nuclearBomb') {
-      bossImage.src = 'images/bossnuclear.webp';
+      // Skip assigning src so the nuclear boss image remains hidden
     } else if (selectedBossKey === 'mirrorT1000') {
       bossImage.src = 'images/bosssg.webp'; // Usar imagen existente temporalmente
     } else {
@@ -3998,7 +4000,7 @@ function startBossBattle() {
     chuacheImage.classList.add('fade-out');
     setTimeout(() => {
       chuacheImage.classList.add('hidden');
-      if (bossImage) bossImage.classList.remove('hidden');
+      if (bossImage && selectedBossKey !== 'nuclearBomb') bossImage.classList.remove('hidden');
     }, 500);
   }
 

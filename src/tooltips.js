@@ -712,18 +712,13 @@ const bossTooltips = {
            <p><strong>Examples:</strong></p>
            <ul>
              <li>"hablar – yo" (Present) → think "hablo" → type "olbah"</li>
-             <li>"comer – tú" (Present) → think "comes" → type "semoc"</li>
+             <li>"conectar – nosotros" (Present) → think "conectamos" → type "somatcenoc"</li>
            </ul>
-           <p><strong>Strategy:</strong> 
+           <p><strong>Mirror Effect:</strong> As you type, the letters will appear mirrored to simulate the T-1000's reflective surface.</p>
+           <p><strong>Hint System:</strong></p>
            <ul>
-             <li>First, work out the normal conjugation</li>
-             <li>Then reverse each letter: first becomes last, etc.</li>
-             <li>Use clues if you're unsure of the normal conjugation</li>
-           </ul></p>
-           <p><strong>Clue system:</strong></p>
-           <ul>
-             <li><em>Clue 1:</em> Shows the normal conjugation</li>
-             <li><em>Final Clue:</em> Shows normal → reversed</li>
+             <li><em>Clue 1:</em> Shows the normal conjugation (e.g., "conectamos")</li>
+             <li><em>Final Clue:</em> Shows the complete transformation: "conectamos → somatcenoc"</li>
            </ul>
            <p><strong>Boss defeats:</strong> 1 verb (Easy), 2 verbs (Normal), 3 verbs (Hard)</p>`
   }

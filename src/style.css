@@ -4381,7 +4381,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   font-style: italic;
 }
 
-/* T-1000 Input Styling */
+/* T-1000 Mirror Input Effect */
 #game-screen.t1000-active #answer-input-es {
   background: linear-gradient(45deg, #b8b8b8, #d4d4d4);
   border: 2px solid #808080;
@@ -4389,11 +4389,25 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   text-shadow: 0 0 2px rgba(255,255,255,0.3);
   font-weight: bold;
   font-family: 'Courier New', monospace;
+
+  /* Mirror effect: horizontally flip text */
+  transform: scaleX(-1);
+  text-align: right; /* Adjust text alignment for better readability */
+  direction: rtl; /* Right-to-left text direction */
 }
 
 #game-screen.t1000-active #answer-input-es::placeholder {
   color: #606060;
   font-style: italic;
+  /* Placeholder text should also be mirrored for consistency */
+  transform: scaleX(-1);
+}
+
+/* Alternative approach using CSS writing-mode (if transform doesn't work well) */
+.t1000-mirror-text {
+  writing-mode: horizontal-tb;
+  transform: scaleX(-1) scaleY(-1);
+  display: inline-block;
 }
 
 #game-screen.t1000-active #question-prompt {

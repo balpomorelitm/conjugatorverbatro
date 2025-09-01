@@ -1009,9 +1009,32 @@ function showT1000Explanation() {
   }
 }
 
+function setupT1000MirrorInput() {
+  const ansES = document.getElementById('answer-input-es');
+  if (!ansES) return;
+
+  // Store original value without transformation for validation
+  let originalValue = '';
+
+  ansES.addEventListener('input', function (e) {
+    // Store the actual typed value
+    originalValue = this.value;
+
+    // For T-1000 boss, we'll rely on CSS transform for visual effect
+    // The actual value remains normal for validation purposes
+  });
+
+  // Override the value getter/setter for T-1000 mode
+  if (game.boss && game.boss.id === 'mirrorT1000') {
+    // The CSS transform will handle the visual mirroring
+    // The input's actual value remains unchanged for proper validation
+  }
+}
+
 function startT1000Battle() {
   if (ansES) {
     ansES.placeholder = 'Type the answer BACKWARDS...';
+    setupT1000MirrorInput();
   }
   displayNextT1000Verb();
 }
@@ -1712,7 +1735,12 @@ function displayClue() {
 
     if (game.gameState === 'BOSS_BATTLE') {
       if (game.boss && game.boss.id === 'mirrorT1000') {
-        // NUEVO SISTEMA DE PISTAS PARA T-1000
+        // SPECIAL HANDLING FOR T-1000 MIRROR BOSS
+        const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
+        if (!currentChallenge) return;
+
+        const isCorrect = validateT1000Answer(ansES.value, currentChallenge);
+
         if (freeClues > 0) {
           freeClues--;
         } else {
@@ -1729,22 +1757,20 @@ function displayClue() {
           streak = 0;
         }
 
-        const currentChallenge = game.boss.challengeVerbs[game.boss.verbsCompleted];
-        if (!currentChallenge) return;
-
-        // Determinar qué pista mostrar
+        // Initialize hint level if not set
         if (!game.boss.hintLevel) game.boss.hintLevel = 0;
 
         if (game.boss.hintLevel === 0) {
-          // Primera pista: mostrar la conjugación normal
+          // First hint: show the normal conjugation
           feedback.innerHTML = `💡 <em>Clue 1:</em> The normal conjugation is: <strong>${currentChallenge.correctAnswer}</strong>`;
           game.boss.hintLevel = 1;
         } else if (game.boss.hintLevel === 1) {
-          // Segunda pista: mostrar la conjugación normal → al revés
-          feedback.innerHTML = `💡 <em>Final Clue:</em> <strong>${currentChallenge.correctAnswer}</strong> → <strong>${currentChallenge.reversedAnswer}</strong>`;
+          // Second hint: show normal → reversed
+          const reversedAnswer = currentChallenge.correctAnswer.split('').reverse().join('');
+          feedback.innerHTML = `💡 <em>Final Clue:</em> <strong>${currentChallenge.correctAnswer}</strong> → <strong>${reversedAnswer}</strong>`;
           game.boss.hintLevel = 2;
         } else {
-          // Ya se usaron todas las pistas
+          // No more hints available
           feedback.innerHTML = `💡 No more clues available.`;
         }
 

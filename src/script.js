@@ -72,7 +72,13 @@ async function requestRecorderState() {
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.ready
-    .then(() => requestRecorderState())
+    .then(() => {
+      if (navigator.serviceWorker.controller) {
+        requestRecorderState();
+      } else {
+        navigator.serviceWorker.addEventListener('controllerchange', () => requestRecorderState(), { once: true });
+      }
+    })
     .catch(err => {
       console.error('Recorder state check failed:', err);
       window.recorderEnabled = false;

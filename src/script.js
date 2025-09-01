@@ -76,6 +76,7 @@ if ('serviceWorker' in navigator) {
       if (navigator.serviceWorker.controller) {
         requestRecorderState();
       } else {
+        requestRecorderState();
         navigator.serviceWorker.addEventListener('controllerchange', () => requestRecorderState(), { once: true });
       }
     })

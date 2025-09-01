@@ -1604,6 +1604,10 @@ button:active {
   animation: scan-screen 6s linear infinite !important;
   position: fixed;
 }
+.no-scanline::before {
+  content: none;
+  animation: none;
+}
 @keyframes scan-screen {
   0%   { transform: translateY(-100%); }
   100% { transform: translateY(100%); }

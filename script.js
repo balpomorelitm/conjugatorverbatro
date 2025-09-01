@@ -16,6 +16,15 @@ const soundElectricShock = new Audio('sounds/electricshock.mp3');
 const soundTicking = new Audio('sounds/ticking.mp3');
 const chuacheSound = new Audio('sounds/talks.mp3');
 const soundLevelUp = new Audio('sounds/levelup.mp3');
+// Boss Battle Sounds - Add after existing sound declarations
+const bossDigitalCorrupted = new Audio('sounds/bossDigitalCorrupted.mp3');
+const systemRepaired = new Audio('sounds/systemRepaired.mp3');
+const bossSkynetGlitch = new Audio('sounds/bossSkynetGlitch.mp3');
+const bossNuclearCountdown = new Audio('sounds/bossNuclearCountdown.mp3');
+const nuclearExplosion = new Audio('sounds/nuclearExplosion.mp3');
+const bombDefused = new Audio('sounds/bombDefused.mp3');
+const bossT1000Mirror = new Audio('sounds/bossT1000Mirror.mp3');
+const mirrorShattered = new Audio('sounds/mirrorShattered.mp3');
 menuMusic.loop = true;
 gameMusic.loop = true;
 
@@ -175,7 +184,8 @@ function loadSettings() {
     const vol = parseFloat(sfxVol);
     [soundCorrect, soundWrong, soundWrongStudy, soundClick, soundStart, soundSkip,
      soundGameOver, soundbubblepop, soundLifeGained, soundElectricShock, soundTicking,
-     chuacheSound, soundLevelUp].forEach(a => { a.volume = vol; });
+     chuacheSound, soundLevelUp, bossDigitalCorrupted, systemRepaired, bossSkynetGlitch,
+     bossNuclearCountdown, nuclearExplosion, bombDefused, bossT1000Mirror, mirrorShattered].forEach(a => { a.volume = vol; });
     const sfxSlider = document.getElementById('sfx-volume-slider');
     if (sfxSlider) sfxSlider.value = vol;
   } else {
@@ -183,7 +193,8 @@ function loadSettings() {
     if (sfxSlider) sfxSlider.value = 1.0;
     [soundCorrect, soundWrong, soundWrongStudy, soundClick, soundStart, soundSkip,
      soundGameOver, soundbubblepop, soundLifeGained, soundElectricShock, soundTicking,
-     chuacheSound, soundLevelUp].forEach(a => { a.volume = 1.0; });
+     chuacheSound, soundLevelUp, bossDigitalCorrupted, systemRepaired, bossSkynetGlitch,
+     bossNuclearCountdown, nuclearExplosion, bombDefused, bossT1000Mirror, mirrorShattered].forEach(a => { a.volume = 1.0; });
   }
 
   const animChk = document.getElementById('toggle-animations-setting');
@@ -1231,7 +1242,7 @@ function getEnglishTranslation(verbData, tense, pronoun) {
 
   function explodeNuclearBomb() {
     // Game over - nuclear explosion
-    safePlay(soundGameOver);
+    safePlay(nuclearExplosion);
     chuacheSpeaks('gameover');
 
     const gameTitle = document.getElementById('game-title');
@@ -1284,7 +1295,13 @@ function getEnglishTranslation(verbData, tense, pronoun) {
     }
 
     // Call the standard end boss battle
-    endBossBattle(success, message);
+    if (success) {
+      endBossBattle(true, message);
+    } else {
+      // Explosion sound already handled separately
+      game.boss = null;
+      endBossBattle(false, message);
+    }
   }
 
   function showT1000Explanation() {
@@ -1412,6 +1429,23 @@ function displayNextBossVerb() {
 
 
 function endBossBattle(playerWon, message = "") {
+  // Play boss-specific end sound
+  if (game.boss && game.boss.id) {
+    if (playerWon) {
+      // Victory sounds
+      if (game.boss.id === 'verbRepairer' || game.boss.id === 'skynetGlitch') {
+        safePlay(systemRepaired);
+      } else if (game.boss.id === 'nuclearBomb') {
+        safePlay(bombDefused);
+      } else if (game.boss.id === 'mirrorT1000') {
+        safePlay(mirrorShattered);
+      }
+    } else if (game.boss.id === 'nuclearBomb') {
+      // Special case: Nuclear explosion on failure
+      safePlay(nuclearExplosion);
+    }
+  }
+
   if (ansES) ansES.disabled = false;
 
   if (checkAnswerButton) checkAnswerButton.disabled = false;
@@ -3971,6 +4005,17 @@ function startBossBattle() {
   const selectedBossKey = bossKeys[Math.floor(Math.random() * bossKeys.length)];
   const currentBoss = bosses[selectedBossKey];
   game.lastBossUsed = selectedBossKey;
+
+  // Play boss-specific start sound
+  if (selectedBossKey === 'verbRepairer') {
+    safePlay(bossDigitalCorrupted);
+  } else if (selectedBossKey === 'skynetGlitch') {
+    safePlay(bossSkynetGlitch);
+  } else if (selectedBossKey === 'nuclearBomb') {
+    safePlay(bossNuclearCountdown);
+  } else if (selectedBossKey === 'mirrorT1000') {
+    safePlay(bossT1000Mirror);
+  }
 
   // Determine multiplier based on how many boss cycles the player has completed
   const cycleIndex = Math.floor((currentBossNumber - 1) / 4);

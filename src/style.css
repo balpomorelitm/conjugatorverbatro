@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'PixelSerif';
-  src: url('fonts/PixelSerif_16px_v02.woff2') format('woff2');
+  src: url('../assets/fonts/PixelSerif_16px_v02.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
@@ -197,7 +197,7 @@
 }
 @font-face {
   font-family: 'Schwarzenegger';
-  src: url('fonts/Schwarzenegger.woff2') format('woff2');
+  src: url('../assets/fonts/Schwarzenegger.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
@@ -717,7 +717,7 @@ button:active {
 }
 .spark-effect {
   position: fixed; top:50%; left:50%; transform: translate(-50%,-50%);
-  width:200px; height:200px; background: url('images/spark.gif') no-repeat center;
+  width:200px; height:200px; background: url('../assets/images/spark.gif') no-repeat center;
   pointer-events: none; z-index:1000;
 }
 
@@ -1546,7 +1546,7 @@ button:active {
   bottom: -50px;
   width: 100px; /* Ajusta al tamaño deseado/de la imagen */
   height: 70px; /* Ajusta al tamaño deseado/de la imagen */
-  background-image: url('images/pixel_bubble.webp');
+  background-image: url('../assets/images/pixel_bubble.webp');
   background-size: contain; /* O 'cover', según prefieras */
   background-repeat: no-repeat;
   background-position: center;
@@ -2297,7 +2297,7 @@ body.game-active, html.game-active {
   width: 32px;
   height: 32px;
   display: inline-block;
-  background-image: url('images/heart.webp');
+  background-image: url('../assets/images/heart.webp');
   background-size: cover;
   margin: 0 2px;
 }
@@ -3044,7 +3044,7 @@ body,
   right: 5px;
   width: 20px;
   height: 20px;
-  background-image: url('images/iconquestion.webp');
+  background-image: url('../assets/images/iconquestion.webp');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

@@ -6199,8 +6199,9 @@ window.addEventListener('resize', () => {
   }
 
   function calculateGameStats() {
-    const accuracy = totalQuestions ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
-    const avgTime = totalQuestions ? (totalResponseTime / totalQuestions).toFixed(1) : 0;
+    const totalAnswered = totalCorrect + totalIncorrect;
+    const accuracy = totalAnswered ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+    const avgTime = totalAnswered ? (totalResponseTime / totalAnswered).toFixed(1) : 0;
     let speedRating = 'Steady';
     if (avgTime < 3) speedRating = '⚡ Lightning';
     else if (avgTime < 5) speedRating = '🚀 Fast';
@@ -6214,7 +6215,7 @@ window.addEventListener('resize', () => {
       avgTime,
       speedRating,
       encouragement,
-      totalQuestions,
+      totalQuestions: totalAnswered,
       totalCorrect,
       bestStreak,
       fastestAnswer: fastestAnswer === Infinity ? 0 : fastestAnswer.toFixed(1)

@@ -4939,11 +4939,10 @@ if (reflexiveBonus > 0) {
                         renderSetupRecords();
                     } catch (error) {
                         console.error("Error saving record:", error.message);
-                    } finally {
-                        fadeOutToMenu(quitToSettings);
                     }
                 })();
             }
+            fadeOutToMenu(quitToSettings);
             console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
             return;
         }

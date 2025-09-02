@@ -613,7 +613,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     isGameOver: false,
     boss: null, // Will hold the current boss battle state
     scanlineRemoved: false,
-    lastBossUsed: null // Track the previously selected boss
+    lastBossUsed: null, // Track the previously selected boss
+    usedBosses: [] // Track bosses encountered in the current cycle
   };
 
   // Bosses definition
@@ -4142,12 +4143,17 @@ function startBossBattle() {
   if (gameContainer) gameContainer.classList.add('boss-battle-bg');
 
   let bossKeys = Object.keys(bosses);
-  if (bossKeys.length > 1 && game.lastBossUsed) {
-    bossKeys = bossKeys.filter(key => key !== game.lastBossUsed);
+  // Reset the cycle if all bosses have been encountered
+  if (game.usedBosses.length === bossKeys.length) {
+    game.usedBosses = [];
   }
+  // Exclude bosses already encountered in this cycle
+  bossKeys = bossKeys.filter(key => !game.usedBosses.includes(key));
+
   const selectedBossKey = bossKeys[Math.floor(Math.random() * bossKeys.length)];
   const currentBoss = bosses[selectedBossKey];
   game.lastBossUsed = selectedBossKey;
+  game.usedBosses.push(selectedBossKey);
 
   // Play boss-specific start sound
   if (selectedBossKey === 'verbRepairer') {

@@ -26,6 +26,7 @@ const bombDefused = new Audio('../assets/sounds/bombDefused.mp3');
 const bossT1000Mirror = new Audio('../assets/sounds/bossT1000Mirror.mp3');
 const mirrorShattered = new Audio('../assets/sounds/mirrorShattered.mp3');
 
+
 // Collect all audio instances in a single array for bulk operations
 const audioElements = [
   soundCorrect,
@@ -55,6 +56,23 @@ const audioElements = [
 
 // Separate list excluding music tracks for SFX-specific operations
 const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
+
+
+// Preload frequently used images to avoid delays during config screens
+function preloadImages() {
+  const sources = [
+    '../assets/images/conjucityhk.webp',
+    '../assets/images/conjuchuache.webp',
+    '../assets/images/musicon.webp',
+    '../assets/images/musicoff.webp',
+    '../assets/images/pixel_bubble.webp',
+    '../assets/images/iconquestion.webp'
+  ];
+  sources.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
 
 menuMusic.loop = true;
 gameMusic.loop = true;
@@ -559,6 +577,7 @@ function updateStreakFire(currentStreak) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  preloadImages();
   let selectedGameMode = null;
   let allVerbData = [];
   let currentQuestion = {};

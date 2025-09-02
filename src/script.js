@@ -27,6 +27,7 @@ import {
   safePlay,
   audioElements
 } from './audio.js';
+import { requestRecorderState } from './recorder.js';
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -36,66 +37,9 @@ let currentMusic = menuMusic;
 const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
 
 
-// ---- Recorder compatibility check ----
-// Global flag used to disable recorder functionality when unsupported
-window.recorderEnabled = true;
 
-async function requestRecorderState() {
-  // Verify the environment supports recording APIs
-  if (!navigator.mediaDevices || typeof window.MediaRecorder === 'undefined') {
-    console.warn('Recorder API not supported; disabling recorder.');
-    window.recorderEnabled = false;
-    return { supported: false };
-  }
-  if (!navigator.serviceWorker || !navigator.serviceWorker.controller) {
-    console.warn('Service worker controller missing; recorder disabled.');
-    window.recorderEnabled = false;
-    return { supported: false };
-  }
-
-  // Send a message to the service worker and wait for a response
-  const channel = new MessageChannel();
-  const responsePromise = new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('request-get-recorder-state timed out')), 3000);
-    channel.port1.onmessage = event => {
-      clearTimeout(timer);
-      resolve(event.data);
-    };
-  });
-
-  try {
-    navigator.serviceWorker.controller.postMessage({ type: 'request-get-recorder-state' }, [channel.port2]);
-    const result = await responsePromise;
-    window.recorderEnabled = !!(result && result.supported);
-    if (!window.recorderEnabled) {
-      console.warn('Recorder disabled by service worker response.');
-    }
-    return result;
-  } catch (err) {
-    console.error('Could not obtain recorder state:', err);
-    window.recorderEnabled = false;
-    return { supported: false };
-  }
-}
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.ready
-    .then(() => {
-      if (navigator.serviceWorker.controller) {
-        requestRecorderState();
-      } else {
-        requestRecorderState();
-        navigator.serviceWorker.addEventListener('controllerchange', () => requestRecorderState(), { once: true });
-      }
-    })
-    .catch(err => {
-      console.error('Recorder state check failed:', err);
-      window.recorderEnabled = false;
-    });
-} else {
-  console.warn('Service workers are not supported; recorder disabled.');
-  window.recorderEnabled = false;
-}
+// Initialize recorder state
+requestRecorderState();
 
 // Level progression state
 let bossesEncounteredTotal = 0;

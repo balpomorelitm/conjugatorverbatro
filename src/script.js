@@ -42,6 +42,7 @@ import {
   updateLevelAndVisuals,
   updateProgressUI
 } from './level.js';
+import { saveSetting, loadSettings, applyChuacheVisibility, settings } from './settings.js';
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -50,81 +51,8 @@ let currentMusic = menuMusic;
 // Separate list excluding music tracks for SFX-specific operations
 const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
 
-
-
 // Initialize recorder state
 requestRecorderState();
-
-// Global settings defaults
-window.animationsEnabled = false;
-const storedNemesis = localStorage.getItem('chuacheReactionsEnabled');
-window.chuacheReactionsEnabled = storedNemesis !== null ? storedNemesis === 'true' : true;
-applyChuacheVisibility();
-window.defaultVosEnabled = false;
-
-function saveSetting(key, value) {
-  localStorage.setItem(key, value);
-}
-
-function loadSettings() {
-  const musicVol = localStorage.getItem('musicVolume');
-  const sfxVol = localStorage.getItem('sfxVolume');
-  const anim = localStorage.getItem('animationsEnabled');
-  const chuache = localStorage.getItem('chuacheReactionsEnabled');
-  const vos = localStorage.getItem('defaultVosEnabled');
-
-  window.animationsEnabled = anim !== null ? anim === 'true' : false;
-  window.chuacheReactionsEnabled = chuache !== null ? chuache === 'true' : true;
-  window.defaultVosEnabled = vos === 'true';
-
-  if (musicVol !== null) {
-    const vol = parseFloat(musicVol);
-    menuMusic.volume = vol;
-    gameMusic.volume = vol;
-    if (typeof targetVolume !== 'undefined') targetVolume = vol;
-    const slider = document.getElementById('music-volume-slider');
-    if (slider) slider.value = vol;
-  } else {
-    const slider = document.getElementById('music-volume-slider');
-    if (slider) slider.value = 0.2;
-    menuMusic.volume = 0.2;
-    gameMusic.volume = 0.2;
-    if (typeof targetVolume !== 'undefined') targetVolume = 0.2;
-  }
-
-  const sfxElements = sfxAudio;
-  if (sfxVol !== null) {
-    const vol = parseFloat(sfxVol);
-    sfxElements.forEach(a => { a.volume = vol; });
-    const sfxSlider = document.getElementById('sfx-volume-slider');
-    if (sfxSlider) sfxSlider.value = vol;
-  } else {
-    const sfxSlider = document.getElementById('sfx-volume-slider');
-    if (sfxSlider) sfxSlider.value = 1.0;
-    sfxElements.forEach(a => { a.volume = 1.0; });
-  }
-
-  const animChk = document.getElementById('toggle-animations-setting');
-  if (animChk) animChk.checked = window.animationsEnabled;
-  const chuacheChk = document.getElementById('toggle-chuache-reactions-setting');
-  if (chuacheChk) chuacheChk.checked = window.chuacheReactionsEnabled;
-  const vosChk = document.getElementById('default-enable-vos-setting');
-  if (vosChk) vosChk.checked = window.defaultVosEnabled;
-
-  applyChuacheVisibility();
-}
-
-function applyChuacheVisibility() {
-  const box = document.getElementById('chuache-box');
-  const headerChar = document.querySelector('.header-char');
-  if (window.chuacheReactionsEnabled) {
-    if (box) box.style.display = '';
-    if (headerChar) headerChar.style.display = '';
-  } else {
-    if (box) box.style.display = 'none';
-    if (headerChar) headerChar.style.display = 'none';
-  }
-}
 // Begin fetching verb data as early as possible to utilize the preload
 const verbosJsonPromise = fetch('../verbos.json')
   .then(resp => {
@@ -227,7 +155,7 @@ const chuacheReactions = {
 };
 
 function chuacheSpeaks(type) {
-  if (window.selectedGameMode === 'study' || !window.chuacheReactionsEnabled) return;
+  if (window.selectedGameMode === 'study' || !settings.chuacheReactionsEnabled) return;
   const image = document.getElementById("chuache-image");
   const bubble = document.getElementById("speech-bubble");
   if (!image || !bubble) return;
@@ -420,7 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let countdownTime = 240;
   let remainingLives = 5;
   let targetVolume=0.2;
-  loadSettings();
+  targetVolume = loadSettings();
   preloadAudio();
   let timerTimeLeft = 0;
   let tickingSoundPlaying = false;
@@ -2110,14 +2038,16 @@ function displayClue() {
   const animChk = document.getElementById('toggle-animations-setting');
   if (animChk) {
     animChk.addEventListener('change', () => {
-      window.animationsEnabled = animChk.checked;
+      settings.animationsEnabled = animChk.checked;
+      window.animationsEnabled = settings.animationsEnabled;
       saveSetting('animationsEnabled', animChk.checked);
     });
   }
   const chChk = document.getElementById('toggle-chuache-reactions-setting');
   if (chChk) {
     chChk.addEventListener('change', () => {
-      window.chuacheReactionsEnabled = chChk.checked;
+      settings.chuacheReactionsEnabled = chChk.checked;
+      window.chuacheReactionsEnabled = settings.chuacheReactionsEnabled;
       saveSetting('chuacheReactionsEnabled', chChk.checked);
       applyChuacheVisibility();
     });
@@ -2125,7 +2055,8 @@ function displayClue() {
   const vosChk = document.getElementById('default-enable-vos-setting');
   if (vosChk) {
     vosChk.addEventListener('change', () => {
-      window.defaultVosEnabled = vosChk.checked;
+      settings.defaultVosEnabled = vosChk.checked;
+      window.defaultVosEnabled = settings.defaultVosEnabled;
       saveSetting('defaultVosEnabled', vosChk.checked);
     });
   }
@@ -2137,7 +2068,7 @@ function displayClue() {
       localStorage.removeItem('animationsEnabled');
       localStorage.removeItem('chuacheReactionsEnabled');
       localStorage.removeItem('defaultVosEnabled');
-      loadSettings();
+      targetVolume = loadSettings();
     });
   }
 
@@ -5247,7 +5178,7 @@ finalStartGameButton.addEventListener('click', async () => {
     // Sincronizar el modo global por si acaso
     selectedGameMode = window.selectedGameMode || selectedMode;
 
-    if (window.defaultVosEnabled) {
+    if (settings.defaultVosEnabled) {
         const vosBtn = Array.from(document.querySelectorAll('#pronoun-buttons .pronoun-group-button'))
                           .find(b => JSON.parse(b.dataset.values).includes('vos'));
         if (vosBtn && !vosBtn.classList.contains('selected')) {
@@ -5282,7 +5213,7 @@ finalStartGameButton.addEventListener('click', async () => {
     if (selectedGameMode === 'study') {
         gameScreen.classList.add('study-mode-active');
     }
-    if (window.chuacheReactionsEnabled) {
+    if (settings.chuacheReactionsEnabled) {
         ensureChuachePosition();
         animateChuacheToGame();
     }
@@ -5948,7 +5879,7 @@ function showLifeGainedAnimation() {
   if (generalBackdrop) generalBackdrop.style.display = 'none';
   
 function startBubbles() {
-  if (!window.animationsEnabled) return;
+  if (!settings.animationsEnabled) return;
   if (bubblesActive) return;   // ya arrancadas
   bubblesActive = true;
   if (leftBubbles) leftBubbles.style.pointerEvents = 'auto';

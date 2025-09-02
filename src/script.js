@@ -4208,6 +4208,18 @@ function configureBossVideo(bossImage, videoSrc) {
 }
 
 function startBossBattle() {
+  // Ensure no residual Chuache reaction when a boss appears
+  if (typeof chuacheSound !== 'undefined') {
+    chuacheSound.pause();
+    chuacheSound.currentTime = 0;
+  }
+  const bubble = document.getElementById('speech-bubble');
+  if (bubble) {
+    bubble.classList.add('hidden');
+    bubble.classList.remove('error');
+  }
+  const image = document.getElementById('chuache-image');
+  if (image) image.src = '../assets/images/conjuchuache.webp';
   if (selectedGameMode === 'study') return;
   bossesEncounteredTotal++;
   currentBossNumber++;
@@ -4706,6 +4718,10 @@ correct = possibleCorrectAnswers.includes(ans);
     feedback.innerHTML = ''; // Clear feedback area ONLY on correct answer.
     // *** MODIFICATION END ***
 
+    // Determine if answering this question will trigger a boss battle next
+    const willStartBoss =
+      selectedGameMode !== 'study' && game.verbsInPhaseCount + 1 === 3;
+
     const responseTime = (Date.now() - questionStartTime) / 1000;
     totalResponseTime += responseTime;
     if (responseTime < fastestAnswer) fastestAnswer = responseTime;
@@ -4716,7 +4732,10 @@ correct = possibleCorrectAnswers.includes(ans);
       soundCorrect.currentTime = 0;
       soundCorrect.play().catch(()=>{/* ignora errores por autoplay */});
     }
-    chuacheSpeaks('correct');
+    // Avoid Chuache reactions on the last pre-boss question
+    if (!willStartBoss) {
+      chuacheSpeaks('correct');
+    }
 
     if (selectedGameMode === 'timer' || selectedGameMode === 'lives') {
       correctAnswersTotal++;

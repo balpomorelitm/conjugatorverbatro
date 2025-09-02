@@ -1591,10 +1591,8 @@ function endBossBattle(playerWon, message = "") {
   }
 
   setTimeout(() => {
-    document.body.classList.remove('boss-battle-bg', 't1000-mode');
+    resetBossVisuals();
     document.getElementById('game-screen').classList.remove('t1000-active');
-    if (gameContainer) gameContainer.classList.remove('boss-battle-bg');
-    if (bossImage) bossImage.classList.add('hidden');
     if (chuacheImage) chuacheImage.classList.remove('hidden', 'fade-out');
     if (progressContainer) {
       progressContainer.style.color = '';
@@ -1616,6 +1614,29 @@ function endBossBattle(playerWon, message = "") {
   }, 3000);
 }
 
+
+function resetBossVisuals() {
+  let bossImageEl = document.getElementById('boss-image');
+  if (bossImageEl) {
+    if (bossImageEl.tagName.toLowerCase() === 'video') {
+      bossImageEl.pause();
+      bossImageEl.currentTime = 0;
+      const img = document.createElement('img');
+      img.id = bossImageEl.id;
+      img.className = bossImageEl.className;
+      img.style.cssText = bossImageEl.style.cssText;
+      bossImageEl.parentNode.replaceChild(img, bossImageEl);
+      bossImageEl = img;
+      bossImage = img;
+    } else {
+      bossImage = bossImageEl;
+    }
+    bossImageEl.src = '../assets/images/boss_imageplaceholder.png';
+    bossImageEl.classList.add('hidden');
+  }
+  document.body.classList.remove('boss-battle-bg', 't1000-mode');
+  if (gameContainer) gameContainer.classList.remove('boss-battle-bg', 't1000-mode');
+}
 
 function resetBackgroundColor() {
   const gameMainPanel = document.getElementById('game-main-panel');
@@ -5508,6 +5529,7 @@ finalStartGameButton.addEventListener('click', async () => {
     // Ensure Hall of Fame tooltip is closed when starting a game
     closeHallOfFame();
     closeSalon();
+    resetBossVisuals();
     const selTenses = Array.from(
         document.querySelectorAll('#tense-buttons .tense-button.selected')
     ).map(btn => btn.dataset.value);
@@ -5778,6 +5800,7 @@ if (irregularitiesContainer) {
         statsModal.style.display = 'none';
         statsBackdrop.style.display = 'none';
         document.body.classList.remove('tooltip-open-no-scroll');
+        resetBossVisuals();
       }
     }
     if (statsContinueButton) {

@@ -1105,7 +1105,6 @@ function startT1000Battle() {
   displayNextT1000Verb();
 }
 function displayNextT1000Verb() {
-  isCheckingAnswer = false;
   if (!game.boss || game.boss.id !== 'mirrorT1000' || !game.boss.challengeVerbs) {
     console.error("T-1000 boss battle state is missing.");
     return;
@@ -1178,8 +1177,12 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
   if (ansES) {
     ansES.value = '';
     ansES.placeholder = 'Type the conjugation backwards...';
+    ansES.disabled = false;
     ansES.focus();
   }
+  const checkAnswerButton = document.getElementById('check-answer-button');
+  if (checkAnswerButton) checkAnswerButton.disabled = false;
+  isCheckingAnswer = false;
 }
 
         function validateT1000Answer(userInput, currentChallenge) {
@@ -4023,7 +4026,6 @@ let usedVerbs = [];
 
 	navigateToStep('splash'); // Empezar en el splash screen  
 function prepareNextQuestion() {
-  isCheckingAnswer = false;
   if (game.gameState === 'BOSS_BATTLE') return;
   const feedback = document.getElementById('feedback-message');
   // feedback.innerHTML = '';
@@ -4186,6 +4188,12 @@ function prepareNextQuestion() {
       openSpecificModal(promptIcon.dataset.infoKey);
     });
   }
+
+  const checkAnswerButton = document.getElementById('check-answer-button');
+  if (ansES) ansES.disabled = false;
+  if (ansEN) ansEN.disabled = false;
+  if (checkAnswerButton) checkAnswerButton.disabled = false;
+  isCheckingAnswer = false;
 }
 
 // Función para configurar video de boss
@@ -4344,8 +4352,6 @@ function startBossBattle() {
 }
 
 function checkAnswer() {
-  if (isCheckingAnswer) return;
-  isCheckingAnswer = true;
   try {
   // --- Boss Battle Logic ---
   if (game.gameState === 'BOSS_BATTLE') {
@@ -4971,7 +4977,7 @@ if (!hintIsAlreadyShowing) {
   }
   console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
   } finally {
-    isCheckingAnswer = false;
+    // isCheckingAnswer reset occurs after the next question is prepared
   }
 }
 	
@@ -5686,8 +5692,14 @@ if (irregularitiesContainer) {
     const ansEN             = document.getElementById('answer-input-en');
     // (Estas ya las tienes definidas más arriba, así que no necesitas redeclararlas, solo asegúrate de que su ámbito sea accesible aquí)
 
-    if (checkAnswerButton) checkAnswerButton.addEventListener('click', () => {
-      if (!isCheckingAnswer) checkAnswer();
+    if (checkAnswerButton) checkAnswerButton.addEventListener('click', e => {
+      if (!isCheckingAnswer) {
+        isCheckingAnswer = true;
+        checkAnswerButton.disabled = true;
+        if (ansES) ansES.disabled = true;
+        if (ansEN) ansEN.disabled = true;
+        checkAnswer();
+      }
     });
     if (clueButton) clueButton.addEventListener('click', onClueButtonClick);
     if (skipButton) skipButton.addEventListener('click', skipQuestion);
@@ -5752,10 +5764,24 @@ if (irregularitiesContainer) {
 }
 
     if (ansES) ansES.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
+      if (e.key === 'Enter' && !isCheckingAnswer) {
+        e.preventDefault();
+        isCheckingAnswer = true;
+        ansES.disabled = true;
+        if (ansEN) ansEN.disabled = true;
+        if (checkAnswerButton) checkAnswerButton.disabled = true;
+        checkAnswer();
+      }
     });
     if (ansEN) ansEN.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
+      if (e.key === 'Enter' && !isCheckingAnswer) {
+        e.preventDefault();
+        isCheckingAnswer = true;
+        if (ansES) ansES.disabled = true;
+        ansEN.disabled = true;
+        if (checkAnswerButton) checkAnswerButton.disabled = true;
+        checkAnswer();
+      }
     });
 
     const statsModal = document.getElementById('stats-modal');

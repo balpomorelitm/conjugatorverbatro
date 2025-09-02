@@ -1,8 +1,9 @@
-const CACHE_NAME = 'conjugator-cache-v2';
+const CACHE_NAME = 'conjugator-cache-v3';
 const URLS_TO_CACHE = [
   'public/index.html',
   'src/style.css',
   'src/script.js',
+  'src/level.js',
   'verbos.json',
   'assets/fonts/Schwarzenegger.woff2',
   'assets/fonts/PixelSerif_16px_v02.woff2',

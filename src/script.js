@@ -4149,6 +4149,11 @@ function prepareNextQuestion() {
   const tenseBadge =
     `<span class="tense-badge ${tKey}" data-info-key="${tenseObj.infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${tenseObj.infoKey}"></span></span>`;
 
+  const checkAnswerButton = document.getElementById('check-answer-button');
+  if (ansES) ansES.disabled = false;
+  if (ansEN) ansEN.disabled = false;
+  if (checkAnswerButton) checkAnswerButton.disabled = false;
+
   let promptText;
   if (currentOptions.mode === 'productive') {
     promptText = `${tenseBadge}: "${v.infinitive_en}" – ` +
@@ -4189,10 +4194,6 @@ function prepareNextQuestion() {
     });
   }
 
-  const checkAnswerButton = document.getElementById('check-answer-button');
-  if (ansES) ansES.disabled = false;
-  if (ansEN) ansEN.disabled = false;
-  if (checkAnswerButton) checkAnswerButton.disabled = false;
   isCheckingAnswer = false;
 }
 
@@ -5772,6 +5773,9 @@ if (irregularitiesContainer) {
           if (ansEN) ansEN.disabled = true;
           if (checkAnswerButton) checkAnswerButton.disabled = true;
           checkAnswer();
+          if (ansES) ansES.disabled = false;
+          if (ansEN) ansEN.disabled = false;
+          if (checkAnswerButton) checkAnswerButton.disabled = false;
         }
       }
     }

@@ -28,6 +28,20 @@ import {
   audioElements
 } from './audio.js';
 import { requestRecorderState } from './recorder.js';
+import {
+  levelState,
+  LEVEL_GOAL_TIMER,
+  LEVEL_GOAL_LIVES,
+  triggerLevelUpShake,
+  updateLevelText,
+  darkenColor,
+  updateBackgroundForLevel,
+  calculateTimePenalty,
+  updateClueButtonUI,
+  resetLevelState,
+  updateLevelAndVisuals,
+  updateProgressUI
+} from './level.js';
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -41,61 +55,12 @@ const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
 // Initialize recorder state
 requestRecorderState();
 
-// Level progression state
-let bossesEncounteredTotal = 0;
-let currentBossNumber = 0;
-let correctAnswersTotal = 0;
-let currentLevel = 0;
-
-// Temporary level goals for testing
-const LEVEL_GOAL_TIMER = 10;
-const LEVEL_GOAL_LIVES = 10; // Survival mode
-
 // Global settings defaults
 window.animationsEnabled = false;
 const storedNemesis = localStorage.getItem('chuacheReactionsEnabled');
 window.chuacheReactionsEnabled = storedNemesis !== null ? storedNemesis === 'true' : true;
 applyChuacheVisibility();
 window.defaultVosEnabled = false;
-
-// ---------------- Level Up Visual Effects -----------------
-// Trigger a quick screen shake when leveling up.
-function triggerLevelUpShake() {
-  const gameContainer = document.body;
-  gameContainer.classList.remove('level-up-shake');
-  setTimeout(() => {
-    gameContainer.classList.add('level-up-shake');
-  }, 10);
-}
-
-// Update the level text with a fade transition.
-function updateLevelText(newText) {
-  const levelElement = document.getElementById('level-text');
-  if (!levelElement) return;
-  levelElement.classList.add('is-fading');
-  setTimeout(() => {
-    levelElement.innerText = newText;
-    levelElement.classList.remove('is-fading');
-  }, 300);
-}
-
-/**
- * Darkens a HEX color by a given percentage.
- * @param {string} hex - The hex color string (e.g., '#RRGGBB').
- * @param {number} percent - The percentage to darken by (e.g., 20 for 20%).
- * @returns {string} The new, darker hex color string.
- */
-function darkenColor(hex, percent) {
-  let f = parseInt(hex.slice(1), 16),
-      t = percent / 100,
-      r = f >> 16,
-      g = (f >> 8) & 0x00ff,
-      b = f & 0x0000ff;
-  r = Math.round(r * (1 - t));
-  g = Math.round(g * (1 - t));
-  b = Math.round(b * (1 - t));
-  return `#${(0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-}
 
 function saveSetting(key, value) {
   localStorage.setItem(key, value);
@@ -459,7 +424,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   preloadAudio();
   let timerTimeLeft = 0;
   let tickingSoundPlaying = false;
-  let freeClues = 0;
   const defaultBackgroundColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--bg-color').trim();
 
@@ -1255,7 +1219,7 @@ function getEnglishTranslation(verbData, tense, pronoun) {
       countdownDisplay.classList.add('defused');
     }
     if (progressContainer) {
-      progressContainer.textContent = `Level Boss #${currentBossNumber} - 3/4 (${game.boss.totalVerbsNeeded}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+      progressContainer.textContent = `Level Boss #${levelState.currentBossNumber} - 3/4 (${game.boss.totalVerbsNeeded}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
     }
 
     endNuclearBoss(true, 'BOMB DEFUSED!');
@@ -1441,7 +1405,7 @@ function endBossBattle(playerWon, message = "", isGameOver = false) {
     if (skipButton) skipButton.disabled = false;
     if (clueButton) {
       clueButton.disabled = false;
-      updateClueButtonUI();
+      updateClueButtonUI(clueButton, selectedGameMode);
     }
   }
 
@@ -1479,13 +1443,13 @@ function endBossBattle(playerWon, message = "", isGameOver = false) {
       game.gameState = 'PLAYING';
       game.boss = null;
 
-      if (!game.scanlineRemoved && bossesEncounteredTotal === 1) {
+      if (!game.scanlineRemoved && levelState.bossesEncounteredTotal === 1) {
         const gs = document.getElementById('game-screen');
         if (gs) gs.classList.add('no-scanline');
         game.scanlineRemoved = true;
       }
 
-      if (progressContainer) updateProgressUI();
+      if (progressContainer) updateProgressUI(game, selectedGameMode, progressContainer, score);
 
       prepareNextQuestion();
     }
@@ -1515,7 +1479,7 @@ function triggerGameOver() {
       score: score,
       mode: selectedGameMode,
       streak: bestStreak,
-      level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
+      level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? levelState.currentLevel + 1 : null
     };
     (async () => {
       try {
@@ -1587,38 +1551,6 @@ function resetBackgroundColor() {
   document.body.classList.remove('iridescent-level', 'boss-battle-bg', 't1000-mode');
 }
 	
-  function updateBackgroundForLevel(level) {
-    const body = document.body;
-    if (level >= 8) {
-      body.classList.add('iridescent-level');
-    } else {
-      body.classList.remove('iridescent-level');
-    }
-  }
-
-  function updateClueButtonUI() {
-    if (!clueButton) return;
-
-    if (selectedGameMode === 'timer') {
-      if (freeClues > 0) {
-        clueButton.textContent = `Use Clue (${freeClues})`;
-      } else {
-        const penalty = calculateTimePenalty(currentLevel);
-        clueButton.textContent = `Get Clue (Cost: ${penalty}s)`;
-      }
-    } else if (selectedGameMode === 'lives') {
-      if (freeClues > 0) {
-        clueButton.textContent = `Use Clue (${freeClues})`;
-      } else {
-        const penalty = 1 + currentLevel;
-        const lifeText = penalty === 1 ? 'life' : 'lives';
-        clueButton.textContent = `Get Clue (Cost: ${penalty} ${lifeText})`;
-      }
-    } else {
-      clueButton.textContent = 'Get Clue';
-    }
-  }
-
   function checkTickingSound() {
     // Only relevant in timer mode; ensure sound doesn't play in other modes
     if (selectedGameMode !== 'timer') {
@@ -1667,14 +1599,6 @@ function resetBackgroundColor() {
         void el.offsetWidth;
         el.classList.add('vibrate');
         }
-
-  function calculateTimePenalty(level) {
-    if (level === 0) return 3;
-    if (level === 1) return 6;
-    if (level === 2) return 13;
-    if (level === 3) return 25;
-    return 25 * Math.pow(2, level - 3);
-  }
 
 // Add this new unified function
 function displayUnifiedClue() {
@@ -1754,16 +1678,16 @@ function displayClue() {
 
         const isCorrect = validateT1000Answer(ansES.value, currentChallenge);
 
-        if (freeClues > 0) {
-          freeClues--;
+        if (levelState.freeClues > 0) {
+          levelState.freeClues--;
         } else {
           if (selectedGameMode === 'timer') {
-            const penalty = calculateTimePenalty(currentLevel);
+            const penalty = calculateTimePenalty(levelState.currentLevel);
             timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
             checkTickingSound();
             showTimeChange(-penalty);
           } else if (selectedGameMode === 'lives') {
-            const penalty = 1 + currentLevel;
+            const penalty = 1 + levelState.currentLevel;
             remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
@@ -1788,7 +1712,7 @@ function displayClue() {
         }
 
         playFromStart(soundElectricShock);
-        updateClueButtonUI();
+        updateClueButtonUI(clueButton, selectedGameMode);
 
         if (ansES) {
           ansES.value = '';
@@ -1799,16 +1723,16 @@ function displayClue() {
         if (selectedGameMode !== 'timer' && selectedGameMode !== 'lives') {
           timerTimeLeft = Math.max(0, timerTimeLeft - 3);
           checkTickingSound();
-        } else if (freeClues > 0) {
-          freeClues--;
+        } else if (levelState.freeClues > 0) {
+          levelState.freeClues--;
         } else {
           if (selectedGameMode === 'timer') {
-            const penalty = calculateTimePenalty(currentLevel);
+            const penalty = calculateTimePenalty(levelState.currentLevel);
             timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
             checkTickingSound();
             showTimeChange(-penalty);
           } else {
-            const penalty = 1 + currentLevel;
+            const penalty = 1 + levelState.currentLevel;
             remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
@@ -1823,26 +1747,26 @@ function displayClue() {
           feedback.innerHTML = `💡 Infinitive is <strong>${currentChallenge.infinitive}</strong>.`;
         }
         playFromStart(soundElectricShock);
-        updateClueButtonUI();
+        updateClueButtonUI(clueButton, selectedGameMode);
       } else if (game.boss && game.boss.id === 'nuclearBomb') {
         // Allow hints for nuclear bomb (time pressure makes it fair)
         feedback.innerHTML = '';
 
-        if (freeClues > 0) {
-          freeClues--;
-          updateClueButtonUI();
+        if (levelState.freeClues > 0) {
+          levelState.freeClues--;
+          updateClueButtonUI(clueButton, selectedGameMode);
         } else {
           if (selectedGameMode === 'timer') {
-            const penalty = calculateTimePenalty(currentLevel);
+            const penalty = calculateTimePenalty(levelState.currentLevel);
             timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
             checkTickingSound();
             showTimeChange(-penalty);
           } else if (selectedGameMode === 'lives') {
-            const penalty = 1 + currentLevel;
+            const penalty = 1 + levelState.currentLevel;
             remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
-          updateClueButtonUI();
+          updateClueButtonUI(clueButton, selectedGameMode);
         }
 
         // Display hint for nuclear bomb
@@ -1875,102 +1799,26 @@ function displayClue() {
       return;
     }
 
-    if (freeClues > 0) {
-      freeClues--;
+    if (levelState.freeClues > 0) {
+      levelState.freeClues--;
       displayClue();
     } else {
       if (selectedGameMode === 'timer') {
-        const penalty = calculateTimePenalty(currentLevel);
+        const penalty = calculateTimePenalty(levelState.currentLevel);
         timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
         checkTickingSound();
         showTimeChange(-penalty);
       } else {
-        const penalty = 1 + currentLevel;
+        const penalty = 1 + levelState.currentLevel;
         remainingLives = Math.max(remainingLives - penalty, 0);
         updateGameTitle();
       }
       streak = 0;
       displayClue();
     }
-    updateClueButtonUI();
+    updateClueButtonUI(clueButton, selectedGameMode);
   }
 
-  function resetLevelState() {
-    if (game.boss && game.boss.countdownInterval) {
-      clearInterval(game.boss.countdownInterval);
-      game.boss.countdownInterval = null;
-    }
-    correctAnswersTotal = 0;
-    currentLevel = 0;
-
-    const levelText = document.getElementById('level-text');
-    if (levelText) {
-      const goal = selectedGameMode === 'lives' ? LEVEL_GOAL_LIVES : LEVEL_GOAL_TIMER;
-      levelText.textContent = `Level 1 (0/${goal}) | Total Score: ${score}`;
-    }
-  }
-
-  function updateLevelAndVisuals() {
-    let newLevel = 0;
-    const timeMode = selectedGameMode === 'timer';
-    const livesMode = selectedGameMode === 'lives';
-
-    if (timeMode) {
-      newLevel = Math.floor(correctAnswersTotal / LEVEL_GOAL_TIMER);
-    } else if (livesMode) {
-      newLevel = Math.floor(correctAnswersTotal / LEVEL_GOAL_LIVES);
-    }
-
-    if (newLevel > currentLevel) {
-      currentLevel = newLevel;
-      freeClues++;
-      updateClueButtonUI();
-
-      const levelColors = [
-        '#2913CE', // Level 2
-        '#54067C', // Level 3
-        '#5B3704', // Level 4
-        '#7C1717', // Level 5
-        '#254747', // Level 6
-        '#000000', // Level 7
-        '#000000'  // Level 8+
-      ];
-
-      const colorIndex = Math.min(currentLevel - 1, levelColors.length - 1);
-      const newBodyColor = levelColors[colorIndex];
-      const newPanelColor = darkenColor(newBodyColor, 15);
-
-      const gameMainPanel = document.getElementById('game-main-panel');
-      const gameHeaderPanel = document.getElementById('game-header-panel');
-      const bottomPanel = document.getElementById('bottom-panel');
-      const chuacheBox = document.getElementById('chuache-box');
-
-      triggerLevelUpShake();
-      playFromStart(soundLevelUp);
-      const goal = livesMode ? LEVEL_GOAL_LIVES : LEVEL_GOAL_TIMER;
-      updateLevelText(`Level ${currentLevel + 1} (0/${goal}) | Total Score: ${score}`);
-      document.body.style.backgroundColor = newBodyColor;
-      if (gameMainPanel) gameMainPanel.style.backgroundColor = newPanelColor;
-      if (gameHeaderPanel) gameHeaderPanel.style.backgroundColor = newPanelColor;
-      if (bottomPanel) bottomPanel.style.backgroundColor = newPanelColor;
-      if (chuacheBox) chuacheBox.style.backgroundColor = darkenColor(newBodyColor, 25);
-
-      updateProgressUI();
-      updateBackgroundForLevel(currentLevel + 1);
-    }
-  }
-
-  function updateProgressUI() {
-    if (game.gameState !== 'PLAYING') return;
-    const levelText = progressContainer;
-    if (!levelText) return;
-
-    const goal = selectedGameMode === 'lives' ? LEVEL_GOAL_LIVES : LEVEL_GOAL_TIMER;
-    const progress = correctAnswersTotal % goal;
-
-    const newText = `Level ${currentLevel + 1} (${progress}/${goal}) | Total Score: ${score}`;
-    updateLevelText(newText);
-  }
   let totalPlayedSeconds = 0;
   let totalQuestions = 0;
   let totalCorrect = 0;
@@ -3836,7 +3684,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
         streakElement.classList.remove('vibrate');
       }
     }
-    updateProgressUI();
+    updateProgressUI(game, selectedGameMode, progressContainer, score);
   }
 
 let usedVerbs = [];  
@@ -3986,7 +3834,7 @@ function prepareNextQuestion() {
   totalQuestions++;
   ansES.value = '';
   ansEN.value = '';
-  updateClueButtonUI();
+  updateClueButtonUI(clueButton, selectedGameMode);
     isPrizeVerbActive = false; // Reset por defecto
         qPrompt.classList.remove('prize-verb-active'); // Quitar estilo especial
 
@@ -4098,8 +3946,8 @@ function startBossBattle() {
   const image = document.getElementById('chuache-image');
   if (image) image.src = '../assets/images/conjuchuache.webp';
   if (selectedGameMode === 'study') return;
-  bossesEncounteredTotal++;
-  currentBossNumber++;
+levelState.bossesEncounteredTotal++;
+levelState.currentBossNumber++;
   document.body.classList.add('boss-battle-bg');
   if (gameContainer) gameContainer.classList.add('boss-battle-bg');
 
@@ -4128,7 +3976,7 @@ function startBossBattle() {
   }
 
   // Determine multiplier based on how many boss cycles the player has completed
-  const cycleIndex = Math.floor((currentBossNumber - 1) / 4);
+  const cycleIndex = Math.floor((levelState.currentBossNumber - 1) / 4);
   const cycleMultiplier = Math.pow(2, cycleIndex);
   currentBoss.reappearanceMultiplier = cycleMultiplier;
 
@@ -4203,7 +4051,7 @@ function startBossBattle() {
       selectedBossKey === 'mirrorT1000' ? 4 : 1;
 
     progressContainer.textContent =
-      `Level Boss #${currentBossNumber} - ${bossTypeNumber}/4 (0/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+      `Level Boss #${levelState.currentBossNumber} - ${bossTypeNumber}/4 (0/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
     progressContainer.style.color = '#FF0000';
   }
 
@@ -4212,7 +4060,7 @@ function startBossBattle() {
   if (clueButton) {
     if (selectedBossKey === 'skynetGlitch' || selectedBossKey === 'nuclearBomb' || selectedBossKey === 'mirrorT1000') {
       clueButton.disabled = false;
-      updateClueButtonUI();
+      updateClueButtonUI(clueButton, selectedGameMode);
     } else {
       clueButton.disabled = true;
       clueButton.textContent = 'No Hints.';
@@ -4255,7 +4103,7 @@ function checkAnswer() {
         updateScore();
         
         if (progressContainer) {
-          progressContainer.textContent = `Level Boss #${currentBossNumber} - T-1000 (${game.boss.verbsCompleted}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
+          progressContainer.textContent = `Level Boss #${levelState.currentBossNumber} - T-1000 (${game.boss.verbsCompleted}/${game.boss.totalVerbsNeeded}) | Total Score: ${score}`;
         }
         
         let feedbackText = '';
@@ -4284,12 +4132,12 @@ function checkAnswer() {
         updateScore();
         
         if (selectedGameMode === 'timer') {
-          const penalty = calculateTimePenalty(currentLevel);
+          const penalty = calculateTimePenalty(levelState.currentLevel);
           timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
           checkTickingSound();
           showTimeChange(-penalty);
         } else if (selectedGameMode === 'lives') {
-          const penalty = 1 + currentLevel;
+          const penalty = 1 + levelState.currentLevel;
           remainingLives = Math.max(remainingLives - penalty, 0);
           currentStreakForLife = 0;
           updateTotalCorrectForLifeDisplay();
@@ -4363,7 +4211,7 @@ function checkAnswer() {
         else if (game.boss.id === 'skynetGlitch') bossTypeNumber = 2;
         else if (game.boss.id === 'nuclearBomb') bossTypeNumber = 3;
 
-        const currentBossNumber = currentLevel + 1;
+        const currentBossNumber = levelState.currentLevel + 1;
         const currentBoss = bosses[game.boss.id];
         progressContainer.textContent = `Level Boss #${currentBossNumber} - ${bossTypeNumber}/3 (${game.boss.verbsCompleted}/${currentBoss.verbsToComplete}) | Total Score: ${score}`;
 
@@ -4389,12 +4237,12 @@ function checkAnswer() {
       score = game.score; // keep legacy score in sync
       updateScore();
       if (selectedGameMode === 'timer') {
-        const penalty = calculateTimePenalty(currentLevel);
+        const penalty = calculateTimePenalty(levelState.currentLevel);
         timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
         checkTickingSound();
         showTimeChange(-penalty);
       } else if (selectedGameMode === 'lives') {
-        const penalty = 1 + currentLevel;
+        const penalty = 1 + levelState.currentLevel;
         remainingLives = Math.max(remainingLives - penalty, 0);
         currentStreakForLife = 0;
         isPrizeVerbActive = false;
@@ -4613,9 +4461,17 @@ correct = possibleCorrectAnswers.includes(ans);
     }
 
     if (selectedGameMode === 'timer' || selectedGameMode === 'lives') {
-      correctAnswersTotal++;
-      updateLevelAndVisuals();
-      updateProgressUI();
+      levelState.correctAnswersTotal++;
+      updateLevelAndVisuals({
+        game,
+        selectedGameMode,
+        score,
+        clueButton,
+        playFromStart,
+        soundLevelUp,
+        progressContainer
+      });
+      updateProgressUI(game, selectedGameMode, progressContainer, score);
     }
 
     if (isStudyMode) {
@@ -4802,7 +4658,7 @@ if (reflexiveBonus > 0) {
     }
 
     if (selectedGameMode === 'timer') {
-      const penalty = calculateTimePenalty(currentLevel);
+      const penalty = calculateTimePenalty(levelState.currentLevel);
       timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
       checkTickingSound();
       showTimeChange(-penalty);
@@ -4813,7 +4669,7 @@ if (reflexiveBonus > 0) {
     }
 
     if (selectedGameMode === 'lives') {
-        const penalty = 1 + currentLevel;
+        const penalty = 1 + levelState.currentLevel;
         remainingLives = Math.max(remainingLives - penalty, 0);
         currentStreakForLife = 0;
         isPrizeVerbActive = false;
@@ -4862,14 +4718,14 @@ function startTimerMode() {
   verbsMissed = [];
   fastestAnswer = Infinity;
   bestStreak = 0;
-  bossesEncounteredTotal = 0;
-  currentBossNumber = 0;
+levelState.bossesEncounteredTotal = 0;
+  levelState.currentBossNumber = 0;
   document.getElementById('timer-container').style.display = 'flex';
-  freeClues = 3;
-  updateClueButtonUI();
-  resetLevelState();
-  updateProgressUI();
-  updateBackgroundForLevel(currentLevel + 1);
+  levelState.freeClues = 3;
+  updateClueButtonUI(clueButton, selectedGameMode);
+  resetLevelState(game, selectedGameMode, score);
+  updateProgressUI(game, selectedGameMode, progressContainer, score);
+  updateBackgroundForLevel(levelState.currentLevel + 1);
   timerTimeLeft      = countdownTime;
   soundTicking.pause();
   soundTicking.currentTime = 0;
@@ -4944,13 +4800,13 @@ function startLivesMode() {
   verbsMissed = [];
   fastestAnswer = Infinity;
   bestStreak = 0;
-  bossesEncounteredTotal = 0;
-  currentBossNumber = 0;
-  freeClues = 3;
-  updateClueButtonUI();
-  resetLevelState();
-  updateProgressUI();
-  updateBackgroundForLevel(currentLevel + 1);
+levelState.bossesEncounteredTotal = 0;
+  levelState.currentBossNumber = 0;
+  levelState.freeClues = 3;
+  updateClueButtonUI(clueButton, selectedGameMode);
+  resetLevelState(game, selectedGameMode, score);
+  updateProgressUI(game, selectedGameMode, progressContainer, score);
+  updateBackgroundForLevel(levelState.currentLevel + 1);
   feedback.innerHTML = '';
   feedback.classList.remove('vibrate');
   score = 0; streak = 0; multiplier = 1.0;
@@ -4998,12 +4854,12 @@ function skipQuestion() {
     updateScore();
    // *** CORRECCIÓN: USAR LOS MISMOS PENALTIES QUE UN ERROR ***
   if (selectedGameMode === 'timer') {
-    const penalty = calculateTimePenalty(currentLevel);  // ← CAMBIO: usar penalty escalado
+    const penalty = calculateTimePenalty(levelState.currentLevel);  // ← CAMBIO: usar penalty escalado
     timerTimeLeft = Math.max(0, timerTimeLeft - penalty);
     checkTickingSound();
     showTimeChange(-penalty);
   } else if (selectedGameMode === 'lives') {
-    const penalty = 1 + currentLevel;  // ← CAMBIO: usar penalty escalado
+    const penalty = 1 + levelState.currentLevel;  // ← CAMBIO: usar penalty escalado
     remainingLives = Math.max(remainingLives - penalty, 0);
     currentStreakForLife = 0;
     updateStreakForLifeDisplay();
@@ -5153,10 +5009,10 @@ function quitToSettings() {
   game.gameState = 'PLAYING';
   
   // Resetear variables de juego
-  bossesEncounteredTotal = 0;
-  currentBossNumber = 0;
-  correctAnswersTotal = 0;
-  currentLevel = 0;
+levelState.bossesEncounteredTotal = 0;
+  levelState.currentBossNumber = 0;
+  levelState.correctAnswersTotal = 0;
+  levelState.currentLevel = 0;
   game.scanlineRemoved = false;
   
   // Ocultar elementos específicos del juego
@@ -5461,10 +5317,10 @@ finalStartGameButton.addEventListener('click', async () => {
     } else if (window.selectedGameMode === 'lives') {
         startLivesMode();
     } else {
-        bossesEncounteredTotal = 0;
-        currentBossNumber = 0;
-        freeClues = 0;
-        updateClueButtonUI();
+        levelState.bossesEncounteredTotal = 0;
+        levelState.currentBossNumber = 0;
+        levelState.freeClues = 0;
+        updateClueButtonUI(clueButton, selectedGameMode);
         safePlay(soundStart);
         fadeOutAudio(menuMusic, 1000);
         setTimeout(() => {
@@ -5689,7 +5545,7 @@ if (irregularitiesContainer) {
                 score: score,
                 mode: selectedGameMode,
                 streak: bestStreak,
-                level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
+                level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? levelState.currentLevel + 1 : null
               };
               (async () => {
                 try {

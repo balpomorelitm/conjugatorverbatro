@@ -5763,26 +5763,20 @@ if (irregularitiesContainer) {
   });
 }
 
-    if (ansES) ansES.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) {
+    function handleAnswerKeydown(e) {
+      if (e.key === 'Enter') {
         e.preventDefault();
-        isCheckingAnswer = true;
-        ansES.disabled = true;
-        if (ansEN) ansEN.disabled = true;
-        if (checkAnswerButton) checkAnswerButton.disabled = true;
-        checkAnswer();
+        if (!isCheckingAnswer) {
+          isCheckingAnswer = true;
+          if (ansES) ansES.disabled = true;
+          if (ansEN) ansEN.disabled = true;
+          if (checkAnswerButton) checkAnswerButton.disabled = true;
+          checkAnswer();
+        }
       }
-    });
-    if (ansEN) ansEN.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) {
-        e.preventDefault();
-        isCheckingAnswer = true;
-        if (ansES) ansES.disabled = true;
-        ansEN.disabled = true;
-        if (checkAnswerButton) checkAnswerButton.disabled = true;
-        checkAnswer();
-      }
-    });
+    }
+    if (ansES) ansES.addEventListener('keydown', handleAnswerKeydown);
+    if (ansEN) ansEN.addEventListener('keydown', handleAnswerKeydown);
 
     const statsModal = document.getElementById('stats-modal');
     const statsBackdrop = document.getElementById('stats-modal-backdrop');

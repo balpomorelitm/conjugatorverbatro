@@ -1541,10 +1541,12 @@ function displayNextBossVerb() {
     }
   }
 
-  if (ansES) {
+  if (currentOptions.mode === 'receptive') {
+    if (ansEN) ansEN.value = '';
+  } else if (ansES) {
     ansES.value = '';
-    ansES.focus();
   }
+  focusAnswerInput();
 }
 
 
@@ -5693,6 +5695,16 @@ if (irregularitiesContainer) {
     const ansEN             = document.getElementById('answer-input-en');
     // (Estas ya las tienes definidas más arriba, así que no necesitas redeclararlas, solo asegúrate de que su ámbito sea accesible aquí)
 
+    function focusAnswerInput() {
+      if (game.boss && game.boss.id === 'mirrorT1000') {
+        if (ansES) ansES.focus();
+      } else if (currentOptions.mode === 'receptive') {
+        if (ansEN) ansEN.focus();
+      } else if (ansES) {
+        ansES.focus();
+      }
+    }
+
     if (checkAnswerButton) checkAnswerButton.addEventListener('click', e => {
       if (!isCheckingAnswer) {
         isCheckingAnswer = true;
@@ -5700,6 +5712,10 @@ if (irregularitiesContainer) {
         if (ansES) ansES.disabled = true;
         if (ansEN) ansEN.disabled = true;
         checkAnswer();
+        if (ansES) ansES.disabled = false;
+        if (ansEN) ansEN.disabled = false;
+        checkAnswerButton.disabled = false;
+        focusAnswerInput();
       }
     });
     if (clueButton) clueButton.addEventListener('click', onClueButtonClick);
@@ -5776,6 +5792,7 @@ if (irregularitiesContainer) {
           if (ansES) ansES.disabled = false;
           if (ansEN) ansEN.disabled = false;
           if (checkAnswerButton) checkAnswerButton.disabled = false;
+          focusAnswerInput();
         }
       }
     }

@@ -4249,7 +4249,7 @@ function startBossBattle() {
   if (checkAnswerButton) checkAnswerButton.disabled = false;
   if (skipButton) skipButton.disabled = true;
   if (clueButton) {
-    if (selectedBossKey === 'skynetGlitch' || selectedBossKey === 'nuclearBomb') {
+    if (selectedBossKey === 'skynetGlitch' || selectedBossKey === 'nuclearBomb' || selectedBossKey === 'mirrorT1000') {
       clueButton.disabled = false;
       updateClueButtonUI();
     } else {

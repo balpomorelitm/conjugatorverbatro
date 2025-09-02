@@ -1545,7 +1545,7 @@ function displayNextBossVerb() {
 }
 
 
-function endBossBattle(playerWon, message = "") {
+function endBossBattle(playerWon, message = "", isGameOver = false) {
   // Play boss-specific end sound
   if (game.boss && game.boss.id) {
     if (playerWon) {
@@ -1563,13 +1563,15 @@ function endBossBattle(playerWon, message = "") {
     }
   }
 
-  if (ansES) ansES.disabled = false;
+  if (!isGameOver) {
+    if (ansES) ansES.disabled = false;
 
-  if (checkAnswerButton) checkAnswerButton.disabled = false;
-  if (skipButton) skipButton.disabled = false;
-  if (clueButton) {
-    clueButton.disabled = false;
-    updateClueButtonUI();
+    if (checkAnswerButton) checkAnswerButton.disabled = false;
+    if (skipButton) skipButton.disabled = false;
+    if (clueButton) {
+      clueButton.disabled = false;
+      updateClueButtonUI();
+    }
   }
 
   const tenseEl = document.getElementById('tense-label');
@@ -1601,20 +1603,63 @@ function endBossBattle(playerWon, message = "") {
       progressContainer.style.color = '';
     }
 
-    game.verbsInPhaseCount = 0;
-    game.gameState = 'PLAYING';
-    game.boss = null;
+    if (!isGameOver) {
+      game.verbsInPhaseCount = 0;
+      game.gameState = 'PLAYING';
+      game.boss = null;
 
-    if (!game.scanlineRemoved && bossesEncounteredTotal === 1) {
-      const gs = document.getElementById('game-screen');
-      if (gs) gs.classList.add('no-scanline');
-      game.scanlineRemoved = true;
+      if (!game.scanlineRemoved && bossesEncounteredTotal === 1) {
+        const gs = document.getElementById('game-screen');
+        if (gs) gs.classList.add('no-scanline');
+        game.scanlineRemoved = true;
+      }
+
+      if (progressContainer) updateProgressUI();
+
+      prepareNextQuestion();
     }
-
-    if (progressContainer) updateProgressUI();
-
-    prepareNextQuestion();
   }, 3000);
+}
+
+function triggerGameOver() {
+  safePlay(soundGameOver);
+  chuacheSpeaks('gameover');
+
+  remainingLives = Math.max(remainingLives, 0);
+  updateGameTitle();
+  updateTotalCorrectForLifeDisplay();
+
+  if (gameTitle) gameTitle.textContent = '💀 ¡Estás MUERTO!';
+  if (checkAnswerButton) checkAnswerButton.disabled = true;
+  if (clueButton) clueButton.disabled = true;
+  if (skipButton) skipButton.disabled = true;
+  if (ansEN) ansEN.disabled = true;
+  if (ansES) ansES.disabled = true;
+
+  endBossBattle(false, '', true);
+
+  if (name) {
+    const recordData = {
+      name: name,
+      score: score,
+      mode: selectedGameMode,
+      streak: bestStreak,
+      level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
+    };
+    (async () => {
+      try {
+        const { error } = await supabase.from('records').insert([recordData]);
+        if (error) throw error;
+        renderSetupRecords();
+      } catch (error) {
+        console.error('Error saving record:', error.message);
+      } finally {
+        fadeOutToMenu(quitToSettings);
+      }
+    })();
+  } else {
+    fadeOutToMenu(quitToSettings);
+  }
 }
 
 
@@ -1848,7 +1893,7 @@ function displayClue() {
             showTimeChange(-penalty);
           } else if (selectedGameMode === 'lives') {
             const penalty = 1 + currentLevel;
-            remainingLives -= penalty;
+            remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
           streak = 0;
@@ -1893,7 +1938,7 @@ function displayClue() {
             showTimeChange(-penalty);
           } else {
             const penalty = 1 + currentLevel;
-            remainingLives -= penalty;
+            remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
           streak = 0;
@@ -1923,7 +1968,7 @@ function displayClue() {
             showTimeChange(-penalty);
           } else if (selectedGameMode === 'lives') {
             const penalty = 1 + currentLevel;
-            remainingLives -= penalty;
+            remainingLives = Math.max(remainingLives - penalty, 0);
             updateGameTitle();
           }
           updateClueButtonUI();
@@ -1970,7 +2015,7 @@ function displayClue() {
         showTimeChange(-penalty);
       } else {
         const penalty = 1 + currentLevel;
-        remainingLives -= penalty;
+        remainingLives = Math.max(remainingLives - penalty, 0);
         updateGameTitle();
       }
       streak = 0;
@@ -4163,6 +4208,18 @@ function configureBossVideo(bossImage, videoSrc) {
 }
 
 function startBossBattle() {
+  // Ensure no residual Chuache reaction when a boss appears
+  if (typeof chuacheSound !== 'undefined') {
+    chuacheSound.pause();
+    chuacheSound.currentTime = 0;
+  }
+  const bubble = document.getElementById('speech-bubble');
+  if (bubble) {
+    bubble.classList.add('hidden');
+    bubble.classList.remove('error');
+  }
+  const image = document.getElementById('chuache-image');
+  if (image) image.src = '../assets/images/conjuchuache.webp';
   if (selectedGameMode === 'study') return;
   bossesEncounteredTotal++;
   currentBossNumber++;
@@ -4358,16 +4415,13 @@ function checkAnswer() {
           showTimeChange(-penalty);
         } else if (selectedGameMode === 'lives') {
           const penalty = 1 + currentLevel;
-          remainingLives -= penalty;
+          remainingLives = Math.max(remainingLives - penalty, 0);
           currentStreakForLife = 0;
           updateTotalCorrectForLifeDisplay();
           updateStreakForLifeDisplay();
           updateGameTitle();
           if (remainingLives <= 0) {
-            safePlay(soundGameOver);
-            chuacheSpeaks('gameover');
-            if (gameTitle) gameTitle.textContent = '💀 ¡Estás MUERTO!';
-            endBossBattle(false);
+            triggerGameOver();
             console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
             return;
           }
@@ -4466,42 +4520,14 @@ function checkAnswer() {
         showTimeChange(-penalty);
       } else if (selectedGameMode === 'lives') {
         const penalty = 1 + currentLevel;
-        remainingLives -= penalty;
+        remainingLives = Math.max(remainingLives - penalty, 0);
         currentStreakForLife = 0;
         isPrizeVerbActive = false;
         updateTotalCorrectForLifeDisplay();
         updateStreakForLifeDisplay();
         updateGameTitle();
         if (remainingLives <= 0) {
-          safePlay(soundGameOver);
-          chuacheSpeaks('gameover');
-          if (gameTitle) gameTitle.textContent = '💀 ¡Estás MUERTO!';
-          if (checkAnswerButton) checkAnswerButton.disabled = true;
-          if (clueButton) clueButton.disabled = true;
-          if (skipButton) skipButton.disabled = true;
-          if (ansEN) ansEN.disabled = true;
-          if (ansES) ansES.disabled = true;
-          endBossBattle(false);
-          if (name) {
-            const recordData = {
-              name: name,
-              score: score,
-              mode: selectedGameMode,
-              streak: bestStreak,
-              level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-            };
-            (async () => {
-              try {
-                const { error } = await supabase.from('records').insert([recordData]);
-                if (error) throw error;
-                renderSetupRecords();
-              } catch (error) {
-                console.error("Error saving record:", error.message);
-              } finally {
-                fadeOutToMenu(quitToSettings);
-              }
-            })();
-          }
+          triggerGameOver();
           if (ansES) ansES.value = '';
           return;
         }
@@ -4692,6 +4718,10 @@ correct = possibleCorrectAnswers.includes(ans);
     feedback.innerHTML = ''; // Clear feedback area ONLY on correct answer.
     // *** MODIFICATION END ***
 
+    // Determine if answering this question will trigger a boss battle next
+    const willStartBoss =
+      selectedGameMode !== 'study' && game.verbsInPhaseCount + 1 === 3;
+
     const responseTime = (Date.now() - questionStartTime) / 1000;
     totalResponseTime += responseTime;
     if (responseTime < fastestAnswer) fastestAnswer = responseTime;
@@ -4702,7 +4732,10 @@ correct = possibleCorrectAnswers.includes(ans);
       soundCorrect.currentTime = 0;
       soundCorrect.play().catch(()=>{/* ignora errores por autoplay */});
     }
-    chuacheSpeaks('correct');
+    // Avoid Chuache reactions on the last pre-boss question
+    if (!willStartBoss) {
+      chuacheSpeaks('correct');
+    }
 
     if (selectedGameMode === 'timer' || selectedGameMode === 'lives') {
       correctAnswersTotal++;
@@ -4906,43 +4939,16 @@ if (reflexiveBonus > 0) {
 
     if (selectedGameMode === 'lives') {
         const penalty = 1 + currentLevel;
-        remainingLives -= penalty;
+        remainingLives = Math.max(remainingLives - penalty, 0);
         currentStreakForLife = 0;
         isPrizeVerbActive = false;
         updateTotalCorrectForLifeDisplay();
         updateStreakForLifeDisplay();
         currentStreakForLife = 0;
         updateStreakForLifeDisplay();
-        updateGameTitle();              
+        updateGameTitle();
         if (remainingLives <= 0) {
-            safePlay(soundGameOver);
-            chuacheSpeaks('gameover');
-            gameTitle.textContent = '💀 ¡Estás MUERTO!';
-            checkAnswerButton.disabled = true;
-            clueButton.disabled = true;
-            skipButton.disabled  = true;
-            ansEN.disabled = true;
-            ansES.disabled = true;
-
-            if (name) {
-                const recordData = {
-                    name: name,
-                    score: score,
-                    mode: selectedGameMode,
-                    streak: bestStreak,
-                    level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-                };
-                (async () => {
-                    try {
-                        const { error } = await supabase.from('records').insert([recordData]);
-                        if (error) throw error;
-                        renderSetupRecords();
-                    } catch (error) {
-                        console.error("Error saving record:", error.message);
-                    }
-                })();
-            }
-            fadeOutToMenu(quitToSettings);
+            triggerGameOver();
             console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
             return;
         }
@@ -5123,7 +5129,7 @@ function skipQuestion() {
     showTimeChange(-penalty);
   } else if (selectedGameMode === 'lives') {
     const penalty = 1 + currentLevel;  // ← CAMBIO: usar penalty escalado
-    remainingLives -= penalty;
+    remainingLives = Math.max(remainingLives - penalty, 0);
     currentStreakForLife = 0;
     updateStreakForLifeDisplay();
     updateGameTitle();
@@ -5131,34 +5137,7 @@ function skipQuestion() {
 
     // Verificar game over
     if (remainingLives <= 0) {
-      safePlay(soundGameOver);
-      chuacheSpeaks('gameover');
-      gameTitle.textContent = '💀¡Estás MUERTO!💀';
-      checkAnswerButton.disabled = true;
-      clueButton.disabled = true;
-      skipButton.disabled = true;
-      ansEN.disabled = true;
-      ansES.disabled = true;
-
-      if (name) {
-        const recordData = {
-          name: name,
-          score: score,
-          mode: selectedGameMode,
-          streak: bestStreak,
-          level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-        };
-        (async () => {
-          try {
-            const { error } = await supabase.from('records').insert([recordData]);
-            if (error) throw error;
-            renderSetupRecords();
-            quitToSettings();
-          } catch (error) {
-            console.error(error.message);
-          }
-        })();
-      }
+      triggerGameOver();
       return; // NO llamamos a prepareNextQuestion
     }
   } else {
@@ -5230,41 +5209,14 @@ function skipQuestion() {
                 currentStreakForLife = 0;
                 updateStreakForLifeDisplay();
 
-		// 2) Quitar 1 vida
-		remainingLives--;
-		updateGameTitle();
-		updateTotalCorrectForLifeDisplay();
+                // 2) Quitar 1 vida
+                remainingLives = Math.max(remainingLives - 1, 0);
+                updateGameTitle();
+                updateTotalCorrectForLifeDisplay();
 
-		// 3) Comprobar GAME OVER
+                // 3) Comprobar GAME OVER
                 if (remainingLives <= 0) {
-                  safePlay(soundGameOver);
-                  chuacheSpeaks('gameover');
-                  gameTitle.textContent   = '💀¡Estás MUERTO!💀';
-                  checkAnswerButton.disabled    = true;
-                  clueButton.disabled     = true;
-		  skipButton.disabled     = true;
-		  ansEN.disabled          = true;
-		  ansES.disabled          = true;
-
-                  if (name) {
-                        const recordData = {
-                          name: name,
-                          score: score,
-                          mode: selectedGameMode,
-                          streak: bestStreak,
-                          level: (selectedGameMode === 'timer' || selectedGameMode === 'lives') ? currentLevel + 1 : null
-                        };
-                        (async () => {
-                          try {
-                            const { error } = await supabase.from('records').insert([recordData]);
-                            if (error) throw error;
-                            renderSetupRecords();
-                            quitToSettings();
-                          } catch (error) {
-                            console.error(error.message);
-                          }
-                        })();
-                  }
+                  triggerGameOver();
                   return;  // NO llamamos a prepareNextQuestion
                 }
           }

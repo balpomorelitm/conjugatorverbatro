@@ -1,35 +1,4 @@
-let typeInterval; // Variable global para controlar el intervalo de la animación
-let isCheckingAnswer = false;
-
-const soundCorrect = new Audio('../assets/sounds/correct.mp3');
-const soundWrong = new Audio('../assets/sounds/wrong.mp3');
-const soundWrongStudy = new Audio('../assets/sounds/wongstudy.mp3');
-const soundClick = new Audio('../assets/sounds/click.mp3');
-const soundStart = new Audio('../assets/sounds/start-verb.mp3');
-const soundSkip = new Audio('../assets/sounds/skip.mp3');
-const menuMusic = new Audio('../assets/sounds/musicmenu.mp3');
-const gameMusic = new Audio('../assets/sounds/musicgame.mp3');
-let currentMusic = menuMusic;
-const soundGameOver = new Audio('../assets/sounds/gameover.mp3');
-const soundbubblepop = new Audio('../assets/sounds/soundbubblepop.mp3');
-const soundLifeGained = new Audio('../assets/sounds/soundLifeGained.mp3');
-const soundElectricShock = new Audio('../assets/sounds/electricshock.mp3');
-const soundTicking = new Audio('../assets/sounds/ticking.mp3');
-const chuacheSound = new Audio('../assets/sounds/talks.mp3');
-const soundLevelUp = new Audio('../assets/sounds/levelup.mp3');
-// Boss Battle Sounds - Add after existing sound declarations
-const bossDigitalCorrupted = new Audio('../assets/sounds/bossDigitalCorrupted.mp3');
-const systemRepaired = new Audio('../assets/sounds/systemRepaired.mp3');
-const bossSkynetGlitch = new Audio('../assets/sounds/bossSkynetGlitch.mp3');
-const bossNuclearCountdown = new Audio('../assets/sounds/bossNuclearCountdown.mp3');
-const nuclearExplosion = new Audio('../assets/sounds/nuclearExplosion.mp3');
-const bombDefused = new Audio('../assets/sounds/bombDefused.mp3');
-const bossT1000Mirror = new Audio('../assets/sounds/bossT1000Mirror.mp3');
-const mirrorShattered = new Audio('../assets/sounds/mirrorShattered.mp3');
-
-
-// Collect all audio instances in a single array for bulk operations
-const audioElements = [
+import {
   soundCorrect,
   soundWrong,
   soundWrongStudy,
@@ -52,48 +21,20 @@ const audioElements = [
   nuclearExplosion,
   bombDefused,
   bossT1000Mirror,
-  mirrorShattered
-];
+  mirrorShattered,
+  preloadAudio,
+  preloadImages,
+  safePlay,
+  audioElements
+} from './audio.js';
+
+let typeInterval; // Variable global para controlar el intervalo de la animación
+let isCheckingAnswer = false;
+let currentMusic = menuMusic;
 
 // Separate list excluding music tracks for SFX-specific operations
 const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
 
-
-// Preload frequently used images to avoid delays during config screens
-function preloadImages() {
-  const sources = [
-    '../assets/images/conjucityhk.webp',
-    '../assets/images/conjuchuache.webp',
-    '../assets/images/musicon.webp',
-    '../assets/images/musicoff.webp',
-    '../assets/images/pixel_bubble.webp',
-    '../assets/images/iconquestion.webp'
-  ];
-  sources.forEach(src => {
-    const img = new Image();
-    img.src = src;
-  });
-}
-
-menuMusic.loop = true;
-gameMusic.loop = true;
-
-// Preload all audio to reduce playback latency
-function preloadAudio() {
-  let loaded = 0;
-  audioElements.forEach(audio => {
-    audio.preload = 'auto';
-    audio.addEventListener(
-      'canplaythrough',
-      () => {
-        loaded++;
-        // Optional: track progress with loaded / audioElements.length
-      },
-      { once: true }
-    );
-    audio.load();
-  });
-}
 
 // ---- Recorder compatibility check ----
 // Global flag used to disable recorder functionality when unsupported
@@ -154,25 +95,6 @@ if ('serviceWorker' in navigator) {
 } else {
   console.warn('Service workers are not supported; recorder disabled.');
   window.recorderEnabled = false;
-}
-
-function safePlay(media) {
-  if (!media || (typeof media.play !== 'function' && !media.src)) return;
-
-  // Si es un video, configurar propiedades adicionales
-  if (media.tagName && media.tagName.toLowerCase() === 'video') {
-    media.muted = true;
-    media.playsInline = true;
-  }
-
-  const p = media.play();
-  if (p && typeof p.catch === 'function') {
-    p.catch(err => {
-      if (err.name !== 'AbortError') {
-        console.error('Media play failed:', err);
-      }
-    });
-  }
 }
 
 // Level progression state

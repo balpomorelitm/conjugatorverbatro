@@ -5751,12 +5751,15 @@ if (irregularitiesContainer) {
   });
 }
 
-    if (ansES) ansES.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
-    });
-    if (ansEN) ansEN.addEventListener('keypress', e => {
-      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
-    });
+    function handleAnswerKeydown(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!isCheckingAnswer) checkAnswer();
+      }
+    }
+
+    if (ansES) ansES.addEventListener('keydown', handleAnswerKeydown);
+    if (ansEN) ansEN.addEventListener('keydown', handleAnswerKeydown);
 
     const statsModal = document.getElementById('stats-modal');
     const statsBackdrop = document.getElementById('stats-modal-backdrop');

@@ -26,6 +26,38 @@ const bombDefused = new Audio('../assets/sounds/bombDefused.mp3');
 const bossT1000Mirror = new Audio('../assets/sounds/bossT1000Mirror.mp3');
 const mirrorShattered = new Audio('../assets/sounds/mirrorShattered.mp3');
 
+
+// Collect all audio instances in a single array for bulk operations
+const audioElements = [
+  soundCorrect,
+  soundWrong,
+  soundWrongStudy,
+  soundClick,
+  soundStart,
+  soundSkip,
+  menuMusic,
+  gameMusic,
+  soundGameOver,
+  soundbubblepop,
+  soundLifeGained,
+  soundElectricShock,
+  soundTicking,
+  chuacheSound,
+  soundLevelUp,
+  bossDigitalCorrupted,
+  systemRepaired,
+  bossSkynetGlitch,
+  bossNuclearCountdown,
+  nuclearExplosion,
+  bombDefused,
+  bossT1000Mirror,
+  mirrorShattered
+];
+
+// Separate list excluding music tracks for SFX-specific operations
+const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
+
+
 // Preload frequently used images to avoid delays during config screens
 function preloadImages() {
   const sources = [
@@ -41,8 +73,26 @@ function preloadImages() {
     img.src = src;
   });
 }
+
 menuMusic.loop = true;
 gameMusic.loop = true;
+
+// Preload all audio to reduce playback latency
+function preloadAudio() {
+  let loaded = 0;
+  audioElements.forEach(audio => {
+    audio.preload = 'auto';
+    audio.addEventListener(
+      'canplaythrough',
+      () => {
+        loaded++;
+        // Optional: track progress with loaded / audioElements.length
+      },
+      { once: true }
+    );
+    audio.load();
+  });
+}
 
 // ---- Recorder compatibility check ----
 // Global flag used to disable recorder functionality when unsupported
@@ -210,21 +260,16 @@ function loadSettings() {
     if (typeof targetVolume !== 'undefined') targetVolume = 0.2;
   }
 
+  const sfxElements = sfxAudio;
   if (sfxVol !== null) {
     const vol = parseFloat(sfxVol);
-    [soundCorrect, soundWrong, soundWrongStudy, soundClick, soundStart, soundSkip,
-     soundGameOver, soundbubblepop, soundLifeGained, soundElectricShock, soundTicking,
-     chuacheSound, soundLevelUp, bossDigitalCorrupted, systemRepaired, bossSkynetGlitch,
-     bossNuclearCountdown, nuclearExplosion, bombDefused, bossT1000Mirror, mirrorShattered].forEach(a => { a.volume = vol; });
+    sfxElements.forEach(a => { a.volume = vol; });
     const sfxSlider = document.getElementById('sfx-volume-slider');
     if (sfxSlider) sfxSlider.value = vol;
   } else {
     const sfxSlider = document.getElementById('sfx-volume-slider');
     if (sfxSlider) sfxSlider.value = 1.0;
-    [soundCorrect, soundWrong, soundWrongStudy, soundClick, soundStart, soundSkip,
-     soundGameOver, soundbubblepop, soundLifeGained, soundElectricShock, soundTicking,
-     chuacheSound, soundLevelUp, bossDigitalCorrupted, systemRepaired, bossSkynetGlitch,
-     bossNuclearCountdown, nuclearExplosion, bombDefused, bossT1000Mirror, mirrorShattered].forEach(a => { a.volume = 1.0; });
+    sfxElements.forEach(a => { a.volume = 1.0; });
   }
 
   const animChk = document.getElementById('toggle-animations-setting');
@@ -544,6 +589,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let remainingLives = 5;
   let targetVolume=0.2;
   loadSettings();
+  preloadAudio();
   let timerTimeLeft = 0;
   let tickingSoundPlaying = false;
   let freeClues = 0;
@@ -2249,9 +2295,7 @@ function displayClue() {
     });
   }
 
-  const allSfx = [soundCorrect, soundWrong, soundWrongStudy, soundClick, soundStart,
-                   soundSkip, soundGameOver, soundbubblepop, soundLifeGained,
-                   soundElectricShock, soundTicking, chuacheSound, soundLevelUp];
+  const allSfx = sfxAudio;
 
   if (sfxVolumeSlider) {
     sfxVolumeSlider.addEventListener('input', () => {

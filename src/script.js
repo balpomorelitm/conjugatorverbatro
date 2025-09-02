@@ -1,4 +1,5 @@
 let typeInterval; // Variable global para controlar el intervalo de la animación
+let isCheckingAnswer = false;
 
 const soundCorrect = new Audio('../assets/sounds/correct.mp3');
 const soundWrong = new Audio('../assets/sounds/wrong.mp3');
@@ -1104,6 +1105,7 @@ function startT1000Battle() {
   displayNextT1000Verb();
 }
 function displayNextT1000Verb() {
+  isCheckingAnswer = false;
   if (!game.boss || game.boss.id !== 'mirrorT1000' || !game.boss.challengeVerbs) {
     console.error("T-1000 boss battle state is missing.");
     return;
@@ -1440,6 +1442,7 @@ function getEnglishTranslation(verbData, tense, pronoun) {
   }
 
 function displayNextBossVerb() {
+  isCheckingAnswer = false;
   if (!game.boss || !game.boss.challengeVerbs) {
     console.error("Boss battle state is missing.");
     return;
@@ -3954,6 +3957,7 @@ let usedVerbs = [];
 
 	navigateToStep('splash'); // Empezar en el splash screen  
 function prepareNextQuestion() {
+  isCheckingAnswer = false;
   if (game.gameState === 'BOSS_BATTLE') return;
   const feedback = document.getElementById('feedback-message');
   // feedback.innerHTML = '';
@@ -4262,6 +4266,9 @@ function startBossBattle() {
 }
 
 function checkAnswer() {
+  if (isCheckingAnswer) return;
+  isCheckingAnswer = true;
+  try {
   // --- Boss Battle Logic ---
   if (game.gameState === 'BOSS_BATTLE') {
     // Ensure boss state and challenges exist
@@ -4937,6 +4944,9 @@ if (!hintIsAlreadyShowing) {
     // *** MODIFICATION END ***
   }
   console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
+  } finally {
+    isCheckingAnswer = false;
+  }
 }
 	
 function startTimerMode() {
@@ -5242,9 +5252,9 @@ function skipQuestion() {
           feedback.innerHTML = feedbackMessage;
           feedback.classList.remove('vibrate');
 
-          // Si no es game-over, preparamos la siguiente pregunta
-          setTimeout(prepareNextQuestion, 1500);
-        }
+            // Si no es game-over, preparamos la siguiente pregunta
+            setTimeout(prepareNextQuestion, 1500);
+          }
 
 function updateStreakForLifeDisplay() {
   const el = document.getElementById('streak-for-life-display');
@@ -5703,7 +5713,9 @@ if (irregularitiesContainer) {
     const ansEN             = document.getElementById('answer-input-en');
     // (Estas ya las tienes definidas más arriba, así que no necesitas redeclararlas, solo asegúrate de que su ámbito sea accesible aquí)
 
-    if (checkAnswerButton) checkAnswerButton.addEventListener('click', checkAnswer);
+    if (checkAnswerButton) checkAnswerButton.addEventListener('click', () => {
+      if (!isCheckingAnswer) checkAnswer();
+    });
     if (clueButton) clueButton.addEventListener('click', onClueButtonClick);
     if (skipButton) skipButton.addEventListener('click', skipQuestion);
     if (endButton) {
@@ -5766,8 +5778,12 @@ if (irregularitiesContainer) {
   });
 }
 
-    if (ansES) ansES.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });
-    if (ansEN) ansEN.addEventListener('keypress', e => { if (e.key === 'Enter') checkAnswer(); });
+    if (ansES) ansES.addEventListener('keypress', e => {
+      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
+    });
+    if (ansEN) ansEN.addEventListener('keypress', e => {
+      if (e.key === 'Enter' && !isCheckingAnswer) checkAnswer();
+    });
 
     const statsModal = document.getElementById('stats-modal');
     const statsBackdrop = document.getElementById('stats-modal-backdrop');

@@ -1115,6 +1115,8 @@ function displayNextT1000Verb() {
     return;
   }
 
+  game.boss.hintLevel = 0;
+
   const tenseEl = document.getElementById('tense-label');
   if (tenseEl) {
     // Add tooltip to boss title

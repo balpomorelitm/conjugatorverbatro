@@ -1533,6 +1533,7 @@ function displayUnifiedClue() {
   if (currentOptions.mode === 'receptive') {
     const verbData = currentQuestion.verb;
     feedback.innerHTML = `💡 The English infinitive is <strong>${verbData.infinitive_en}</strong>.`;
+    currentQuestion.hintLevel = 1;
     ansEN.value = '';
     setTimeout(() => ansEN.focus(), 0);
   } else if (currentOptions.mode === 'productive_easy') {
@@ -1587,6 +1588,13 @@ function displayUnifiedClue() {
     }
     ansES.value = '';
     setTimeout(() => ansES.focus(), 0);
+  }
+
+  const clueButton = document.getElementById('clue-button');
+  const maxHintLevel = currentOptions.mode === 'productive' ? 2 : 1;
+  if (clueButton && currentQuestion.hintLevel >= maxHintLevel) {
+    clueButton.disabled = true;
+    clueButton.textContent = 'No more hints';
   }
 }
 
@@ -1724,6 +1732,15 @@ function displayClue() {
       checkTickingSound();
       playFromStart(soundElectricShock);
       displayClue();
+      if (clueButton) {
+        const maxHint = currentOptions.mode === 'productive' ? 2 : 1;
+        if (currentQuestion.hintLevel >= maxHint) {
+          clueButton.disabled = true;
+          clueButton.textContent = 'No more hints';
+        } else {
+          updateClueButtonUI(clueButton, selectedGameMode);
+        }
+      }
       return;
     }
 
@@ -1744,7 +1761,15 @@ function displayClue() {
       streak = 0;
       displayClue();
     }
-    updateClueButtonUI(clueButton, selectedGameMode);
+    if (clueButton) {
+      const maxHint = currentOptions.mode === 'productive' ? 2 : 1;
+      if (currentQuestion.hintLevel >= maxHint) {
+        clueButton.disabled = true;
+        clueButton.textContent = 'No more hints';
+      } else {
+        updateClueButtonUI(clueButton, selectedGameMode);
+      }
+    }
   }
 
   let totalPlayedSeconds = 0;
@@ -3765,6 +3790,7 @@ function prepareNextQuestion() {
   totalQuestions++;
   ansES.value = '';
   ansEN.value = '';
+  if (clueButton) clueButton.disabled = false;
   updateClueButtonUI(clueButton, selectedGameMode);
     isPrizeVerbActive = false; // Reset por defecto
         qPrompt.classList.remove('prize-verb-active'); // Quitar estilo especial

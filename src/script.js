@@ -1535,55 +1535,55 @@ function displayUnifiedClue() {
     feedback.innerHTML = `💡 The English infinitive is <strong>${verbData.infinitive_en}</strong>.`;
     ansEN.value = '';
     setTimeout(() => ansEN.focus(), 0);
-  } else if (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy') {
-    if (currentOptions.mode === 'productive_easy') {
-      if (currentQuestion.hintLevel === 0) {
-        const conjTenseKey = currentQuestion.tenseKey;
-        const conj = currentQuestion.verb.conjugations[conjTenseKey];
-        
-        // Get active pronouns from player configuration
-        const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
-        const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
-        
-        // Correct pronoun order for display
-        const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
-        
-        // Filter and order conjugations
-        const conjugationsToShow = pronounOrder
-          .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
-          .filter(pr => conj[pr]) // Ensure conjugation exists
-          .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
-          .join('');
-        
-        const tooltipText = "Color order: yo(yellow), tú(orange), vos(dark orange), él/ella(pink), nosotros(purple), vosotros(blue), ellos/ellas(white)";
-        feedback.innerHTML = `❌ <em>Clue 1:</em> <span title="${tooltipText}">ℹ️</span> ` + conjugationsToShow;
-        playFromStart(soundElectricShock);
-        currentQuestion.hintLevel = 1;
-      }
-    } else {
-      if (currentQuestion.hintLevel === 0) {
-        feedback.innerHTML = `❌ <em>Clue 1:</em> infinitive is <strong>${currentQuestion.verb.infinitive_es}</strong>.`;
-        playFromStart(soundElectricShock);
-        currentQuestion.hintLevel = 1;
-      } else if (currentQuestion.hintLevel === 1) {
-        const conjTenseKey = currentQuestion.tenseKey;
-        const conj = currentQuestion.verb.conjugations[conjTenseKey];
-        
-        // Use the same color system as the clue button
-        const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
-        const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
-        const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
-        
-        const conjugationsToShow = pronounOrder
-          .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
-          .filter(pr => conj[pr])
-          .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
-          .join('');
-        
-        feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
-        playFromStart(soundElectricShock);
-        currentQuestion.hintLevel = 2;
-      }
+  } else if (currentOptions.mode === 'productive_easy') {
+    // CORRECCIÓN: Para productive_easy, mostrar las otras conjugaciones (NO el infinitivo)
+    const conjTenseKey = currentQuestion.tenseKey;
+    const conj = currentQuestion.verb.conjugations[conjTenseKey];
+
+    // Get active pronouns from player configuration
+    const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
+    const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
+
+    // Correct pronoun order for display
+    const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+
+    // Filter and order conjugations
+    const conjugationsToShow = pronounOrder
+      .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
+      .filter(pr => conj[pr]) // Ensure conjugation exists
+      .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+      .join('');
+
+    const tooltipText = "Color order: yo(yellow), tú(orange), vos(dark orange), él/ella(pink), nosotros(purple), vosotros(blue), ellos/ellas(white)";
+    feedback.innerHTML = `❌ <em>Clue:</em> <span title="${tooltipText}">ℹ️</span> ` + conjugationsToShow;
+    playFromStart(soundElectricShock);
+    currentQuestion.hintLevel = 1;
+
+    ansES.value = '';
+    setTimeout(() => ansES.focus(), 0);
+  } else if (currentOptions.mode === 'productive') {
+    // MANTENER: El sistema de 2 niveles para productive está bien
+    if (currentQuestion.hintLevel === 0) {
+      feedback.innerHTML = `❌ <em>Clue 1:</em> infinitive is <strong>${currentQuestion.verb.infinitive_es}</strong>.`;
+      playFromStart(soundElectricShock);
+      currentQuestion.hintLevel = 1;
+    } else if (currentQuestion.hintLevel === 1) {
+      const conjTenseKey = currentQuestion.tenseKey;
+      const conj = currentQuestion.verb.conjugations[conjTenseKey];
+
+      const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
+      const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
+      const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+
+      const conjugationsToShow = pronounOrder
+        .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
+        .filter(pr => conj[pr])
+        .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+        .join('');
+
+      feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
+      playFromStart(soundElectricShock);
+      currentQuestion.hintLevel = 2;
     }
     ansES.value = '';
     setTimeout(() => ansES.focus(), 0);
@@ -4631,10 +4631,13 @@ if (!hintIsAlreadyShowing) {
     // If hintIsAlreadyShowing is true, this block is skipped, preserving the existing hint.
     // *** MODIFICATION END ***
   }
-  console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
   } finally {
-    // isCheckingAnswer reset occurs after the next question is prepared
+    // CORRECCIÓN: Resetear el flag para permitir nuevas respuestas
+    setTimeout(() => {
+      isCheckingAnswer = false;
+    }, 100);
   }
+  console.log(`Stats: ${totalCorrect}/${totalQuestions} correct, ${totalIncorrect} incorrect`);
 }
 	
 function startTimerMode() {

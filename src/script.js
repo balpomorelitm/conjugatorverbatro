@@ -1555,8 +1555,15 @@ function displayUnifiedClue() {
       .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
       .join('');
 
-    const tooltipText = "Color order: yo(yellow), tú(orange), vos(dark orange), él/ella(pink), nosotros(purple), vosotros(blue), ellos/ellas(white)";
-    feedback.innerHTML = `❌ <em>Clue:</em> <span title="${tooltipText}">ℹ️</span> ` + conjugationsToShow;
+    feedback.innerHTML = `❌ <em>Clue:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
+    const clueIcon = feedback.querySelector('.context-info-icon');
+    if (clueIcon) {
+      clueIcon.addEventListener('click', e => {
+        e.stopPropagation();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal(clueIcon.dataset.infoKey);
+      });
+    }
     playFromStart(soundElectricShock);
     currentQuestion.hintLevel = 1;
 
@@ -1583,6 +1590,14 @@ function displayUnifiedClue() {
         .join('');
 
       feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
+      const clueIcon = feedback.querySelector('.context-info-icon');
+      if (clueIcon) {
+        clueIcon.addEventListener('click', e => {
+          e.stopPropagation();
+          if (typeof soundClick !== 'undefined') safePlay(soundClick);
+          openSpecificModal(clueIcon.dataset.infoKey);
+        });
+      }
       playFromStart(soundElectricShock);
       currentQuestion.hintLevel = 2;
     }

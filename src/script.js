@@ -2735,23 +2735,19 @@ if (loaded) {
         if (regularTypeBtn && !regularTypeBtn.disabled) { // Si 'regular' existe y no está deshabilitado por el tiempo actual
             regularTypeBtn.classList.add('selected');
         }
-        filterVerbTypes();
-                updateTenseDropdownCount(); // Ya la tienes
-        updateSelectAllTensesButtonText(); // << --- AÑADIR ESTA LLAMADA
-      });
-      const icon = btn.querySelector('.context-info-icon');
-      if (icon) {
-        icon.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (typeof soundClick !== 'undefined') safePlay(soundClick);
-          openSpecificModal(icon.dataset.infoKey);
-        });
-      }
-      container.appendChild(btn);
-    });
-    updateTenseDropdownCount(); // Llamada existente
-    updateSelectAllTensesButtonText(); // << --- AÑADIR ESTA LLAMADA (actualización inicial)
-    }
+        function filterVerbTypes() {
+		  const selectedTenses = getSelectedTenses();
+		
+		  // Re-renderizar los botones cuando cambien los tiempos
+		  renderVerbTypeButtons();
+		  
+		  // Aplicar filtros después del re-renderizado
+		  applyIrregularityAndTenseFiltersToVerbList();
+		  updateVerbTypeButtonsVisualState();
+		}
+		    updateTenseDropdownCount(); // Llamada existente
+		    updateSelectAllTensesButtonText(); // << --- AÑADIR ESTA LLAMADA (actualización inicial)
+		    }
 
 function initTenseDropdown() {
   let dropdownBtnEl = document.getElementById('tense-dropdown-button');
@@ -3570,61 +3566,77 @@ function updateVerbTypeButtonsVisualState() {
     const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
     const selectedVerbInfinitives = selectedVerbElements.map(btn => btn.dataset.value);
     const currentSelectedTenses = getSelectedTenses();
-    const allActiveIrregularityTypes = new Set();
+    
+    // Mapa para trackear qué tipos están activos por tiempo verbal
+    const activeTypesByTense = {};
+    
+    // Inicializar el mapa
+    currentSelectedTenses.forEach(tense => {
+        activeTypesByTense[tense] = new Set();
+    });
 
     selectedVerbInfinitives.forEach(infinitiveEs => {
         const verbObj = getVerbObjectByInfinitive(infinitiveEs);
-        if (verbObj) {
-            const typesForVerb = getIrregularityTypesForVerb(verbObj, currentSelectedTenses);
-            typesForVerb.forEach(type => allActiveIrregularityTypes.add(type));
+        if (verbObj && verbObj.types) {
+            currentSelectedTenses.forEach(tense => {
+                const typesForTense = verbObj.types[tense] || [];
+                typesForTense.forEach(type => activeTypesByTense[tense].add(type));
+            });
         }
     });
 
+    // Actualizar botones según su tiempo específico
     document.querySelectorAll('.verb-type-button').forEach(typeButton => {
         const typeValue = typeButton.dataset.value;
-        // Un tipo se marca como seleccionado si está presente en AL MENOS UNO de los verbos seleccionados
-        // Y si el botón no está deshabilitado por filterVerbTypes()
-        if (!typeButton.disabled && allActiveIrregularityTypes.has(typeValue)) {
+        const buttonTense = typeButton.dataset.tense; // Nuevo atributo
+        
+        if (!typeButton.disabled && buttonTense && activeTypesByTense[buttonTense] && 
+            activeTypesByTense[buttonTense].has(typeValue)) {
             typeButton.classList.add('selected');
-        } else {
-            // Se deselecciona si no hay verbos seleccionados que lo tengan, o si está deshabilitado
+        } else if (!typeButton.disabled) {
+            // Solo deseleccionar si no está deshabilitado
             typeButton.classList.remove('selected');
         }
     });
 }
+		
 function applyIrregularityAndTenseFiltersToVerbList() {
     const currentSelectedTenses = getSelectedTenses();
-    const activeIrregularityTypes = Array.from(document.querySelectorAll('.verb-type-button.selected:not(:disabled)'))
-                                        .map(btn => btn.dataset.value);
+    const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
+    const selectedVerbInfinitives = selectedVerbElements.map(btn => btn.dataset.value);
+
+    // Agrupar tipos activos por tiempo verbal
+    const activeTypesByTense = {};
+    currentSelectedTenses.forEach(tense => {
+        const activeButtons = document.querySelectorAll(`.verb-type-button.selected:not(:disabled)[data-tense="${tense}"]`);
+        activeTypesByTense[tense] = Array.from(activeButtons).map(btn => btn.dataset.value);
+    });
 
     document.querySelectorAll('#verb-buttons .verb-button').forEach(verbButton => {
         const infinitiveEs = verbButton.dataset.value;
 
-        // IGNORAR VERBOS REFLEXIVOS para la selección basada en filtros de irregularidad.
-        // Su estado 'selected' se maneja por el botón de grupo 'Reflexive v.' o selección manual.
+        // IGNORAR VERBOS REFLEXIVOS para la selección basada en filtros de irregularidad
         if (infinitiveEs.endsWith('se')) {
-            // Si deseas que los reflexivos se DESELECCIONEN si 'Reflexive v.' no está activo
-            // Y ningún filtro de irregularidad está activo (o el que está activo no los afecta),
-            // esa lógica iría aquí o en el manejador del botón de grupo reflexivo.
-            // Por ahora, esta función no altera los reflexivos.
-            return; 
+            return;
         }
 
-        // Para verbos NO REFLEXIVOS:
         const verbObj = getVerbObjectByInfinitive(infinitiveEs);
         if (!verbObj) return;
 
-        const typesForThisVerbInSelectedTenses = getIrregularityTypesForVerb(verbObj, currentSelectedTenses);
         let verbShouldBeSelectedByIrregularity = false;
 
-        if (activeIrregularityTypes.length > 0) {
-
-            verbShouldBeSelectedByIrregularity = typesForThisVerbInSelectedTenses.some(verbIrregularityType =>
-                activeIrregularityTypes.includes(verbIrregularityType)
-            );
-        } else {
-            verbShouldBeSelectedByIrregularity = false;
+        // Verificar si el verbo tiene al menos una irregularidad seleccionada en cualquier tiempo
+        for (const tense of currentSelectedTenses) {
+            const activeTypesForTense = activeTypesByTense[tense] || [];
+            const verbTypesForTense = verbObj.types?.[tense] || [];
+            
+            if (activeTypesForTense.length > 0 && 
+                verbTypesForTense.some(verbType => activeTypesForTense.includes(verbType))) {
+                verbShouldBeSelectedByIrregularity = true;
+                break;
+            }
         }
+
         verbButton.classList.toggle('selected', verbShouldBeSelectedByIrregularity);
     });
 
@@ -3632,6 +3644,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
     updateDeselectAllButton();
     updateGroupButtons();
 }
+
 
   function updateScore() {
     if (selectedGameMode === 'study') return;
@@ -5544,63 +5557,101 @@ if (irregularitiesContainer) {
     if (statsBackdrop) statsBackdrop.addEventListener('click', closeStatsModal);
 function renderVerbTypeButtons() {
   const container = document.getElementById('verb-type-buttons');
-  container.innerHTML = ''; 
+  const selectedTenses = getSelectedTenses();
+  
+  container.innerHTML = '';
 
-  irregularityTypes.forEach(type => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.classList.add('verb-type-button');
-    button.dataset.value = type.value;
-    button.dataset.times = type.times.join(',');
-    button.dataset.infokey = type.infoKey;
-    button.innerHTML = `
-      <span class="verb-type-name">${type.name}</span>
-      <span class="context-info-icon" data-info-key="${type.infoKey}"></span>
-      ${type.hint ? `<br><span class="verb-type-hint">${type.hint}</span>` : ''}
-    `;
+  if (selectedTenses.length === 0) {
+    container.innerHTML = '<p style="text-align: center; color: #999; font-style: italic;">Select tenses to see irregularity options</p>';
+    return;
+  }
 
-    const icon = button.querySelector('.context-info-icon');
-    if (icon) {
-      icon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (typeof soundClick !== 'undefined') safePlay(soundClick);
-        openSpecificModal(icon.dataset.infoKey);
-      });
-    }
+  // Agrupar irregularidades por tiempo verbal
+  const tenseGroups = {};
+  
+  selectedTenses.forEach(tenseKey => {
+    const tenseObj = tenses.find(t => t.value === tenseKey);
+    const tenseLabel = tenseObj ? tenseObj.name : tenseKey;
+    
+    tenseGroups[tenseKey] = {
+      label: tenseLabel,
+      irregularities: irregularityTypes.filter(type => type.times.includes(tenseKey))
+    };
+  });
 
-    // Selección por defecto: solo "regular"
-    if (type.value === 'regular') {
-      button.classList.add('selected');
-    }
+  // Crear secciones para cada tiempo verbal
+  Object.entries(tenseGroups).forEach(([tenseKey, group]) => {
+    if (group.irregularities.length === 0) return;
 
-    // --- LISTENER DE CLIC COMPLETO Y CORRECTO ---
-    button.addEventListener('click', () => { // (el listener permanece como estaba en tu código original)
-      if (soundClick) safePlay(soundClick);
+    // Crear encabezado de la sección
+    const sectionHeader = document.createElement('h4');
+    sectionHeader.className = 'tense-section-header';
+    sectionHeader.textContent = group.label;
+    container.appendChild(sectionHeader);
+
+    // Crear contenedor para los botones de esta sección
+    const sectionContainer = document.createElement('div');
+    sectionContainer.className = 'tense-irregularity-section';
+    sectionContainer.dataset.tense = tenseKey;
+
+    group.irregularities.forEach(type => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.classList.add('verb-type-button');
+      button.dataset.value = type.value;
+      button.dataset.tense = tenseKey; // Añadir referencia al tiempo
+      button.dataset.times = type.times.join(',');
+      button.dataset.infokey = type.infoKey;
       
-      button.classList.toggle('selected'); 
-      const isNowSelected = button.classList.contains('selected');
+      button.innerHTML = `
+        <span class="verb-type-name">${type.name}</span>
+        <span class="context-info-icon" data-info-key="${type.infoKey}"></span>
+        ${type.hint ? `<br><span class="verb-type-hint">${type.hint}</span>` : ''}
+      `;
 
-      // Lógica de dependencia (Presente)
-      const currentSelectedTenses = getSelectedTenses();
-      if (currentSelectedTenses.includes('present')) {
-        const multipleIrrBtn = document.querySelector('.verb-type-button[data-value="multiple_irregularities"]');
-        if (multipleIrrBtn && multipleIrrBtn.classList.contains('selected')) { 
-          const irregularRootDef = irregularityTypes.find(it => it.value === 'irregular_root');
-          const irregularRootAppliesToPresent = irregularRootDef ? irregularRootDef.times.includes('present') : false;
-          
-          if ((button.dataset.value === 'first_person_irregular' || 
-              (button.dataset.value === 'irregular_root' && irregularRootAppliesToPresent)) && 
-              !isNowSelected) { 
-            multipleIrrBtn.classList.remove('selected');
+      const icon = button.querySelector('.context-info-icon');
+      if (icon) {
+        icon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (typeof soundClick !== 'undefined') safePlay(soundClick);
+          openSpecificModal(icon.dataset.infoKey);
+        });
+      }
+
+      // Selección por defecto: solo "regular" para cada tiempo
+      if (type.value === 'regular') {
+        button.classList.add('selected');
+      }
+
+      button.addEventListener('click', () => {
+        if (soundClick) safePlay(soundClick);
+        
+        button.classList.toggle('selected');
+        const isNowSelected = button.classList.contains('selected');
+
+        // Lógica de dependencia mejorada por tiempo verbal
+        if (tenseKey === 'present') {
+          const multipleIrrBtn = sectionContainer.querySelector('.verb-type-button[data-value="multiple_irregularities"]');
+          if (multipleIrrBtn && multipleIrrBtn.classList.contains('selected')) {
+            const irregularRootDef = irregularityTypes.find(it => it.value === 'irregular_root');
+            const irregularRootAppliesToPresent = irregularRootDef ? irregularRootDef.times.includes('present') : false;
+            
+            if ((button.dataset.value === 'first_person_irregular' || 
+                (button.dataset.value === 'irregular_root' && irregularRootAppliesToPresent)) && 
+                !isNowSelected) {
+              multipleIrrBtn.classList.remove('selected');
+            }
           }
         }
-      }
-      
-		applyIrregularityAndTenseFiltersToVerbList(); 
-        updateVerbTypeButtonsVisualState(); // Añadido en tu código original, mantenerlo.
+        
+        applyIrregularityAndTenseFiltersToVerbList();
+        updateVerbTypeButtonsVisualState();
+      });
+
+      sectionContainer.appendChild(button);
     });
 
-    container.appendChild(button);
+    container.appendChild(sectionContainer);
   });
 }
 

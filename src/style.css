@@ -4456,6 +4456,68 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   color: #ffff00;
   text-shadow: 0 0 5px rgba(255,255,0,0.5);
 }
+/* Sección de irregularidades por tiempo verbal */
+.tense-section-header {
+  font-family: var(--font-pixel);
+  color: var(--title-color);
+  font-size: 1.1em;
+  margin: 15px 0 8px 0;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 4px solid var(--accent-color-blue);
+  border-radius: 0 4px 4px 0;
+  text-shadow: 1px 1px #111;
+}
+
+.tense-section-header:first-child {
+  margin-top: 0;
+}
+
+.tense-irregularity-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 6px;
+  margin-bottom: 15px;
+  padding: 0 4px;
+}
+
+.tense-irregularity-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Mejorar la visualización de los botones dentro de las secciones */
+.tense-irregularity-section .verb-type-button {
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tense-irregularity-section .verb-type-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 3px 0px rgba(0,0,0,0.3);
+}
+
+/* Indicador visual para botones seleccionados dentro de secciones */
+.tense-irregularity-section .verb-type-button.selected::before {
+  content: "✓ ";
+  color: var(--title-color);
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* Responsive para secciones en móvil */
+@media (max-width: 768px) {
+  .tense-section-header {
+    font-size: 1em;
+    margin: 10px 0 6px 0;
+    padding: 6px 8px;
+  }
+  
+  .tense-irregularity-section {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+}
 .stats-grid { display: flex; flex-direction: column; gap: 15px; }
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: rgba(255,255,255,0.1); border-radius: 5px; }
 .stat-label { font-weight: bold; color: var(--accent-color-blue); }

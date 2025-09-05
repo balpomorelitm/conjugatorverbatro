@@ -2712,42 +2712,42 @@ if (loaded) {
 		}
    }
 	
-  function renderTenseButtons() {
-    const container = document.getElementById('tense-buttons');
-    container.innerHTML = '';
-    tenses.forEach(t => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.classList.add('tense-button');
-      btn.dataset.value = t.value;
-      btn.dataset.infokey = t.infoKey;
-      btn.innerHTML = `${t.name} <span class="context-info-icon" data-info-key="${t.infoKey}"></span>`;
-      if (t.value === 'present') btn.classList.add('selected');
-      btn.addEventListener('click', (e) => {
-        if (e.target.closest('.context-info-icon')) return;
-        safePlay(soundClick);
-        btn.classList.toggle('selected');
-        document.querySelectorAll('.verb-type-button.selected').forEach(typeBtn => {
-            typeBtn.classList.remove('selected'); // Desmarcar todos primero
-        });
+function renderTenseButtons() {
+  const container = document.getElementById('tense-buttons');
+  container.innerHTML = '';
+  tenses.forEach(t => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.classList.add('tense-button');
+    btn.dataset.value = t.value;
+    btn.dataset.infokey = t.infoKey;
+    btn.innerHTML = `${t.name} <span class="context-info-icon" data-info-key="${t.infoKey}"></span>`;
+    if (t.value === 'present') btn.classList.add('selected');
+    btn.addEventListener('click', (e) => {
+      if (e.target.closest('.context-info-icon')) return;
+      safePlay(soundClick);
+      btn.classList.toggle('selected');
+      document.querySelectorAll('.verb-type-button.selected').forEach(typeBtn => {
+        typeBtn.classList.remove('selected'); // Desmarcar todos primero
+      });
 
-        const regularTypeBtn = document.querySelector('.verb-type-button[data-value="regular"]');
-        if (regularTypeBtn && !regularTypeBtn.disabled) { // Si 'regular' existe y no está deshabilitado por el tiempo actual
-            regularTypeBtn.classList.add('selected');
-        }
-        function filterVerbTypes() {
-		  const selectedTenses = getSelectedTenses();
-		
-		  // Re-renderizar los botones cuando cambien los tiempos
-		  renderVerbTypeButtons();
-		  
-		  // Aplicar filtros después del re-renderizado
-		  applyIrregularityAndTenseFiltersToVerbList();
-		  updateVerbTypeButtonsVisualState();
-		}
-		    updateTenseDropdownCount(); // Llamada existente
-		    updateSelectAllTensesButtonText(); // << --- AÑADIR ESTA LLAMADA (actualización inicial)
-		    }
+      const regularTypeBtn = document.querySelector('.verb-type-button[data-value="regular"]');
+      if (regularTypeBtn && !regularTypeBtn.disabled) { // Si 'regular' existe y no está deshabilitado por el tiempo actual
+        regularTypeBtn.classList.add('selected');
+      }
+
+      // Re-renderizar los botones cuando cambien los tiempos
+      renderVerbTypeButtons();
+
+      // Aplicar filtros después del re-renderizado
+      applyIrregularityAndTenseFiltersToVerbList();
+      updateVerbTypeButtonsVisualState();
+      updateTenseDropdownCount(); // Llamada existente
+      updateSelectAllTensesButtonText(); // << --- AÑADIR ESTA LLAMADA (actualización inicial)
+    });
+    container.appendChild(btn);
+  });
+}
 
 function initTenseDropdown() {
   let dropdownBtnEl = document.getElementById('tense-dropdown-button');

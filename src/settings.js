@@ -15,13 +15,15 @@ export const settings = {
     const stored = localStorage.getItem('chuacheReactionsEnabled');
     return stored !== null ? stored === 'true' : true;
   })(),
-  defaultVosEnabled: false
+  defaultVosEnabled: false,
+  bossesDisabled: false
 };
 
 if (typeof window !== 'undefined') {
   window.animationsEnabled = settings.animationsEnabled;
   window.chuacheReactionsEnabled = settings.chuacheReactionsEnabled;
   window.defaultVosEnabled = settings.defaultVosEnabled;
+  window.bossesDisabled = settings.bossesDisabled;
 }
 
 // Lista de efectos de sonido, excluyendo las pistas de música.
@@ -52,15 +54,18 @@ export function loadSettings() {
   const anim = localStorage.getItem('animationsEnabled');
   const chuache = localStorage.getItem('chuacheReactionsEnabled');
   const vos = localStorage.getItem('defaultVosEnabled');
+  const bosses = localStorage.getItem('bossesDisabled');
 
   settings.animationsEnabled = anim !== null ? anim === 'true' : false;
   settings.chuacheReactionsEnabled = chuache !== null ? chuache === 'true' : true;
   settings.defaultVosEnabled = vos === 'true';
+  settings.bossesDisabled = bosses === 'true';
 
   if (typeof window !== 'undefined') {
     window.animationsEnabled = settings.animationsEnabled;
     window.chuacheReactionsEnabled = settings.chuacheReactionsEnabled;
     window.defaultVosEnabled = settings.defaultVosEnabled;
+    window.bossesDisabled = settings.bossesDisabled;
   }
 
   if (musicVol !== null) {
@@ -93,6 +98,8 @@ export function loadSettings() {
   if (chuacheChk) chuacheChk.checked = settings.chuacheReactionsEnabled;
   const vosChk = document.getElementById('default-enable-vos-setting');
   if (vosChk) vosChk.checked = settings.defaultVosEnabled;
+  const bossesChk = document.getElementById('disable-bosses-setting');
+  if (bossesChk) bossesChk.checked = settings.bossesDisabled;
 
   applyChuacheVisibility();
 

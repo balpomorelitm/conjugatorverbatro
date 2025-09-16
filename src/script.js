@@ -2092,6 +2092,14 @@ function displayClue() {
       applyChuacheVisibility();
     });
   }
+  const disableBossesChk = document.getElementById('disable-bosses-setting');
+  if (disableBossesChk) {
+    disableBossesChk.addEventListener('change', () => {
+      settings.bossesDisabled = disableBossesChk.checked;
+      window.bossesDisabled = settings.bossesDisabled;
+      saveSetting('bossesDisabled', disableBossesChk.checked);
+    });
+  }
   const vosChk = document.getElementById('default-enable-vos-setting');
   if (vosChk) {
     vosChk.addEventListener('change', () => {
@@ -2108,6 +2116,7 @@ function displayClue() {
       localStorage.removeItem('animationsEnabled');
       localStorage.removeItem('chuacheReactionsEnabled');
       localStorage.removeItem('defaultVosEnabled');
+      localStorage.removeItem('bossesDisabled');
       targetVolume = loadSettings();
     });
   }
@@ -4441,7 +4450,9 @@ correct = possibleCorrectAnswers.includes(ans);
 
     // Determine if answering this question will trigger a boss battle next
     const willStartBoss =
-      selectedGameMode !== 'study' && game.verbsInPhaseCount + 1 === 3;
+      selectedGameMode !== 'study' &&
+      !settings.bossesDisabled &&
+      game.verbsInPhaseCount + 1 === 3;
 
     const responseTime = (Date.now() - questionStartTime) / 1000;
     totalResponseTime += responseTime;
@@ -4540,7 +4551,11 @@ else                   timeBonus = 10;
 
     game.verbsInPhaseCount++;
     // TODO: Restore threshold to 9 for production
-    if (game.verbsInPhaseCount === 3 && selectedGameMode !== 'study') {
+    if (
+      game.verbsInPhaseCount === 3 &&
+      selectedGameMode !== 'study' &&
+      !settings.bossesDisabled
+    ) {
       game.gameState = 'BOSS_BATTLE';
       startBossBattle();
       return;

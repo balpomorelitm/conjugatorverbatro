@@ -3485,7 +3485,7 @@ async function loadVerbs() {
   const selectedTypes = selectedTypeBtns.map(b => b.dataset.value);
   if (selectedTypes.length === 0) {
     alert('Please select at least one verb type.');
-	allVerbData = []
+    allVerbData = [];
     return false;
   }
 
@@ -3523,11 +3523,13 @@ async function loadVerbs() {
     }
 
     verbsToConsiderForGame = initialRawVerbData.filter(v =>
-      currentOptions.tenses.some(tenseKey => // Para cada tiempo seleccionado...
-        (v.types[tenseKey] || []).some(typeInVerb => // ...el verbo debe tener un tipo de irregularidad...
-          selectedTypes.includes(typeInVerb) // ...que esté en los tipos de irregularidad seleccionados por el usuario.
-        )
-      )
+      currentOptions.tenses.some(tenseKey => {
+        // Para cada tiempo seleccionado...
+        const irregularityTypes = v.types[tenseKey] || [];
+        return irregularityTypes.some(typeInVerb =>
+          selectedTypes.includes(typeInVerb) // ...el tipo debe estar entre los seleccionados.
+        );
+      })
     );
   }
 

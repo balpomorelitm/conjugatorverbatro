@@ -258,6 +258,31 @@ const specificInfoData = {
            </div>
            <p><strong>Examples:</strong> comer, hablar, vivir, estudiar, trabajar</p>`
   },
+  regularPastSimpleInfo: {
+    title: "Regular Pretérito (Simple Past)",
+    html: `<p>These verbs keep a stable stem in the simple past, so you only need to add the standard endings.</p>
+           <div class="conjugation-boxes">
+             <table class="conjugation-box">
+               <caption>Endings for -ar verbs</caption>
+               <tr><td>yo</td><td>-é</td></tr>
+               <tr><td>tú</td><td>-aste</td></tr>
+               <tr><td>él/ella/ud.</td><td>-ó</td></tr>
+               <tr><td>nosotros</td><td>-amos</td></tr>
+               <tr><td>vosotros</td><td>-asteis</td></tr>
+               <tr><td>ellos/ellas/uds.</td><td>-aron</td></tr>
+             </table>
+             <table class="conjugation-box">
+               <caption>Endings for -er / -ir verbs</caption>
+               <tr><td>yo</td><td>-í</td></tr>
+               <tr><td>tú</td><td>-iste</td></tr>
+               <tr><td>él/ella/ud.</td><td>-ió</td></tr>
+               <tr><td>nosotros</td><td>-imos</td></tr>
+               <tr><td>vosotros</td><td>-isteis</td></tr>
+               <tr><td>ellos/ellas/uds.</td><td>-ieron</td></tr>
+             </table>
+           </div>
+           <p class="recall-tip"><strong>Example:</strong> hablar → hablé, hablaste, habló</p>`
+  },
   firstPersonInfo: {
     title: "1st Person Irregular (Present)",
     html: `<p>Only the <em>yo</em> form is irregular. The other forms are regular.</p>

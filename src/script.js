@@ -3516,7 +3516,7 @@ async function loadVerbs() {
 
   } else {
 
-    if (selectedselectedTypes.length === 0) {
+    if (selectedTypes.length === 0) {
       alert('Please select at least one type of irregularity if you do not choose specific verbs..');
       allVerbData = [];
       return false;
@@ -3525,7 +3525,7 @@ async function loadVerbs() {
     verbsToConsiderForGame = initialRawVerbData.filter(v =>
       currentOptions.tenses.some(tenseKey => // Para cada tiempo seleccionado...
         (v.types[tenseKey] || []).some(typeInVerb => // ...el verbo debe tener un tipo de irregularidad...
-          selectedIrregularityTypes.includes(typeInVerb) // ...que esté en los tipos de irregularidad seleccionados por el usuario.
+          selectedTypes.includes(typeInVerb) // ...que esté en los tipos de irregularidad seleccionados por el usuario.
         )
       )
     );

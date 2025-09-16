@@ -2480,6 +2480,8 @@ function updatePronounDropdownCount() {
     { value: 'regular', name: 'Regular', negativeName: 'Irregular',
       times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative'],
       hint: '', infoKey: 'regularInfo' },
+    { value: 'regular_past_simple', name: 'Regular (Pretérito)', times: ['past_simple'],
+      hint: '⚙️ hablar → hablé, hablaste, habló', infoKey: 'regularPastSimpleInfo' },
     { value: 'first_person_irregular', name: '1st Person', times: ['present'],
       hint: '⚙️ salir -> salgo', infoKey: 'firstPersonInfo' },
     { value: 'stem_changing', name: 'Stem Change', times: ['present'],
@@ -3669,7 +3671,17 @@ function updateVerbTypeButtonsVisualState() {
         if (verbObj && verbObj.types) {
             currentSelectedTenses.forEach(tense => {
                 const typesForTense = verbObj.types[tense] || [];
-                typesForTense.forEach(type => activeTypesByTense[tense].add(type));
+                const normalizedTypes = new Set(typesForTense);
+
+                if (
+                    tense === 'past_simple' &&
+                    typesForTense.length > 0 &&
+                    typesForTense.every(type => type === 'regular')
+                ) {
+                    normalizedTypes.add('regular_past_simple');
+                }
+
+                normalizedTypes.forEach(type => activeTypesByTense[tense].add(type));
             });
         }
     });
@@ -3761,7 +3773,11 @@ function applyIrregularityAndTenseFiltersToVerbList() {
                 matchesThisTense = verbTypesForTense.some(type => type !== 'regular');
             } else {
                 matchesThisTense = activeTypesForTense.every(requiredType => {
-                    if (requiredType === 'regular') {
+                    const requiresStrictRegular =
+                        requiredType === 'regular' ||
+                        (requiredType === 'regular_past_simple' && tense === 'past_simple');
+
+                    if (requiresStrictRegular) {
                         return verbTypesForTense.includes('regular') &&
                                verbTypesForTense.every(type => type === 'regular');
                     }

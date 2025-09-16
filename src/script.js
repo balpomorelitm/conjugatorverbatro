@@ -3483,16 +3483,17 @@ async function loadVerbs() {
     document.querySelectorAll('.verb-type-button.selected')
   );
   const selectedTypes = selectedTypeBtns.map(b => b.dataset.value);
-  if (selectedTypes.length === 0) {
-    alert('Please select at least one verb type.');
-    allVerbData = [];
-    return false;
-  }
 
   // Verbos seleccionados manualmente por el usuario en la lista desplegable
   const manuallySelectedVerbInfinitives = Array.from(
     document.querySelectorAll('#verb-buttons .verb-button.selected')
   ).map(b => b.dataset.value);
+
+  if (selectedTypes.length === 0) {
+    alert('Please select at least one verb type.');
+    allVerbData = [];
+    return false;
+  }
 
   let verbsToConsiderForGame = [];
 
@@ -3515,13 +3516,6 @@ async function loadVerbs() {
     }
 
   } else {
-
-    if (selectedTypes.length === 0) {
-      alert('Please select at least one type of irregularity if you do not choose specific verbs..');
-      allVerbData = [];
-      return false;
-    }
-
     verbsToConsiderForGame = initialRawVerbData.filter(v =>
       currentOptions.tenses.some(tenseKey => {
         // Para cada tiempo seleccionado...

@@ -365,6 +365,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   let bossImage = document.getElementById('boss-image');
   const progressContainer = document.getElementById('level-text');
 
+  // Number of regular verbs players must clear before triggering a boss fight.
+  const VERBS_PER_PHASE_BEFORE_BOSS = 9;
+
   const game = {
     score: 0,
     level: 1,
@@ -1350,6 +1353,19 @@ function endBossBattle(playerWon, message = "", isGameOver = false) {
     if (tenseEl) tenseEl.textContent = 'Boss defeated!';
     if (feedback) feedback.innerHTML = `<span class="feedback-points">Boss Bonus: +${bonusPoints} Points!</span>`;
     updateScore();
+
+    if (selectedGameMode === 'timer' || selectedGameMode === 'lives') {
+      levelState.correctAnswersTotal++;
+      updateLevelAndVisuals({
+        game,
+        selectedGameMode,
+        score,
+        clueButton,
+        playFromStart,
+        soundLevelUp,
+        progressContainer
+      });
+    }
   } else {
     if (qPrompt) qPrompt.textContent = message || 'SYSTEM FAILURE';
     if (tenseEl) tenseEl.textContent = message ? '' : 'Try again next time.';
@@ -4496,7 +4512,7 @@ correct = possibleCorrectAnswers.includes(ans);
     const willStartBoss =
       selectedGameMode !== 'study' &&
       !settings.bossesDisabled &&
-      game.verbsInPhaseCount + 1 === 3;
+      game.verbsInPhaseCount + 1 === VERBS_PER_PHASE_BEFORE_BOSS;
 
     const responseTime = (Date.now() - questionStartTime) / 1000;
     totalResponseTime += responseTime;
@@ -4594,9 +4610,8 @@ else                   timeBonus = 10;
     updateScore();
 
     game.verbsInPhaseCount++;
-    // TODO: Restore threshold to 9 for production
     if (
-      game.verbsInPhaseCount === 3 &&
+      game.verbsInPhaseCount === VERBS_PER_PHASE_BEFORE_BOSS &&
       selectedGameMode !== 'study' &&
       !settings.bossesDisabled
     ) {

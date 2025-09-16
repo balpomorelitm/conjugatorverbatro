@@ -411,14 +411,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Step 4: Build the challenge verbs with random tense and pronoun.
-        const pronounList = window.pronouns || pronouns;
+        const pronounList = (Array.isArray(window.pronouns) && window.pronouns.length > 0)
+          ? window.pronouns
+          : pronouns;
         const challengeVerbs = [];
 
         selected.forEach(verb => {
           const possibleTenses = currentOptions.tenses.filter(t => Array.isArray(verb.types?.[t]) && verb.types[t].includes('regular'));
           const tense = possibleTenses[Math.floor(Math.random() * possibleTenses.length)];
-          const pronoun = pronounList[Math.floor(Math.random() * pronounList.length)];
-          const correctAnswer = verb.conjugations?.[tense]?.[pronoun];
+          const formsForTense = verb.conjugations?.[tense];
+          if (!formsForTense) {
+            console.error(`Missing conjugations for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const availablePronouns = pronounList
+            .map(group => resolvePronounKeyForForms(group, formsForTense))
+            .filter(Boolean);
+
+          if (availablePronouns.length === 0) {
+            console.error(`No compatible pronouns for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const pronoun = availablePronouns[Math.floor(Math.random() * availablePronouns.length)];
+          const correctAnswer = formsForTense[pronoun];
           if (!correctAnswer) {
             console.error(`Missing conjugation for ${verb.infinitive_es} in ${tense} (${pronoun}).`);
             return;
@@ -511,7 +528,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      const pronounList = window.pronouns || pronouns;
+      const pronounList = (Array.isArray(window.pronouns) && window.pronouns.length > 0)
+        ? window.pronouns
+        : pronouns;
       const challengeVerbs = [];
 
       selected.forEach(verb => {
@@ -519,8 +538,23 @@ document.addEventListener('DOMContentLoaded', async () => {
           verb.conjugations[t] !== undefined
         );
         const tense = possibleTenses[Math.floor(Math.random() * possibleTenses.length)];
-        const pronoun = pronounList[Math.floor(Math.random() * pronounList.length)];
-        const correctAnswer = verb.conjugations[tense][pronoun];
+        const formsForTense = verb.conjugations[tense];
+        if (!formsForTense) {
+          console.error(`Missing conjugations for ${verb.infinitive_es} in ${tense}.`);
+          return;
+        }
+
+        const availablePronouns = pronounList
+          .map(group => resolvePronounKeyForForms(group, formsForTense))
+          .filter(Boolean);
+
+        if (availablePronouns.length === 0) {
+          console.error(`No compatible pronouns for ${verb.infinitive_es} in ${tense}.`);
+          return;
+        }
+
+        const pronoun = availablePronouns[Math.floor(Math.random() * availablePronouns.length)];
+        const correctAnswer = formsForTense[pronoun];
 
         if (!correctAnswer) {
           console.error(`Missing conjugation for ${verb.infinitive_es} in ${tense} (${pronoun}).`);
@@ -634,7 +668,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
 
-        const pronounList = window.pronouns || pronouns;
+        const pronounList = (Array.isArray(window.pronouns) && window.pronouns.length > 0)
+          ? window.pronouns
+          : pronouns;
         const challengeVerbs = [];
 
         selected.forEach(verb => {
@@ -642,8 +678,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             verb.conjugations[t] !== undefined
           );
           const tense = possibleTenses[Math.floor(Math.random() * possibleTenses.length)];
-          const pronoun = pronounList[Math.floor(Math.random() * pronounList.length)];
-          const correctAnswer = verb.conjugations[tense][pronoun];
+          const formsForTense = verb.conjugations[tense];
+          if (!formsForTense) {
+            console.error(`Missing conjugations for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const availablePronouns = pronounList
+            .map(group => resolvePronounKeyForForms(group, formsForTense))
+            .filter(Boolean);
+
+          if (availablePronouns.length === 0) {
+            console.error(`No compatible pronouns for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const pronoun = availablePronouns[Math.floor(Math.random() * availablePronouns.length)];
+          const correctAnswer = formsForTense[pronoun];
 
           if (!correctAnswer) {
             console.error(`Missing conjugation for ${verb.infinitive_es} in ${tense} (${pronoun}).`);
@@ -731,7 +782,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
 
-        const pronounList = window.pronouns || pronouns;
+        const pronounList = (Array.isArray(window.pronouns) && window.pronouns.length > 0)
+          ? window.pronouns
+          : pronouns;
         const challengeVerbs = [];
 
         selected.forEach(verb => {
@@ -739,17 +792,32 @@ document.addEventListener('DOMContentLoaded', async () => {
             verb.conjugations[t] !== undefined
           );
           const tense = possibleTenses[Math.floor(Math.random() * possibleTenses.length)];
-          const pronoun = pronounList[Math.floor(Math.random() * pronounList.length)];
+          const formsForTense = verb.conjugations[tense];
+          if (!formsForTense) {
+            console.error(`Missing conjugations for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const availablePronouns = pronounList
+            .map(group => resolvePronounKeyForForms(group, formsForTense))
+            .filter(Boolean);
+
+          if (availablePronouns.length === 0) {
+            console.error(`No compatible pronouns for ${verb.infinitive_es} in ${tense}.`);
+            return;
+          }
+
+          const pronoun = availablePronouns[Math.floor(Math.random() * availablePronouns.length)];
 
           let correctAnswer, englishInfinitive;
 
           if (currentOptions.mode === 'receptive') {
-            correctAnswer = verb.conjugations[tense][pronoun];
+            correctAnswer = formsForTense[pronoun];
             englishInfinitive = verb.infinitive_en;
           } else if (currentOptions.mode === 'productive_easy') {
-            correctAnswer = verb.conjugations[tense][pronoun];
+            correctAnswer = formsForTense[pronoun];
           } else {
-            correctAnswer = verb.conjugations[tense][pronoun];
+            correctAnswer = formsForTense[pronoun];
             englishInfinitive = verb.infinitive_en;
           }
 
@@ -988,34 +1056,29 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
 }
 
 function getEnglishTranslation(verbData, tense, pronoun) {
-  // Simplified English translation logic
-  // This should match the logic used in the main game for receptive mode
-  const pronounMap = {
-    'yo': ['I'],
-    'tú': ['you'],
-    'él': ['he', 'she'],
-    'nosotros': ['we'],
-    'vosotros': ['you'],
-    'ellos': ['they']
-  };
-  
-  const englishPronouns = pronounMap[pronoun] || [pronoun];
+  const mappings = pronounToEnglishOptions[pronoun] || [{ display: pronoun, key: pronoun.toLowerCase() }];
   const conjugationsEN = verbData.conjugations_en && verbData.conjugations_en[tense];
-  
+
   if (!conjugationsEN) {
-    return [`${englishPronouns[0]} ${verbData.infinitive_en.replace('to ', '')}`];
+    const displayText = mappings[0].display === 'I' ? 'I' : mappings[0].display.toLowerCase();
+    return [`${displayText} ${verbData.infinitive_en.replace(/^to\s+/, '')}`];
   }
-  
-  const translations = [];
-  englishPronouns.forEach(engPronoun => {
-    const formKey = engPronoun === 'I' ? 'I' : engPronoun.toLowerCase();
-    const verbForm = conjugationsEN[formKey];
-    if (verbForm) {
-      translations.push(`${engPronoun.toLowerCase()} ${verbForm.toLowerCase()}`);
-    }
-  });
-  
-  return translations.length > 0 ? translations : [`${englishPronouns[0]} ${verbData.infinitive_en.replace('to ', '')}`];
+
+  const translations = mappings
+    .map(({ display, key }) => {
+      const verbForm = conjugationsEN[key];
+      if (!verbForm) return null;
+      const displayText = display === 'I' ? 'I' : display.toLowerCase();
+      return `${displayText} ${verbForm.toLowerCase()}`;
+    })
+    .filter(Boolean);
+
+  if (translations.length > 0) {
+    return translations;
+  }
+
+  const fallbackDisplay = mappings[0].display === 'I' ? 'I' : mappings[0].display.toLowerCase();
+  return [`${fallbackDisplay} ${verbData.infinitive_en.replace(/^to\s+/, '')}`];
 }
 
 	
@@ -1559,6 +1622,7 @@ function displayUnifiedClue() {
     // CORRECCIÓN: Para productive_easy, mostrar las otras conjugaciones (NO el infinitivo)
     const conjTenseKey = currentQuestion.tenseKey;
     const conj = currentQuestion.verb.conjugations[conjTenseKey];
+    const currentPronounGroup = currentQuestion.pronounGroup || getPronounGroupForActual(currentQuestion.pronoun);
 
     // Get active pronouns from player configuration
     const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
@@ -1569,9 +1633,15 @@ function displayUnifiedClue() {
 
     // Filter and order conjugations
     const conjugationsToShow = pronounOrder
-      .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
-      .filter(pr => conj[pr]) // Ensure conjugation exists
-      .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+      .filter(pr => pr !== currentPronounGroup && activePronouns.includes(pr))
+      .map(pr => {
+        const resolvedPronoun = resolvePronounKeyForForms(pr, conj);
+        if (!resolvedPronoun) return null;
+        const form = conj[resolvedPronoun];
+        if (!form) return null;
+        return `<span class="hint-btn ${pr}">${form}</span>`;
+      })
+      .filter(Boolean)
       .join('');
 
     feedback.innerHTML = `❌ <em>Clue:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
@@ -1597,15 +1667,22 @@ function displayUnifiedClue() {
     } else if (currentQuestion.hintLevel === 1) {
       const conjTenseKey = currentQuestion.tenseKey;
       const conj = currentQuestion.verb.conjugations[conjTenseKey];
+      const currentPronounGroup = currentQuestion.pronounGroup || getPronounGroupForActual(currentQuestion.pronoun);
 
       const activePronounButtons = Array.from(document.querySelectorAll('.pronoun-group-button.selected'));
       const activePronouns = activePronounButtons.flatMap(btn => JSON.parse(btn.dataset.values));
       const pronounOrder = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
 
       const conjugationsToShow = pronounOrder
-        .filter(pr => pr !== currentQuestion.pronoun && activePronouns.includes(pr))
-        .filter(pr => conj[pr])
-        .map(pr => `<span class="hint-btn ${pr}">${conj[pr]}</span>`)
+        .filter(pr => pr !== currentPronounGroup && activePronouns.includes(pr))
+        .map(pr => {
+          const resolvedPronoun = resolvePronounKeyForForms(pr, conj);
+          if (!resolvedPronoun) return null;
+          const form = conj[resolvedPronoun];
+          if (!form) return null;
+          return `<span class="hint-btn ${pr}">${form}</span>`;
+        })
+        .filter(Boolean)
         .join('');
 
       feedback.innerHTML = `❌ <em>Clue 2:</em> <span class="context-info-icon" data-info-key="clueColorsInfo"></span> ` + conjugationsToShow;
@@ -2420,17 +2497,88 @@ backButton.addEventListener('click', () => {
   const pronounMap = {
     yo: ['I'],
     tú: ['you'],
-    él: ['he', 'she'],
-        usted: ['he', 'she'],
     vos: ['you'],
+    él: ['he', 'she'],
+    ella: ['she'],
+    usted: ['you'],
     nosotros: ['we'],
+    nosotras: ['we'],
     vosotros: ['you'],
+    vosotras: ['you'],
     ellos: ['they'],
-    nosotras: ['we'], 
-    vosotras: ['you'], 
-    ellas: ['they'], 
-    ustedes: ['you'] 
+    ellas: ['they'],
+    ustedes: ['you']
 };
+
+  const pronounGroupToActual = {
+    yo: ['yo'],
+    tú: ['tú'],
+    vos: ['vos'],
+    él: ['él', 'usted'],
+    nosotros: ['nosotros'],
+    vosotros: ['vosotros'],
+    ellos: ['ellos', 'ustedes']
+  };
+
+  const actualPronounToGroup = {
+    yo: 'yo',
+    tú: 'tú',
+    vos: 'vos',
+    él: 'él',
+    ella: 'él',
+    usted: 'él',
+    nosotros: 'nosotros',
+    nosotras: 'nosotros',
+    vosotros: 'vosotros',
+    vosotras: 'vosotros',
+    ellos: 'ellos',
+    ellas: 'ellos',
+    ustedes: 'ellos'
+  };
+
+  function resolvePronounKeyForForms(groupKey, forms) {
+    const candidates = pronounGroupToActual[groupKey] || [groupKey];
+    return candidates.find(candidate => forms && forms[candidate]);
+  }
+
+  function getPronounGroupForActual(actualPronoun) {
+    return actualPronounToGroup[actualPronoun] || actualPronoun;
+  }
+
+  function getDisplayPronounForGroup(actualPronoun, groupKey) {
+    if (actualPronoun === 'usted' || actualPronoun === 'ustedes') {
+      return actualPronoun;
+    }
+
+    const displayMap = {
+      yo: ['yo'],
+      tú: ['tú'],
+      vos: ['vos'],
+      él: ['él', 'ella', 'usted'],
+      nosotros: ['nosotros', 'nosotras'],
+      vosotros: ['vosotros', 'vosotras'],
+      ellos: ['ellos', 'ellas', 'ustedes']
+    };
+
+    const options = displayMap[groupKey] || [groupKey];
+    return options[Math.floor(Math.random() * options.length)];
+  }
+
+  const pronounToEnglishOptions = {
+    yo: [{ display: 'I', key: 'I' }],
+    tú: [{ display: 'you', key: 'you' }],
+    vos: [{ display: 'you', key: 'you' }],
+    él: [{ display: 'he', key: 'he' }, { display: 'she', key: 'she' }],
+    ella: [{ display: 'she', key: 'she' }],
+    usted: [{ display: 'you', key: 'you_formal' }],
+    nosotros: [{ display: 'we', key: 'we' }],
+    nosotras: [{ display: 'we', key: 'we' }],
+    vosotros: [{ display: 'you all', key: 'you_plural_spain' }],
+    vosotras: [{ display: 'you all', key: 'you_plural_spain' }],
+    ellos: [{ display: 'they', key: 'they' }],
+    ellas: [{ display: 'they', key: 'they' }],
+    ustedes: [{ display: 'you all', key: 'you_plural' }]
+  };
 window.addEventListener("load", () => {
   document.body.classList.remove("is-loading");
   if (!localStorage.getItem('introPlayed')) {
@@ -2478,7 +2626,7 @@ function updatePronounDropdownCount() {
   // al ajustar las irregularidades por tiempo verbal.
   const irregularityTypes = [
     { value: 'regular', name: 'Regular', negativeName: 'Irregular',
-      times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative'],
+      times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative', 'imperative', 'imperative_negative'],
       hint: '', infoKey: 'regularInfo' },
     { value: 'regular_past_simple', name: 'Regular (Pretérito)', times: ['past_simple'],
       hint: '⚙️ hablar → hablé, hablaste, habló', infoKey: 'regularPastSimpleInfo' },
@@ -2502,7 +2650,11 @@ function updatePronounDropdownCount() {
       times: ['future_simple', 'condicional_simple'], hint: '⚙️ tener -> tendré',
       infoKey: 'irregularFutureInfo' },
     { value: 'irregular_imperfect', name: 'Irregular imperfect', times: ['imperfect_indicative'],
-      hint: '⚙️ ir -> iba', infoKey: 'irregularImperfectInfo' }
+      hint: '⚙️ ir -> iba', infoKey: 'irregularImperfectInfo' },
+    { value: 'irregular_imperative', name: 'Irregular imperative', times: ['imperative'],
+      hint: '⚙️ tener -> ten', infoKey: 'irregularImperativeInfo' },
+    { value: 'irregular_imperative_negative', name: 'Irregular negative imperative', times: ['imperative_negative'],
+      hint: '⚙️ ir -> no vayas', infoKey: 'irregularNegativeImperativeInfo' }
   ];
   const tenses = [
     { value: 'present',        name: 'Present',         infoKey: 'presentInfo' },
@@ -2510,7 +2662,9 @@ function updatePronounDropdownCount() {
     { value: 'present_perfect',name: 'Present Perfect', infoKey: 'presentPerfectInfo' },
     { value: 'imperfect_indicative', name: 'Imperfect', infoKey: 'imperfectInfo' },
     { value: 'future_simple',        name: 'Future',    infoKey: 'futureInfo' },
-    { value: 'condicional_simple',   name: 'Condicional', infoKey: 'conditionalInfo' }
+    { value: 'condicional_simple',   name: 'Condicional', infoKey: 'conditionalInfo' },
+    { value: 'imperative', name: 'Imperative (Affirmative)', infoKey: 'imperativeAffirmativeInfo' },
+    { value: 'imperative_negative', name: 'Imperative (Negative)', infoKey: 'imperativeNegativeInfo' }
   ];
 
   let totalCorrectAnswersForLife = 0; 
@@ -3925,19 +4079,6 @@ function prepareNextQuestion() {
      ? allowedPronouns
     : pronouns;   // ['yo','tú','vos','él','nosotros','vosotros','ellos']
  
-   // Paso 3: elige el pronombre interno de pronList
-   const originalPronoun = pronList[
-     Math.floor(Math.random() * pronList.length)
-   ];
-	  const displayPronoun = (function() {
-		const map = {
-		  él:       ['él','ella','usted'],
-		  nosotros: ['nosotros','nosotras'],
-		  ellos:    ['ellos','ellas','ustedes']
-		};
-		const arr = map[originalPronoun] || [originalPronoun];
-		return arr[Math.floor(Math.random() * arr.length)];
-	  })();
   const tKey = currentOptions.tenses[Math.floor(Math.random() * currentOptions.tenses.length)];
   const tenseObj = tenses.find(t => t.value === tKey);
   const tenseLabel = tenseObj ? tenseObj.name : tKey;
@@ -3948,9 +4089,27 @@ function prepareNextQuestion() {
     setTimeout(prepareNextQuestion, 50);
     return;
   }
-  const correctES = forms[originalPronoun];
+
+  const availablePronounOptions = pronList
+    .map(groupKey => {
+      const resolvedPronoun = resolvePronounKeyForForms(groupKey, forms);
+      if (!resolvedPronoun) return null;
+      return { group: groupKey, actual: resolvedPronoun };
+    })
+    .filter(Boolean);
+
+  if (availablePronounOptions.length === 0) {
+    console.warn(`No available pronouns for ${v.infinitive_es} in ${tKey} with current pronoun selection.`);
+    setTimeout(prepareNextQuestion, 50);
+    return;
+  }
+
+  const { group: pronounGroup, actual: resolvedPronoun } =
+    availablePronounOptions[Math.floor(Math.random() * availablePronounOptions.length)];
+  const displayPronoun = getDisplayPronounForGroup(resolvedPronoun, pronounGroup);
+  const correctES = forms[resolvedPronoun];
   if (!correctES) {
-    console.error(`Missing ${originalPronoun} form for ${v.infinitive_es} in ${tKey}`);
+    console.error(`Missing ${resolvedPronoun} form for ${v.infinitive_es} in ${tKey}`);
     setTimeout(prepareNextQuestion, 50);
     return;
   }
@@ -3962,7 +4121,8 @@ function prepareNextQuestion() {
 
   currentQuestion = {
     verb: v,
-    pronoun: originalPronoun,
+    pronoun: resolvedPronoun,
+    pronounGroup,
     displayPronoun,
     answer: correctES,
     expectedEN,                                                  // ahora es array
@@ -4473,12 +4633,17 @@ function checkAnswer() {
         return;
     }
     // Paso 3A: quedarnos solo con los pronombres que estén activos (window.pronouns)
+    const activePronounGroups = (Array.isArray(window.pronouns) && window.pronouns.length > 0)
+      ? window.pronouns
+      : pronouns;
+
     const spPronouns = Object
       .entries(allForms)
-      .filter(([p, form]) =>
-        pronouns.includes(p) && form === spanishForm
-      )
-      .map(([p]) => p);         
+      .filter(([p, form]) => {
+        const groupKey = getPronounGroupForActual(p);
+        return activePronounGroups.includes(groupKey) && form === spanishForm;
+      })
+      .map(([p]) => p);
 const pronounGroupMap = {
   yo:       ['I'],
   tú:       ['you'],
@@ -5041,36 +5206,33 @@ function skipQuestion() {
 			const spPronounsMatchingForm = Object.keys(allFormsForTenseES)
 				.filter(p => allFormsForTenseES[p] === spanishForm);
 
-			const pronounGroupMap = { /* ... your existing pronounGroupMap ... */
-				yo: ['I'], tú: ['you'], él: ['he', 'she', 'you'], ella: ['he', 'she', 'you'],
-				usted: ['you'], nosotros: ['we'], nosotras: ['we'], vosotros: ['you'],
-				vosotras: ['you'], ellos: ['they', 'you'], ellas: ['they', 'you'], ustedes: ['you']
-			};
+                        const englishOptions = spPronounsMatchingForm.flatMap(sp => pronounToEnglishOptions[sp] || []);
+                        const uniqueEnglishOptions = [];
+                        const seenEnglishOptions = new Set();
 
-			const engProns = Array.from(new Set(
-				spPronounsMatchingForm.flatMap(sp => pronounGroupMap[sp] || [])
-			));
+                        englishOptions.forEach(option => {
+                                const key = `${option.display}|${option.key}`;
+                                if (!seenEnglishOptions.has(key)) {
+                                        seenEnglishOptions.add(key);
+                                        uniqueEnglishOptions.push(option);
+                                }
+                        });
 
-			if (engProns.length > 0) {
-				const formsForCurrentTenseEN_Skip = verbData.conjugations_en[tense];
+                        if (uniqueEnglishOptions.length > 0) {
+                                const formsForCurrentTenseEN_Skip = verbData.conjugations_en[tense];
 
-				if (!formsForCurrentTenseEN_Skip) {
-					feedbackMessage = `⏭ Skipped. Error: Missing ENGLISH conjugations for '${verbData.infinitive_en}' in tense '${tense}'. English Infinitive: <strong>${verbData.infinitive_en}</strong>`;
-				} else {
-					const expectedAnswersArray = engProns.flatMap(englishPronoun => {
-						let formKey = englishPronoun.toLowerCase();
-						if (englishPronoun === 'I') {
-							formKey = 'I';
-						}
-						const conjugatedVerbEN = formsForCurrentTenseEN_Skip[formKey];
-						if (conjugatedVerbEN) {
-							return [`<strong>${englishPronoun.toLowerCase()} ${conjugatedVerbEN.toLowerCase()}</strong>`];
-						}
-						return [];
-					});
+                                if (!formsForCurrentTenseEN_Skip) {
+                                        feedbackMessage = `⏭ Skipped. Error: Missing ENGLISH conjugations for '${verbData.infinitive_en}' in tense '${tense}'. English Infinitive: <strong>${verbData.infinitive_en}</strong>`;
+                                } else {
+                                        const expectedAnswersArray = uniqueEnglishOptions.flatMap(({ display, key }) => {
+                                                const conjugatedVerbEN = formsForCurrentTenseEN_Skip[key];
+                                                if (!conjugatedVerbEN) return [];
+                                                const displayText = display === 'I' ? 'I' : display.toLowerCase();
+                                                return [`<strong>${displayText} ${conjugatedVerbEN.toLowerCase()}</strong>`];
+                                        });
 
-					if (expectedAnswersArray.length > 0) {
-						feedbackMessage = `⏭ Skipped. The correct answer was: ${expectedAnswersArray.join(' or ')}.`;
+                                        if (expectedAnswersArray.length > 0) {
+                                                feedbackMessage = `⏭ Skipped. The correct answer was: ${expectedAnswersArray.join(' or ')}.`;
 					} else {
 						feedbackMessage = `⏭ Skipped. The English infinitive is <strong>${verbData.infinitive_en}</strong>. (Could not determine specific English conjugation for '${spanishForm}' in tense '${tense}')`;
 					}

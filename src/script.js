@@ -51,6 +51,9 @@ let currentMusic = menuMusic;
 // Separate list excluding music tracks for SFX-specific operations
 const sfxAudio = audioElements.filter(a => a !== menuMusic && a !== gameMusic);
 
+// Track irregularity selections by tense so the UI can persist user choices.
+const irregularitySelectionState = {};
+
 // Initialize recorder state
 requestRecorderState();
 // Begin fetching verb data as early as possible to utilize the preload
@@ -2856,18 +2859,23 @@ function filterVerbTypes() {
     if (!isEnabled && button.classList.contains('selected')) {
       button.classList.remove('selected');
 
+      const stateEntry = ensureIrregularityStateEntry(button.dataset.tense);
+      stateEntry.selected.delete(button.dataset.value);
+
       if (selectedTenses.includes('present')) {
         const verbTypeValue = button.dataset.value;
-        const typeInfoFromArray = irregularityTypes.find(it => it.value === verbTypeValue); 
         const multipleIrrBtn = document.querySelector('.verb-type-button[data-value="multiple_irregularities"]');
 
         if (multipleIrrBtn && multipleIrrBtn.classList.contains('selected')) {
           const irregularRootDef = irregularityTypes.find(it => it.value === 'irregular_root');
           const irregularRootAppliesToPresent = irregularRootDef ? irregularRootDef.times.includes('present') : false;
-          
-          if (verbTypeValue === 'first_person_irregular' || 
+
+          if (verbTypeValue === 'first_person_irregular' ||
               (verbTypeValue === 'irregular_root' && irregularRootAppliesToPresent)) {
             multipleIrrBtn.classList.remove('selected');
+
+            const multipleStateEntry = ensureIrregularityStateEntry(multipleIrrBtn.dataset.tense);
+            multipleStateEntry.selected.delete(multipleIrrBtn.dataset.value);
           }
         }
       }
@@ -3584,6 +3592,19 @@ function getIrregularityTypesForVerb(verbObj, selectedTenses) {
     }
     return Array.from(types);
 }
+
+function ensureIrregularityStateEntry(tenseKey) {
+    if (!tenseKey) return { selected: new Set(), manuallyDeselected: new Set() };
+
+    if (!irregularitySelectionState[tenseKey]) {
+        irregularitySelectionState[tenseKey] = {
+            selected: new Set(),
+            manuallyDeselected: new Set()
+        };
+    }
+
+    return irregularitySelectionState[tenseKey];
+}
 function updateVerbTypeButtonsVisualState() {
     const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
     const selectedVerbInfinitives = selectedVerbElements.map(btn => btn.dataset.value);
@@ -3611,13 +3632,36 @@ function updateVerbTypeButtonsVisualState() {
     document.querySelectorAll('.verb-type-button').forEach(typeButton => {
         const typeValue = typeButton.dataset.value;
         const buttonTense = typeButton.dataset.tense; // Nuevo atributo
-        
-        if (!typeButton.disabled && buttonTense && activeTypesByTense[buttonTense] && 
-            activeTypesByTense[buttonTense].has(typeValue)) {
-            typeButton.classList.add('selected');
-        } else if (!typeButton.disabled) {
-            // Solo deseleccionar si no está deshabilitado
+
+        if (!buttonTense) return;
+
+        const stateEntry = ensureIrregularityStateEntry(buttonTense);
+        const { selected, manuallyDeselected } = stateEntry;
+
+        if (typeButton.disabled) {
             typeButton.classList.remove('selected');
+            selected.delete(typeValue);
+            manuallyDeselected.delete(typeValue);
+            return;
+        }
+
+        const tenseActiveTypes = activeTypesByTense[buttonTense];
+        const isActiveForSelectedVerbs = tenseActiveTypes ? tenseActiveTypes.has(typeValue) : false;
+        const isSelectedInState = selected.has(typeValue);
+
+        let shouldBeSelected = isSelectedInState;
+
+        if (!shouldBeSelected && isActiveForSelectedVerbs && !manuallyDeselected.has(typeValue)) {
+            shouldBeSelected = true;
+        }
+
+        if (shouldBeSelected) {
+            typeButton.classList.add('selected');
+            selected.add(typeValue);
+            manuallyDeselected.delete(typeValue);
+        } else {
+            typeButton.classList.remove('selected');
+            selected.delete(typeValue);
         }
     });
 }
@@ -5622,6 +5666,21 @@ function renderVerbTypeButtons() {
     sectionContainer.className = 'tense-irregularity-section';
     sectionContainer.dataset.tense = tenseKey;
 
+    const stateEntry = ensureIrregularityStateEntry(tenseKey);
+    const validTypeValues = new Set(group.irregularities.map(type => type.value));
+
+    Array.from(stateEntry.selected).forEach(value => {
+      if (!validTypeValues.has(value)) {
+        stateEntry.selected.delete(value);
+      }
+    });
+
+    Array.from(stateEntry.manuallyDeselected).forEach(value => {
+      if (!validTypeValues.has(value)) {
+        stateEntry.manuallyDeselected.delete(value);
+      }
+    });
+
     group.irregularities.forEach(type => {
       const button = document.createElement('button');
       button.type = 'button';
@@ -5646,16 +5705,23 @@ function renderVerbTypeButtons() {
         });
       }
 
-      // Selección por defecto: solo "regular" para cada tiempo
-      if (type.value === 'regular') {
+      if (stateEntry.selected.has(type.value)) {
         button.classList.add('selected');
       }
 
       button.addEventListener('click', () => {
         if (soundClick) safePlay(soundClick);
-        
+
         button.classList.toggle('selected');
         const isNowSelected = button.classList.contains('selected');
+
+        if (isNowSelected) {
+          stateEntry.selected.add(type.value);
+          stateEntry.manuallyDeselected.delete(type.value);
+        } else {
+          stateEntry.selected.delete(type.value);
+          stateEntry.manuallyDeselected.add(type.value);
+        }
 
         // Lógica de dependencia mejorada por tiempo verbal
         if (tenseKey === 'present') {
@@ -5665,13 +5731,15 @@ function renderVerbTypeButtons() {
             const irregularRootAppliesToPresent = irregularRootDef ? irregularRootDef.times.includes('present') : false;
             
             if ((button.dataset.value === 'first_person_irregular' || 
-                (button.dataset.value === 'irregular_root' && irregularRootAppliesToPresent)) && 
+                (button.dataset.value === 'irregular_root' && irregularRootAppliesToPresent)) &&
                 !isNowSelected) {
               multipleIrrBtn.classList.remove('selected');
+              stateEntry.selected.delete(multipleIrrBtn.dataset.value);
+              stateEntry.manuallyDeselected.add(multipleIrrBtn.dataset.value);
             }
           }
         }
-        
+
         applyIrregularityAndTenseFiltersToVerbList();
         updateVerbTypeButtonsVisualState();
       });

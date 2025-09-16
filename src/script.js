@@ -2431,6 +2431,23 @@ function updatePronounDropdownCount() {
           .textContent = `(${selected}/${btns.length})`;
 }
 
+  // Catálogo maestro de irregularidades. Cada objeto describe cómo debe mostrarse y
+  // comportarse una categoría dentro de la UI y de los filtros lógicos:
+  //   • value: identificador único que se usa en los atributos `data-value` de los
+  //     botones y en los listados de `verbObj.types` para hacer los cruces.
+  //   • name: texto legible que se muestra en los botones de configuración.
+  //   • times: lista de tiempos gramaticales en los que aplica la irregularidad. La
+  //     lógica de `filterVerbTypes`, `renderVerbTypeButtons`,
+  //     `updateVerbTypeButtonsVisualState` y
+  //     `applyIrregularityAndTenseFiltersToVerbList` depende de esta relación para
+  //     habilitar/deshabilitar opciones y sincronizar la selección automática.
+  //   • hint: ejemplo que se enseña al usuario para recordar la irregularidad.
+  //   • infoKey: clave que enlaza con la información contextual mostrada en los
+  //     tooltips y modales (`openSpecificModal`).
+  // ⚠️ Si se modifica `times`, hay que mantener en sincronía las clases y atributos
+  // `.verb-type-button[data-times]` generados en `renderVerbTypeButtons`, ya que
+  // `filterVerbTypes` y otros selectores confían en esos valores para evitar errores
+  // al ajustar las irregularidades por tiempo verbal.
   const irregularityTypes = [
     { value: 'regular', name: 'Regular',
       times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative'],

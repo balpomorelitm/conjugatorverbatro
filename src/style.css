@@ -661,6 +661,8 @@ button:active {
 .tense-badge.imperfect_indicative { background-color: #e57373; }
 .tense-badge.future_simple { background-color: #00e5ff; color: #000; }
 .tense-badge.condicional_simple { background-color: #4dd0e1; }
+.tense-badge.imperative { background-color: #ffca28; color: #000; }
+.tense-badge.imperative_negative { background-color: #ff7043; }
 
 #question-area p { /* El texto "Question:" */
     margin-bottom: 5px;

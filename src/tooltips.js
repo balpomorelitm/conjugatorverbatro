@@ -224,6 +224,30 @@ const specificInfoData = {
            <p><strong>Irregular Stems:</strong> Same as the future tense (dir-, har-, podr-, tendr-, etc.).</p>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I would eat" / "he would eat"</p>`
   },
+  imperativeAffirmativeInfo: {
+    title: "Imperative (Affirmative)",
+    html: `<p>Use the affirmative imperative to give <strong>direct commands, invitations, or instructions</strong>.</p>
+           <strong class="modal-subtitle">Formation Tips:</strong>
+           <ul>
+             <li><strong>tú:</strong> Usually the present indicative without the <em>-s</em> (<em>habla, come, escribe</em>).</li>
+             <li><strong>usted / ustedes:</strong> Use the present subjunctive forms (<em>hable, hablen</em>).</li>
+             <li><strong>vosotros:</strong> Replace the infinitive ending <em>-r</em> with <em>-d</em> (<em>hablad, comed</em>).</li>
+           </ul>
+           <p><strong>Common Irregulars:</strong> venir → ven, decir → di, salir → sal, hacer → haz, tener → ten, ir → ve, poner → pon, ser → sé.</p>
+           <p class="recall-tip"><strong>Practice Idea:</strong> "Ven aquí" / "Hablad más lento"</p>`
+  },
+  imperativeNegativeInfo: {
+    title: "Imperative (Negative)",
+    html: `<p>Use the negative imperative to tell someone <strong>not</strong> to do something.</p>
+           <strong class="modal-subtitle">Formation Tips:</strong>
+           <ul>
+             <li><strong>tú:</strong> Present subjunctive form with <em>no</em> (<em>no hables, no comas</em>).</li>
+             <li><strong>usted / ustedes:</strong> Same as affirmative, simply add <em>no</em> (<em>no hable, no hablen</em>).</li>
+             <li><strong>vosotros:</strong> Use the present subjunctive ending <em>-éis / -áis</em> (<em>no habléis, no comáis</em>).</li>
+           </ul>
+           <p><strong>Watch the Irregulars:</strong> no vayas, no seas, no des, no estés, no sepas.</p>
+           <p class="recall-tip"><strong>Practice Idea:</strong> "No salgas" / "No lleguen tarde"</p>`
+  },
   regularInfo: {
     title: "Regular Verbs",
     html: `<p>Regular verbs follow predictable patterns. The stem (the part of the verb before -ar, -er, or -ir) does not change.</p>
@@ -620,6 +644,35 @@ const specificInfoData = {
                <tr><td>ellos</td><td>d<span class="irregular-highlight">ir</span>án</td></tr>
              </table>
            </div>`
+  },
+  irregularImperativeInfo: {
+    title: "Irregular Imperative",
+    html: `<p>Some common commands break the regular patterns, especially in the <strong>tú</strong> form.</p>
+           <strong class="modal-subtitle">Key Irregular tú Commands:</strong>
+           <ul>
+             <li>venir → <span class="irregular-highlight">ven</span></li>
+             <li>decir → <span class="irregular-highlight">di</span></li>
+             <li>salir → <span class="irregular-highlight">sal</span></li>
+             <li>hacer → <span class="irregular-highlight">haz</span></li>
+             <li>tener → <span class="irregular-highlight">ten</span></li>
+             <li>ir → <span class="irregular-highlight">ve</span></li>
+             <li>poner → <span class="irregular-highlight">pon</span></li>
+             <li>ser → <span class="irregular-highlight">sé</span></li>
+           </ul>
+           <p>Remember that <strong>usted/ustedes</strong> forms mirror the present subjunctive (e.g., <em>sea</em>, <em>vayan</em>).</p>`
+  },
+  irregularNegativeImperativeInfo: {
+    title: "Irregular Negative Imperative",
+    html: `<p>Negative commands use the <strong>present subjunctive</strong>, so any subjunctive irregularity appears here too.</p>
+           <strong class="modal-subtitle">Common Examples:</strong>
+           <ul>
+             <li>no vayas (ir)</li>
+             <li>no seas (ser)</li>
+             <li>no des (dar)</li>
+             <li>no estés (estar)</li>
+             <li>no sepas (saber)</li>
+           </ul>
+           <p>Remember to add the reflexive pronoun <em>before</em> the verb in negative commands (e.g., <em>no te levantes</em>).</p>`
   },
   irregularImperfectInfo: {
     title: "Irregular Imperfect",

@@ -4083,6 +4083,11 @@ let usedVerbs = [];
 	navigateToStep('splash'); // Empezar en el splash screen  
 function prepareNextQuestion() {
   if (game.gameState === 'BOSS_BATTLE') return;
+  const endButton = document.getElementById('end-button');
+  if (endButton) {
+    endButton.disabled = false;
+    endButton.removeAttribute('disabled');
+  }
   const feedback = document.getElementById('feedback-message');
   // feedback.innerHTML = '';
   feedback.classList.remove('vibrate');
@@ -5778,6 +5783,12 @@ if (irregularitiesContainer) {
     const endButton         = document.getElementById('end-button');
     const ansES             = document.getElementById('answer-input-es');
     const ansEN             = document.getElementById('answer-input-en');
+
+    if (endButton) {
+      endButton.disabled = false;
+      endButton.removeAttribute('disabled');
+      endButton.classList.remove('electric-effect');
+    }
     // (Estas ya las tienes definidas más arriba, así que no necesitas redeclararlas, solo asegúrate de que su ámbito sea accesible aquí)
 
     function focusAnswerInput() {

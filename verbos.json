@@ -247,8 +247,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["irregular_imperfect"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "soy", "tú": "eres", "vos": "sos", "él": "es", "nosotros": "somos", "vosotros": "sois", "ellos": "son"},
@@ -281,8 +281,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "estoy", "tú": "estás", "vos": "estás", "él": "está", "nosotros": "estamos", "vosotros": "estáis", "ellos": "están"},
@@ -315,8 +315,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "tengo", "tú": "tienes", "vos": "tenés", "él": "tiene", "nosotros": "tenemos", "vosotros": "tenéis", "ellos": "tienen"},
@@ -349,8 +349,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["irregular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "voy", "tú": "vas", "vos": "vas", "él": "va", "nosotros": "vamos", "vosotros": "vais", "ellos": "van"},
@@ -383,8 +383,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "siento", "tú": "sientes", "vos": "sentís", "él": "siente", "nosotros": "sentimos", "vosotros": "sentís", "ellos": "sienten"},
@@ -417,8 +417,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "duermo", "tú": "duermes", "vos": "dormís", "él": "duerme", "nosotros": "dormimos", "vosotros": "dormís", "ellos": "duermen"},
@@ -451,8 +451,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "juego", "tú": "juegas", "vos": "jugás", "él": "juega", "nosotros": "jugamos", "vosotros": "jugáis", "ellos": "juegan"},
@@ -485,8 +485,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "sigo", "tú": "sigues", "vos": "seguís", "él": "sigue", "nosotros": "seguimos", "vosotros": "seguís", "ellos": "siguen"},
@@ -519,8 +519,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "vuelvo", "tú": "vuelves", "vos": "volvés", "él": "vuelve", "nosotros": "volvemos", "vosotros": "volvéis", "ellos": "vuelven"},
@@ -553,8 +553,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "construyo", "tú": "construyes", "vos": "construís", "él": "construye", "nosotros": "construimos", "vosotros": "construís", "ellos": "construyen"},
@@ -587,8 +587,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "salgo", "tú": "sales", "vos": "salís", "él": "sale", "nosotros": "salimos", "vosotros": "salís", "ellos": "salen"},
@@ -621,8 +621,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "sé", "tú": "sabes", "vos": "sabés", "él": "sabe", "nosotros": "sabemos", "vosotros": "sabéis", "ellos": "saben"},
@@ -655,8 +655,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "puedo", "tú": "puedes", "vos": "podés", "él": "puede", "nosotros": "podemos", "vosotros": "podéis", "ellos": "pueden"},
@@ -689,8 +689,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "digo", "tú": "dices", "vos": "decís", "él": "dice", "nosotros": "decimos", "vosotros": "decís", "ellos": "dicen"},
@@ -723,8 +723,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "vengo", "tú": "vienes", "vos": "venís", "él": "viene", "nosotros": "venimos", "vosotros": "venís", "ellos": "vienen"},
@@ -757,8 +757,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "pongo", "tú": "pones", "vos": "ponés", "él": "pone", "nosotros": "ponemos", "vosotros": "ponéis", "ellos": "ponen"},
@@ -792,7 +792,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "conozco", "tú": "conoces", "vos": "conocés", "él": "conoce", "nosotros": "conocemos", "vosotros": "conocéis", "ellos": "conocen"},
@@ -859,8 +859,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "pido", "tú": "pides", "vos": "pedís", "él": "pide", "nosotros": "pedimos", "vosotros": "pedís", "ellos": "piden"},
@@ -893,8 +893,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "muero", "tú": "mueres", "vos": "morís", "él": "muere", "nosotros": "morimos", "vosotros": "morís", "ellos": "mueren"},
@@ -927,8 +927,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "oigo", "tú": "oyes", "vos": "oís", "él": "oye", "nosotros": "oímos", "vosotros": "oís", "ellos": "oyen"},
@@ -961,8 +961,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "hago", "tú": "haces", "vos": "hacés", "él": "hace", "nosotros": "hacemos", "vosotros": "hacéis", "ellos": "hacen"},
@@ -1233,8 +1233,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["irregular_imperfect"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "veo", "tú": "ves", "vos": "ves", "él": "ve", "nosotros": "vemos", "vosotros": "veis", "ellos": "ven"},
@@ -1268,7 +1268,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "parezco", "tú": "pareces", "vos": "parecés", "él": "parece", "nosotros": "parecemos", "vosotros": "parecéis", "ellos": "parecen"},
@@ -1403,8 +1403,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "encuentro", "tú": "encuentras", "vos": "encontrás", "él": "encuentra", "nosotros": "encontramos", "vosotros": "encontráis", "ellos": "encuentran"},
@@ -1437,8 +1437,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "empiezo", "tú": "empiezas", "vos": "empezás", "él": "empieza", "nosotros": "empezamos", "vosotros": "empezáis", "ellos": "empiezan"},
@@ -1607,8 +1607,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "recuerdo", "tú": "recuerdas", "vos": "recordás", "él": "recuerda", "nosotros": "recordamos", "vosotros": "recordáis", "ellos": "recuerdan"},
@@ -1675,8 +1675,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "consigo", "tú": "consigues", "vos": "conseguís", "él": "consigue", "nosotros": "conseguimos", "vosotros": "conseguís", "ellos": "consiguen"},
@@ -1811,8 +1811,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "quiero", "tú": "quieres", "vos": "querés", "él": "quiere", "nosotros": "queremos", "vosotros": "queréis", "ellos": "quieren"},
@@ -1845,8 +1845,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "obtengo", "tú": "obtienes", "vos": "obtenés", "él": "obtiene", "nosotros": "obtenemos", "vosotros": "obtenéis", "ellos": "obtienen"},
@@ -1879,8 +1879,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "compongo", "tú": "compones", "vos": "componés", "él": "compone", "nosotros": "componemos", "vosotros": "componéis", "ellos": "componen"},
@@ -1914,7 +1914,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "doy", "tú": "das", "vos": "das", "él": "da", "nosotros": "damos", "vosotros": "dais", "ellos": "dan"},
@@ -1947,8 +1947,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "miento", "tú": "mientes", "vos": "mentís", "él": "miente", "nosotros": "mentimos", "vosotros": "mentís", "ellos": "mienten"},
@@ -2083,8 +2083,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me acuesto", "tú": "te acuestas", "vos": "te acostás", "él": "se acuesta", "nosotros": "nos acostamos", "vosotros": "os acostáis", "ellos": "se acuestan"},
@@ -2151,8 +2151,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "supongo", "tú": "supones", "vos": "suponés", "él": "supone", "nosotros": "suponemos", "vosotros": "suponéis", "ellos": "suponen"},
@@ -2186,7 +2186,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "traigo", "tú": "traes", "vos": "traés", "él": "trae", "nosotros": "traemos", "vosotros": "traéis", "ellos": "traen"},
@@ -2219,8 +2219,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "pierdo", "tú": "pierdes", "vos": "perdés", "él": "pierde", "nosotros": "perdemos", "vosotros": "perdéis", "ellos": "pierden"},
@@ -2254,7 +2254,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "caigo", "tú": "caes", "vos": "caés", "él": "cae", "nosotros": "caemos", "vosotros": "caéis", "ellos": "caen"},
@@ -2322,7 +2322,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "busco", "tú": "buscas", "vos": "buscás", "él": "busca", "nosotros": "buscamos", "vosotros": "buscáis", "ellos": "buscan"},
@@ -2355,8 +2355,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me siento", "tú": "te sientas", "vos": "te sentás", "él": "se sienta", "nosotros": "nos sentamos", "vosotros": "os sentáis", "ellos": "se sientan"},
@@ -2390,7 +2390,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "conduzco", "tú": "conduces", "vos": "conducís", "él": "conduce", "nosotros": "conducimos", "vosotros": "conducís", "ellos": "conducen"},
@@ -2423,8 +2423,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "repito", "tú": "repites", "vos": "repetís", "él": "repite", "nosotros": "repetimos", "vosotros": "repetís", "ellos": "repiten"},
@@ -2457,8 +2457,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["irregular_imperfect", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me voy", "tú": "te vas", "vos": "te vas", "él": "se va", "nosotros": "nos vamos", "vosotros": "os vais", "ellos": "se van"},
@@ -2491,8 +2491,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me duermo", "tú": "te duermes", "vos": "te dormís", "él": "se duerme", "nosotros": "nos dormimos", "vosotros": "os dormís", "ellos": "se duermen"},
@@ -2525,8 +2525,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me siento", "tú": "te sientes", "vos": "te sentís", "él": "se siente", "nosotros": "nos sentimos", "vosotros": "os sentís", "ellos": "se sienten"},
@@ -2559,8 +2559,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["irregular_imperfect", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me veo", "tú": "te ves", "vos": "te ves", "él": "se ve", "nosotros": "nos vemos", "vosotros": "os veis", "ellos": "se ven"},
@@ -2593,8 +2593,8 @@
       "future_simple": ["irregular_future_conditional", "reflexive"],
       "condicional_simple": ["irregular_future_conditional", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me pongo", "tú": "te pones", "vos": "te ponés", "él": "se pone", "nosotros": "nos ponemos", "vosotros": "os ponéis", "ellos": "se ponen"},
@@ -2798,7 +2798,7 @@
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "quepo", "tú": "cabes", "vos": "cabés", "él": "cabe", "nosotros": "cabemos", "vosotros": "cabéis", "ellos": "caben"},
@@ -2831,8 +2831,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "valgo", "tú": "vales", "vos": "valés", "él": "vale", "nosotros": "valemos", "vosotros": "valéis", "ellos": "valen"},
@@ -2865,8 +2865,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me divierto", "tú": "te diviertes", "vos": "te divertís", "él": "se divierte", "nosotros": "nos divertimos", "vosotros": "os divertís", "ellos": "se divierten"},
@@ -2899,8 +2899,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me arrepiento", "tú": "te arrepientes", "vos": "te arrepentís", "él": "se arrepiente", "nosotros": "nos arrepentimos", "vosotros": "os arrepentís", "ellos": "se arrepienten"},
@@ -2933,8 +2933,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me río", "tú": "te ríes", "vos": "te reís", "él": "se ríe", "nosotros": "nos reímos", "vosotros": "os reís", "ellos": "se ríen"},
@@ -2967,8 +2967,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me convierto", "tú": "te conviertes", "vos": "te convertís", "él": "se convierte", "nosotros": "nos convertimos", "vosotros": "os convertís", "ellos": "se convierten"},
@@ -3002,7 +3002,7 @@
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me acerco", "tú": "te acercas", "vos": "te acercás", "él": "se acerca", "nosotros": "nos acercamos", "vosotros": "os acercáis", "ellos": "se acercan"},
@@ -3206,7 +3206,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "llego", "tú": "llegas", "vos": "llegás", "él": "llega", "nosotros": "llegamos", "vosotros": "llegáis", "ellos": "llegan"},
@@ -3239,8 +3239,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "prefiero", "tú": "prefieres", "vos": "preferís", "él": "prefiere", "nosotros": "preferimos", "vosotros": "preferís", "ellos": "prefieren"},
@@ -3273,8 +3273,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "cuesto", "tú": "cuestas", "vos": "costás", "él": "cuesta", "nosotros": "costamos", "vosotros": "costáis", "ellos": "cuestan"},
@@ -3307,8 +3307,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me despierto", "tú": "te despiertas", "vos": "te despertás", "él": "se despierta", "nosotros": "nos despertamos", "vosotros": "os despertáis", "ellos": "se despiertan"},
@@ -3409,8 +3409,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "almuerzo", "tú": "almuerzas", "vos": "almorzás", "él": "almuerza", "nosotros": "almorzamos", "vosotros": "almorzáis", "ellos": "almuerzan"},
@@ -3511,8 +3511,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "sirvo", "tú": "sirves", "vos": "servís", "él": "sirve", "nosotros": "servimos", "vosotros": "servís", "ellos": "sirven"},
@@ -3681,8 +3681,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "comienzo", "tú": "comienzas", "vos": "comenzás", "él": "comienza", "nosotros": "comenzamos", "vosotros": "comenzáis", "ellos": "comienzan"},
@@ -3715,8 +3715,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "continúo", "tú": "continúas", "vos": "continuás", "él": "continúa", "nosotros": "continuamos", "vosotros": "continuáis", "ellos": "continúan"},
@@ -4021,8 +4021,8 @@
       "future_simple": ["regular", "reflexive"],
       "condicional_simple": ["regular", "reflexive"],
       "imperfect_indicative": ["regular", "reflexive"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "me reúno", "tú": "te reúnes", "vos": "te reunís", "él": "se reúne", "nosotros": "nos reunimos", "vosotros": "os reunís", "ellos": "se reúnen"},
@@ -4328,7 +4328,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "aparezco", "tú": "apareces", "vos": "aparecés", "él": "aparece", "nosotros": "aparecemos", "vosotros": "aparecéis", "ellos": "aparecen"},
@@ -4396,7 +4396,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "nazco", "tú": "naces", "vos": "nacés", "él": "nace", "nosotros": "nacemos", "vosotros": "nacéis", "ellos": "nacen"},
@@ -4600,7 +4600,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "coloco", "tú": "colocas", "vos": "colocás", "él": "coloca", "nosotros": "colocamos", "vosotros": "colocáis", "ellos": "colocan"},
@@ -4634,7 +4634,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "utilizo", "tú": "utilizas", "vos": "utilizás", "él": "utiliza", "nosotros": "utilizamos", "vosotros": "utilizáis", "ellos": "utilizan"},
@@ -4804,7 +4804,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "entrego", "tú": "entregas", "vos": "entregás", "él": "entrega", "nosotros": "entregamos", "vosotros": "entregáis", "ellos": "entregan"},
@@ -4871,8 +4871,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "pruebo", "tú": "pruebas", "vos": "probás", "él": "prueba", "nosotros": "probamos", "vosotros": "probáis", "ellos": "prueban"},
@@ -4906,7 +4906,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "practico", "tú": "practicas", "vos": "practicás", "él": "practica", "nosotros": "practicamos", "vosotros": "practicáis", "ellos": "practican"},
@@ -5008,7 +5008,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "organizo", "tú": "organizas", "vos": "organizás", "él": "organiza", "nosotros": "organizamos", "vosotros": "organizáis", "ellos": "organizan"},
@@ -5042,7 +5042,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "planifico", "tú": "planificas", "vos": "planificás", "él": "planifica", "nosotros": "planificamos", "vosotros": "planificáis", "ellos": "planifican"},
@@ -5110,7 +5110,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "dirijo", "tú": "diriges", "vos": "dirigís", "él": "dirige", "nosotros": "dirigimos", "vosotros": "dirigís", "ellos": "dirigen"},
@@ -5143,8 +5143,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": ["irregular"],
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "recomiendo", "tú": "recomiendas", "vos": "recomendás", "él": "recomienda", "nosotros": "recomendamos", "vosotros": "recomendáis", "ellos": "recomiendan"},
@@ -5280,7 +5280,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "justifico", "tú": "justificas", "vos": "justificás", "él": "justifica", "nosotros": "justificamos", "vosotros": "justificáis", "ellos": "justifican"},
@@ -5348,7 +5348,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "reconozco", "tú": "reconoces", "vos": "reconocés", "él": "reconoce", "nosotros": "reconocemos", "vosotros": "reconocéis", "ellos": "reconocen"},
@@ -5382,7 +5382,7 @@
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
       "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative_negative": ["irregular"]
     },
     "conjugations": {
       "present": {"yo": "madrugo", "tú": "madrugas", "vos": "madrugás", "él": "madruga", "nosotros": "madrugamos", "vosotros": "madrugáis", "ellos": "madrugan"},

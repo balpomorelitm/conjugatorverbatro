@@ -1945,7 +1945,6 @@ function displayClue() {
   const salonOverlay = document.getElementById('salon-overlay');
   const salonCloseBtn = document.getElementById('salon-close-btn');
   const salonRecordsContainer = document.getElementById('salon-records-container');
-  const toggleReflexiveBtn = document.getElementById('toggle-reflexive');
   const toggleIgnoreAccentsBtn = document.getElementById('toggle-ignore-accents');
   const titleElement = document.querySelector('.glitch-title');
   const verbTypeLabels = Array.from(document.querySelectorAll('label[data-times]'));
@@ -2289,28 +2288,6 @@ function displayClue() {
     }, stepTime);
   }
 
-  function handleReflexiveToggle() {
-    const btn = document.getElementById('toggle-reflexive');
-    if (!btn) return;
-
-    btn.classList.toggle('selected');
-    const shouldSelect = btn.classList.contains('selected');
-
-    const reflexiveButtons = Array.from(document.querySelectorAll('#verb-buttons .verb-button'))
-      .filter(b => b.dataset.value.endsWith('se'));
-    reflexiveButtons.forEach(b => b.classList.toggle('selected', shouldSelect));
-
-    updateVerbDropdownCount();
-    updateDeselectAllButton();
-    updateGroupButtons();
-    updateVerbTypeButtonsVisualState();
-
-    if (typeof soundClick !== 'undefined') safePlay(soundClick);
-  }
-
-  if (toggleReflexiveBtn) {
-    toggleReflexiveBtn.addEventListener('click', handleReflexiveToggle);
-  }
   if (toggleIgnoreAccentsBtn) {
     toggleIgnoreAccentsBtn.addEventListener('click', handleIgnoreAccentsToggle);
   }
@@ -2651,6 +2628,9 @@ function updatePronounDropdownCount() {
     { value: 'regular', name: 'Regular', negativeName: 'Irregular',
       times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative', 'imperative', 'imperative_negative'],
       hint: '', infoKey: 'regularInfo' },
+    { value: 'reflexive', name: 'Reflexive',
+      times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative', 'imperative', 'imperative_negative'],
+      hint: '🪞 lavarse', infoKey: 'reflexiveInfo' },
     { value: 'regular_past_simple', name: 'Regular (Pretérito)', times: ['past_simple'],
       hint: '⚙️ hablar → hablé, hablaste, habló', infoKey: 'regularPastSimpleInfo' },
     { value: 'first_person_irregular', name: '1st Person', times: ['present'],
@@ -3779,6 +3759,50 @@ function getVerbObjectByInfinitive(infinitiveEs) {
     return initialRawVerbData.find(v => v.infinitive_es === infinitiveEs);
 }
 
+function buildIrregularitySelectionSnapshot(selectedTenses) {
+  const selectedTypesByTense = {};
+  const manuallyDeselectedByTense = {};
+  const fallbackByTense = {};
+
+  selectedTenses.forEach(tenseKey => {
+    const buttons = document.querySelectorAll(`.verb-type-button.selected[data-tense="${tenseKey}"]`);
+    selectedTypesByTense[tenseKey] = Array.from(buttons).map(btn => btn.dataset.value);
+
+    const stateEntry = ensureIrregularityStateEntry(tenseKey);
+    manuallyDeselectedByTense[tenseKey] = Array.from(stateEntry?.manuallyDeselected || []);
+
+    const hasSelectedTypes = selectedTypesByTense[tenseKey].length > 0;
+    const regularDeselected =
+      stateEntry?.manuallyDeselected.has('regular') &&
+      !(stateEntry?.selected.has('regular') || selectedTypesByTense[tenseKey].includes('regular'));
+
+    fallbackByTense[tenseKey] = !hasSelectedTypes && !!regularDeselected;
+  });
+
+  return {
+    selectedTypesByTense,
+    manuallyDeselectedByTense,
+    fallbackByTense
+  };
+}
+
+function isReflexiveActiveForTense(tenseKey) {
+  if (!tenseKey) return false;
+
+  const selectedTypes = currentOptions?.selectedTypesByTense?.[tenseKey] || [];
+  if (selectedTypes.includes('reflexive')) {
+    return true;
+  }
+
+  const fallbackActive = currentOptions?.irregularFallbackByTense?.[tenseKey];
+  if (fallbackActive) {
+    const manuallyDeselected = currentOptions?.manuallyDeselectedIrregularities?.[tenseKey] || [];
+    return !manuallyDeselected.includes('reflexive');
+  }
+
+  return false;
+}
+
 // Helper para obtener los tipos de irregularidad de un verbo para los tiempos seleccionados
 function getIrregularityTypesForVerb(verbObj, selectedTenses) {
     const types = new Set();
@@ -3908,6 +3932,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
     const currentSelectedTenses = getSelectedTenses();
     const activeTypesByTense = {};
     const irregularFallbackByTense = {};
+    const stateEntriesByTense = {};
 
     currentSelectedTenses.forEach(tense => {
         const activeButtons = document.querySelectorAll(`.verb-type-button.selected:not(:disabled)[data-tense="${tense}"]`);
@@ -3915,16 +3940,13 @@ function applyIrregularityAndTenseFiltersToVerbList() {
         activeTypesByTense[tense] = activeTypes;
 
         const stateEntry = ensureIrregularityStateEntry(tense);
+        stateEntriesByTense[tense] = stateEntry;
         const regularDeselected = stateEntry.manuallyDeselected.has('regular') && !stateEntry.selected.has('regular');
         irregularFallbackByTense[tense] = activeTypes.length === 0 && regularDeselected;
     });
 
     document.querySelectorAll('#verb-buttons .verb-button').forEach(verbButton => {
         const infinitiveEs = verbButton.dataset.value;
-
-        if (infinitiveEs.endsWith('se')) {
-            return;
-        }
 
         const verbObj = getVerbObjectByInfinitive(infinitiveEs);
         if (!verbObj) return;
@@ -3947,7 +3969,8 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             let matchesThisTense = false;
 
             if (useIrregularFallback) {
-                matchesThisTense = verbTypesForTense.some(type => type !== 'regular');
+                const manualDeselections = stateEntriesByTense[tense]?.manuallyDeselected || new Set();
+                matchesThisTense = verbTypesForTense.some(type => type !== 'regular' && !manualDeselections.has(type));
             } else {
                 matchesThisTense = activeTypesForTense.every(requiredType => {
                     const requiresStrictRegular =
@@ -4622,8 +4645,8 @@ function checkAnswer() {
   }
   
   const isReflexive = currentQuestion.verb.infinitive_es.endsWith('se');
-  if (isReflexive && toggleReflexiveBtn && toggleReflexiveBtn.classList.contains('selected')) {
-  reflexiveBonus = 10;
+  if (isReflexive && isReflexiveActiveForTense(currentQuestion.tenseKey)) {
+    reflexiveBonus = 10;
   }
 
   if (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy') {
@@ -4893,6 +4916,7 @@ else                   timeBonus = 10;
       "stem_change_3rd_person": "🧍",
       "totally_irregular": "🤯",
       "irregular_participle": "🧩",
+      "reflexive": "🪞",
       "regular": "✅"
     };
     const irregularityNames = {
@@ -4904,6 +4928,7 @@ else                   timeBonus = 10;
       "stem_change_3rd_person": "3rd person stem change",
       "totally_irregular": "Totally irregular",
       "irregular_participle": "Irregular participle",
+      "reflexive": "Reflexive",
       "regular": "Regular"
     };
    const irregularityDescriptions = irregularities
@@ -5479,12 +5504,6 @@ levelState.bossesEncounteredTotal = 0;
     filterVerbTypes();
   }
   
-  // Resetear botones de toggle
-  const reflexBtn = document.getElementById('toggle-reflexive');
-  if (reflexBtn) {
-    reflexBtn.classList.remove('selected');
-  }
-  
   const ignoreAccentsBtn = document.getElementById('toggle-ignore-accents');
   if (ignoreAccentsBtn) {
     ignoreAccentsBtn.classList.add('selected');
@@ -5605,6 +5624,10 @@ finalStartGameButton.addEventListener('click', async () => {
         tenses: selTenses,
         ignoreAccents: toggleIgnoreAccentsBtn && toggleIgnoreAccentsBtn.classList.contains('selected')
     };
+    const irregularitySnapshot = buildIrregularitySelectionSnapshot(selTenses);
+    currentOptions.selectedTypesByTense = irregularitySnapshot.selectedTypesByTense;
+    currentOptions.irregularFallbackByTense = irregularitySnapshot.fallbackByTense;
+    currentOptions.manuallyDeselectedIrregularities = irregularitySnapshot.manuallyDeselectedByTense;
     resetBackgroundColor();
     updateBackgroundForLevel(1);
     // selectedGameMode ya debería estar seteado por el `selectedMode` de este nuevo flujo

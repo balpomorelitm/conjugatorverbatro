@@ -44,6 +44,21 @@ import {
 } from './level.js';
 import { saveSetting, loadSettings, applyChuacheVisibility, settings } from './settings.js';
 
+const assetUrl = relativePath => new URL(relativePath, import.meta.url).href;
+
+const ASSET_URLS = {
+  verbosData: assetUrl('../verbos.json'),
+  chuacheTalks: assetUrl('../assets/images/chuachetalks.gif'),
+  conjuchuache: assetUrl('../assets/images/conjuchuache.webp'),
+  bossPlaceholder: assetUrl('../assets/images/boss_imageplaceholder.png'),
+  musicOn: assetUrl('../assets/images/musicon.webp'),
+  musicOff: assetUrl('../assets/images/musicoff.webp'),
+  bossHack: assetUrl('../assets/images/bosshack.webp'),
+  bossSkynetVideo: assetUrl('../assets/images/bosssg.webm'),
+  bossT1000: assetUrl('../assets/images/bosst-1000.webp'),
+  heart: assetUrl('../assets/images/heart.webp')
+};
+
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
 let currentMusic = menuMusic;
@@ -57,7 +72,7 @@ const irregularitySelectionState = {};
 // Initialize recorder state
 requestRecorderState();
 // Begin fetching verb data as early as possible to utilize the preload
-const verbosJsonPromise = fetch('../verbos.json')
+const verbosJsonPromise = fetch(ASSET_URLS.verbosData)
   .then(resp => {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     return resp.json();
@@ -173,7 +188,7 @@ function chuacheSpeaks(type) {
   lastChuacheIndex[type] = index;
   const message = messages[index];
 
-  image.src = "../assets/images/chuachetalks.gif";
+  image.src = ASSET_URLS.chuacheTalks;
   bubble.textContent = message;
   bubble.classList.remove("hidden");
   if (type === "wrong" || type === "skip") bubble.classList.add("error");
@@ -182,7 +197,7 @@ function chuacheSpeaks(type) {
   playFromStart(chuacheSound);
 
   setTimeout(() => {
-    image.src = "../assets/images/conjuchuache.webp";
+    image.src = ASSET_URLS.conjuchuache;
     bubble.classList.add("hidden");
     bubble.classList.remove("error");
   }, 3000);
@@ -1524,7 +1539,7 @@ function resetBossVisuals() {
     } else {
       bossImage = bossImageEl;
     }
-    bossImageEl.src = '../assets/images/boss_imageplaceholder.png';
+    bossImageEl.src = ASSET_URLS.bossPlaceholder;
     bossImageEl.classList.add('hidden');
   }
   document.body.classList.remove('boss-battle-bg', 't1000-mode');
@@ -3099,14 +3114,14 @@ musicToggle.addEventListener('click', () => {
     currentMusic.volume = targetVolume;  // inicia directamente al 20%
     safePlay(currentMusic);
     if (musicIcon) {
-      musicIcon.src = '../assets/images/musicon.webp';
+      musicIcon.src = ASSET_URLS.musicOn;
       musicIcon.alt = 'Music on';
     }
     volumeSlider.disabled = false;
   } else {
     currentMusic.pause();
     if (musicIcon) {
-      musicIcon.src = '../assets/images/musicoff.webp';
+      musicIcon.src = ASSET_URLS.musicOff;
       musicIcon.alt = 'Music off';
     }
     volumeSlider.disabled = true;
@@ -4245,7 +4260,7 @@ function startBossBattle() {
     bubble.classList.remove('error');
   }
   const image = document.getElementById('chuache-image');
-  if (image) image.src = '../assets/images/conjuchuache.webp';
+  if (image) image.src = ASSET_URLS.conjuchuache;
   if (selectedGameMode === 'study') return;
 levelState.bossesEncounteredTotal++;
 levelState.currentBossNumber++;
@@ -4292,11 +4307,11 @@ levelState.currentBossNumber++;
         bossImage.parentNode.replaceChild(img, bossImage);
         bossImage = img;
       }
-      bossImage.src = '../assets/images/bosshack.webp';
+      bossImage.src = ASSET_URLS.bossHack;
     } else if (selectedBossKey === 'skynetGlitch') {
       // Configurar como video para Boss 2
-      bossImage = configureBossVideo(bossImage, '../assets/images/bosssg.webm');
-      bossImage.src = '../assets/images/bosssg.webm';
+      bossImage = configureBossVideo(bossImage, ASSET_URLS.bossSkynetVideo);
+      bossImage.src = ASSET_URLS.bossSkynetVideo;
       safePlay(bossImage); // Iniciar reproducción
     } else if (selectedBossKey === 'nuclearBomb') {
       // Skip assigning src so the nuclear boss image remains hidden
@@ -4310,7 +4325,7 @@ levelState.currentBossNumber++;
         bossImage.parentNode.replaceChild(img, bossImage);
         bossImage = img;
       }
-      bossImage.src = '../assets/images/bosst-1000.webp';
+      bossImage.src = ASSET_URLS.bossT1000;
     }
   }
 
@@ -5346,7 +5361,7 @@ levelState.bossesEncounteredTotal = 0;
   
   // Actualizar iconos de música
   if (musicIcon) {
-    musicIcon.src = musicPlaying ? '../assets/images/musicon.webp' : '../assets/images/musicoff.webp';
+    musicIcon.src = musicPlaying ? ASSET_URLS.musicOn : ASSET_URLS.musicOff;
     musicIcon.alt = musicPlaying ? 'Music on' : 'Music off';
   }
   
@@ -5644,7 +5659,7 @@ finalStartGameButton.addEventListener('click', async () => {
             } else {
                 gameMusic.pause();
                 if (musicIcon) {
-                    musicIcon.src = '../assets/images/musicoff.webp';
+                    musicIcon.src = ASSET_URLS.musicOff;
                     musicIcon.alt = 'Music off';
                 }
             }
@@ -6180,7 +6195,7 @@ function updateGameTitle() {
   const livesWrapper = document.getElementById('lives-count-wrapper');
   if (livesWrapper) {
     if (selectedGameMode === 'lives') {
-      livesWrapper.innerHTML = `<span id="lives-count">${remainingLives}</span><img src="../assets/images/heart.webp" alt="life" style="width:40px; height:40px; vertical-align: middle; margin-left: 6px;">`;
+      livesWrapper.innerHTML = `<span id="lives-count">${remainingLives}</span><img src="${ASSET_URLS.heart}" alt="life" style="width:40px; height:40px; vertical-align: middle; margin-left: 6px;">`;
     } else {
       livesWrapper.innerHTML = '';
     }

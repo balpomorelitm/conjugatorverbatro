@@ -1991,7 +1991,7 @@
       "future_simple": {"yo": "me comunicaré", "tú": "te comunicarás", "vos": "te comunicarás", "él": "se comunicará", "nosotros": "nos comunicaremos", "vosotros": "os comunicaréis", "ellos": "se comunicarán"},
       "condicional_simple": {"yo": "me comunicaría", "tú": "te comunicarías", "vos": "te comunicarías", "él": "se comunicaría", "nosotros": "nos comunicaríamos", "vosotros": "os comunicaríais", "ellos": "se comunicarían"},
       "imperfect_indicative": {"yo": "me comunicaba", "tú": "te comunicabas", "vos": "te comunicabas", "él": "se comunicaba", "nosotros": "nos comunicábamos", "vosotros": "os comunicabais", "ellos": "se comunicaban"},
-      "imperative": {"tú": "se comunica", "usted": "me comunica", "vosotros": "comunicarid", "ustedes": "me comunican"},
+      "imperative": {"tú": "comunícate", "usted": "comuníquese", "vosotros": "comunicaos", "ustedes": "comuníquense"},
       "imperative_negative": {"tú": "no te comuniques", "usted": "no se comunique", "vosotros": "no os comuniquéis", "ustedes": "no se comuniquen"}
     },
     "conjugations_en": {
@@ -2025,7 +2025,7 @@
       "future_simple": {"yo": "me mudaré", "tú": "te mudarás", "vos": "te mudarás", "él": "se mudará", "nosotros": "nos mudaremos", "vosotros": "os mudaréis", "ellos": "se mudarán"},
       "condicional_simple": {"yo": "me mudaría", "tú": "te mudarías", "vos": "te mudarías", "él": "se mudaría", "nosotros": "nos mudaríamos", "vosotros": "os mudaríais", "ellos": "se mudarían"},
       "imperfect_indicative": {"yo": "me mudaba", "tú": "te mudabas", "vos": "te mudabas", "él": "se mudaba", "nosotros": "nos mudábamos", "vosotros": "os mudabais", "ellos": "se mudaban"},
-      "imperative": {"tú": "se muda", "usted": "me muda", "vosotros": "mudarid", "ustedes": "me mudan"},
+      "imperative": {"tú": "múdate", "usted": "múdese", "vosotros": "mudaos", "ustedes": "múdense"},
       "imperative_negative": {"tú": "no te mudes", "usted": "no se mude", "vosotros": "no os mudéis", "ustedes": "no se muden"}
     },
     "conjugations_en": {
@@ -2059,7 +2059,7 @@
       "future_simple": {"yo": "me ducharé", "tú": "te ducharás", "vos": "te ducharás", "él": "se duchará", "nosotros": "nos ducharemos", "vosotros": "os ducharéis", "ellos": "se ducharán"},
       "condicional_simple": {"yo": "me ducharía", "tú": "te ducharías", "vos": "te ducharías", "él": "se ducharía", "nosotros": "nos ducharíamos", "vosotros": "os ducharíais", "ellos": "se ducharían"},
       "imperfect_indicative": {"yo": "me duchaba", "tú": "te duchabas", "vos": "te duchabas", "él": "se duchaba", "nosotros": "nos duchábamos", "vosotros": "os duchabais", "ellos": "se duchaban"},
-      "imperative": {"tú": "se ducha", "usted": "me ducha", "vosotros": "ducharid", "ustedes": "me duchan"},
+      "imperative": {"tú": "dúchate", "usted": "dúchese", "vosotros": "duchaos", "ustedes": "dúchense"},
       "imperative_negative": {"tú": "no te duches", "usted": "no se duche", "vosotros": "no os duchéis", "ustedes": "no se duchen"}
     },
     "conjugations_en": {
@@ -2093,7 +2093,7 @@
       "future_simple": {"yo": "me acostaré", "tú": "te acostarás", "vos": "te acostarás", "él": "se acostará", "nosotros": "nos acostaremos", "vosotros": "os acostaréis", "ellos": "se acostarán"},
       "condicional_simple": {"yo": "me acostaría", "tú": "te acostarías", "vos": "te acostarías", "él": "se acostaría", "nosotros": "nos acostaríamos", "vosotros": "os acostaríais", "ellos": "se acostarían"},
       "imperfect_indicative": {"yo": "me acostaba", "tú": "te acostabas", "vos": "te acostabas", "él": "se acostaba", "nosotros": "nos acostábamos", "vosotros": "os acostabais", "ellos": "se acostaban"},
-      "imperative": {"tú": "se acuesta", "usted": "me acuesta", "vosotros": "acostarid", "ustedes": "me acuestan"},
+      "imperative": {"tú": "acuéstate", "usted": "acuéstese", "vosotros": "acostaos", "ustedes": "acuéstense"},
       "imperative_negative": {"tú": "no te acuestes", "usted": "no se acueste", "vosotros": "no os acostéis", "ustedes": "no se acuesten"}
     },
     "conjugations_en": {
@@ -2127,7 +2127,7 @@
       "future_simple": {"yo": "me levantaré", "tú": "te levantarás", "vos": "te levantarás", "él": "se levantará", "nosotros": "nos levantaremos", "vosotros": "os levantaréis", "ellos": "se levantarán"},
       "condicional_simple": {"yo": "me levantaría", "tú": "te levantarías", "vos": "te levantarías", "él": "se levantaría", "nosotros": "nos levantaríamos", "vosotros": "os levantaríais", "ellos": "se levantarían"},
       "imperfect_indicative": {"yo": "me levantaba", "tú": "te levantabas", "vos": "te levantabas", "él": "se levantaba", "nosotros": "nos levantábamos", "vosotros": "os levantabais", "ellos": "se levantaban"},
-      "imperative": {"tú": "se levanta", "usted": "me levanta", "vosotros": "levantarid", "ustedes": "me levantan"},
+      "imperative": {"tú": "levántate", "usted": "levántese", "vosotros": "levantaos", "ustedes": "levántense"},
       "imperative_negative": {"tú": "no te levantes", "usted": "no se levante", "vosotros": "no os levantéis", "ustedes": "no se levanten"}
     },
     "conjugations_en": {
@@ -2365,7 +2365,7 @@
       "future_simple": {"yo": "me sentaré", "tú": "te sentarás", "vos": "te sentarás", "él": "se sentará", "nosotros": "nos sentaremos", "vosotros": "os sentaréis", "ellos": "se sentarán"},
       "condicional_simple": {"yo": "me sentaría", "tú": "te sentarías", "vos": "te sentarías", "él": "se sentaría", "nosotros": "nos sentaríamos", "vosotros": "os sentaríais", "ellos": "se sentarían"},
       "imperfect_indicative": {"yo": "me sentaba", "tú": "te sentabas", "vos": "te sentabas", "él": "se sentaba", "nosotros": "nos sentábamos", "vosotros": "os sentabais", "ellos": "se sentaban"},
-      "imperative": {"tú": "se sienta", "usted": "me sienta", "vosotros": "sentarid", "ustedes": "me sientan"},
+      "imperative": {"tú": "siéntate", "usted": "siéntese", "vosotros": "sentaos", "ustedes": "siéntense"},
       "imperative_negative": {"tú": "no te sientes", "usted": "no se siente", "vosotros": "no os sentéis", "ustedes": "no se sienten"}
     },
     "conjugations_en": {
@@ -2467,7 +2467,7 @@
       "future_simple": {"yo": "me iré", "tú": "te irás", "vos": "te irás", "él": "se irá", "nosotros": "nos iremos", "vosotros": "os iréis", "ellos": "se irán"},
       "condicional_simple": {"yo": "me iría", "tú": "te irías", "vos": "te irías", "él": "se iría", "nosotros": "nos iríamos", "vosotros": "os iríais", "ellos": "se irían"},
       "imperfect_indicative": {"yo": "me iba", "tú": "te ibas", "vos": "te ibas", "él": "se iba", "nosotros": "nos íbamos", "vosotros": "os ibais", "ellos": "se iban"},
-      "imperative": {"tú": "se va", "usted": "me va", "vosotros": "irid", "ustedes": "me van"},
+      "imperative": {"tú": "vete", "usted": "váyase", "vosotros": "idos", "ustedes": "váyanse"},
       "imperative_negative": {"tú": "no te vayas", "usted": "no se vaya", "vosotros": "no os vayáis", "ustedes": "no se vayan"}
     },
     "conjugations_en": {
@@ -2501,7 +2501,7 @@
       "future_simple": {"yo": "me dormiré", "tú": "te dormirás", "vos": "te dormirás", "él": "se dormirá", "nosotros": "nos dormiremos", "vosotros": "os dormiréis", "ellos": "se dormirán"},
       "condicional_simple": {"yo": "me dormiría", "tú": "te dormirías", "vos": "te dormirías", "él": "se dormiría", "nosotros": "nos dormiríamos", "vosotros": "os dormiríais", "ellos": "se dormirían"},
       "imperfect_indicative": {"yo": "me dormía", "tú": "te dormías", "vos": "te dormías", "él": "se dormía", "nosotros": "nos dormíamos", "vosotros": "os dormíais", "ellos": "se dormían"},
-      "imperative": {"tú": "se duerme", "usted": "me duerma", "vosotros": "dormirid", "ustedes": "me duerman"},
+      "imperative": {"tú": "duérmete", "usted": "duérmase", "vosotros": "dormíos", "ustedes": "duérmanse"},
       "imperative_negative": {"tú": "no te duermas", "usted": "no se duerma", "vosotros": "no os durmáis", "ustedes": "no se duerman"}
     },
     "conjugations_en": {
@@ -2535,7 +2535,7 @@
       "future_simple": {"yo": "me sentiré", "tú": "te sentirás", "vos": "te sentirás", "él": "se sentirá", "nosotros": "nos sentiremos", "vosotros": "os sentiréis", "ellos": "se sentirán"},
       "condicional_simple": {"yo": "me sentiría", "tú": "te sentirías", "vos": "te sentirías", "él": "se sentiría", "nosotros": "nos sentiríamos", "vosotros": "os sentiríais", "ellos": "se sentirían"},
       "imperfect_indicative": {"yo": "me sentía", "tú": "te sentías", "vos": "te sentías", "él": "se sentía", "nosotros": "nos sentíamos", "vosotros": "os sentíais", "ellos": "se sentían"},
-      "imperative": {"tú": "se siente", "usted": "me sienta", "vosotros": "sentirid", "ustedes": "me sientan"},
+      "imperative": {"tú": "siéntete", "usted": "siéntase", "vosotros": "sentíos", "ustedes": "siéntanse"},
       "imperative_negative": {"tú": "no te sientas", "usted": "no se sienta", "vosotros": "no os sintáis", "ustedes": "no se sientan"}
     },
     "conjugations_en": {
@@ -2569,7 +2569,7 @@
       "future_simple": {"yo": "me veré", "tú": "te verás", "vos": "te verás", "él": "se verá", "nosotros": "nos veremos", "vosotros": "os veréis", "ellos": "se verán"},
       "condicional_simple": {"yo": "me vería", "tú": "te verías", "vos": "te verías", "él": "se vería", "nosotros": "nos veríamos", "vosotros": "os veríais", "ellos": "se verían"},
       "imperfect_indicative": {"yo": "me veía", "tú": "te veías", "vos": "te veías", "él": "se veía", "nosotros": "nos veíamos", "vosotros": "os veíais", "ellos": "se veían"},
-      "imperative": {"tú": "se ve", "usted": "me vea", "vosotros": "verid", "ustedes": "me vean"},
+      "imperative": {"tú": "vete", "usted": "véase", "vosotros": "veos", "ustedes": "véanse"},
       "imperative_negative": {"tú": "no te veas", "usted": "no se vea", "vosotros": "no os veáis", "ustedes": "no se vean"}
     },
     "conjugations_en": {
@@ -2603,7 +2603,7 @@
       "future_simple": {"yo": "me pondré", "tú": "te pondrás", "vos": "te pondrás", "él": "se pondrá", "nosotros": "nos pondremos", "vosotros": "os pondréis", "ellos": "se pondrán"},
       "condicional_simple": {"yo": "me pondría", "tú": "te pondrías", "vos": "te pondrías", "él": "se pondría", "nosotros": "nos pondríamos", "vosotros": "os pondríais", "ellos": "se pondrían"},
       "imperfect_indicative": {"yo": "me ponía", "tú": "te ponías", "vos": "te ponías", "él": "se ponía", "nosotros": "nos poníamos", "vosotros": "os poníais", "ellos": "se ponían"},
-      "imperative": {"tú": "se pone", "usted": "me ponga", "vosotros": "ponerid", "ustedes": "me pongan"},
+      "imperative": {"tú": "ponte", "usted": "póngase", "vosotros": "poneos", "ustedes": "pónganse"},
       "imperative_negative": {"tú": "no te pongas", "usted": "no se ponga", "vosotros": "no os pongáis", "ustedes": "no se pongan"}
     },
     "conjugations_en": {
@@ -2637,7 +2637,7 @@
       "future_simple": {"yo": "me quedaré", "tú": "te quedarás", "vos": "te quedarás", "él": "se quedará", "nosotros": "nos quedaremos", "vosotros": "os quedaréis", "ellos": "se quedarán"},
       "condicional_simple": {"yo": "me quedaría", "tú": "te quedarías", "vos": "te quedarías", "él": "se quedaría", "nosotros": "nos quedaríamos", "vosotros": "os quedaríais", "ellos": "se quedarían"},
       "imperfect_indicative": {"yo": "me quedaba", "tú": "te quedabas", "vos": "te quedabas", "él": "se quedaba", "nosotros": "nos quedábamos", "vosotros": "os quedabais", "ellos": "se quedaban"},
-      "imperative": {"tú": "se queda", "usted": "me queda", "vosotros": "quedarid", "ustedes": "me quedan"},
+      "imperative": {"tú": "quédate", "usted": "quédese", "vosotros": "quedaos", "ustedes": "quédense"},
       "imperative_negative": {"tú": "no te quedes", "usted": "no se quede", "vosotros": "no os quedéis", "ustedes": "no se queden"}
     },
     "conjugations_en": {
@@ -2671,7 +2671,7 @@
       "future_simple": {"yo": "me olvidaré", "tú": "te olvidarás", "vos": "te olvidarás", "él": "se olvidará", "nosotros": "nos olvidaremos", "vosotros": "os olvidaréis", "ellos": "se olvidarán"},
       "condicional_simple": {"yo": "me olvidaría", "tú": "te olvidarías", "vos": "te olvidarías", "él": "se olvidaría", "nosotros": "nos olvidaríamos", "vosotros": "os olvidaríais", "ellos": "se olvidarían"},
       "imperfect_indicative": {"yo": "me olvidaba", "tú": "te olvidabas", "vos": "te olvidabas", "él": "se olvidaba", "nosotros": "nos olvidábamos", "vosotros": "os olvidabais", "ellos": "se olvidaban"},
-      "imperative": {"tú": "se olvida", "usted": "me olvida", "vosotros": "olvidarid", "ustedes": "me olvidan"},
+      "imperative": {"tú": "olvídate", "usted": "olvídese", "vosotros": "olvidaos", "ustedes": "olvídense"},
       "imperative_negative": {"tú": "no te olvides", "usted": "no se olvide", "vosotros": "no os olvidéis", "ustedes": "no se olviden"}
     },
     "conjugations_en": {
@@ -2705,7 +2705,7 @@
       "future_simple": {"yo": "me llamaré", "tú": "te llamarás", "vos": "te llamarás", "él": "se llamará", "nosotros": "nos llamaremos", "vosotros": "os llamaréis", "ellos": "se llamarán"},
       "condicional_simple": {"yo": "me llamaría", "tú": "te llamarías", "vos": "te llamarías", "él": "se llamaría", "nosotros": "nos llamaríamos", "vosotros": "os llamaríais", "ellos": "se llamarían"},
       "imperfect_indicative": {"yo": "me llamaba", "tú": "te llamabas", "vos": "te llamabas", "él": "se llamaba", "nosotros": "nos llamábamos", "vosotros": "os llamabais", "ellos": "se llamaban"},
-      "imperative": {"tú": "se llama", "usted": "me llama", "vosotros": "llamarid", "ustedes": "me llaman"},
+      "imperative": {"tú": "llámate", "usted": "llámese", "vosotros": "llamaos", "ustedes": "llámense"},
       "imperative_negative": {"tú": "no te llames", "usted": "no se llame", "vosotros": "no os llaméis", "ustedes": "no se llamen"}
     },
     "conjugations_en": {
@@ -2739,7 +2739,7 @@
       "future_simple": {"yo": "me quitaré", "tú": "te quitarás", "vos": "te quitarás", "él": "se quitará", "nosotros": "nos quitaremos", "vosotros": "os quitaréis", "ellos": "se quitarán"},
       "condicional_simple": {"yo": "me quitaría", "tú": "te quitarías", "vos": "te quitarías", "él": "se quitaría", "nosotros": "nos quitaríamos", "vosotros": "os quitaríais", "ellos": "se quitarían"},
       "imperfect_indicative": {"yo": "me quitaba", "tú": "te quitabas", "vos": "te quitabas", "él": "se quitaba", "nosotros": "nos quitábamos", "vosotros": "os quitabais", "ellos": "se quitaban"},
-      "imperative": {"tú": "se quita", "usted": "me quita", "vosotros": "quitarid", "ustedes": "me quitan"},
+      "imperative": {"tú": "quítate", "usted": "quítese", "vosotros": "quitaos", "ustedes": "quítense"},
       "imperative_negative": {"tú": "no te quites", "usted": "no se quite", "vosotros": "no os quitéis", "ustedes": "no se quiten"}
     },
     "conjugations_en": {
@@ -2773,7 +2773,7 @@
       "future_simple": {"yo": "me aburriré", "tú": "te aburrirás", "vos": "te aburrirás", "él": "se aburrirá", "nosotros": "nos aburriremos", "vosotros": "os aburriréis", "ellos": "se aburrirán"},
       "condicional_simple": {"yo": "me aburriría", "tú": "te aburrirías", "vos": "te aburrirías", "él": "se aburriría", "nosotros": "nos aburriríamos", "vosotros": "os aburriríais", "ellos": "se aburrirían"},
       "imperfect_indicative": {"yo": "me aburría", "tú": "te aburrías", "vos": "te aburrías", "él": "se aburría", "nosotros": "nos aburríamos", "vosotros": "os aburríais", "ellos": "se aburrían"},
-      "imperative": {"tú": "se aburre", "usted": "me aburra", "vosotros": "aburririd", "ustedes": "me aburran"},
+      "imperative": {"tú": "abúrrete", "usted": "abúrrase", "vosotros": "aburríos", "ustedes": "abúrranse"},
       "imperative_negative": {"tú": "no te aburras", "usted": "no se aburra", "vosotros": "no os aburráis", "ustedes": "no se aburran"}
     },
     "conjugations_en": {
@@ -2875,7 +2875,7 @@
       "future_simple": {"yo": "me divertiré", "tú": "te divertirás", "vos": "te divertirás", "él": "se divertirá", "nosotros": "nos divertiremos", "vosotros": "os divertiréis", "ellos": "se divertirán"},
       "condicional_simple": {"yo": "me divertiría", "tú": "te divertirías", "vos": "te divertirías", "él": "se divertiría", "nosotros": "nos divertiríamos", "vosotros": "os divertiríais", "ellos": "se divertirían"},
       "imperfect_indicative": {"yo": "me divertía", "tú": "te divertías", "vos": "te divertías", "él": "se divertía", "nosotros": "nos divertíamos", "vosotros": "os divertíais", "ellos": "se divertían"},
-      "imperative": {"tú": "se divierte", "usted": "me divierta", "vosotros": "divertirid", "ustedes": "me diviertan"},
+      "imperative": {"tú": "diviértete", "usted": "diviértase", "vosotros": "divertíos", "ustedes": "diviértanse"},
       "imperative_negative": {"tú": "no te diviertas", "usted": "no se divierta", "vosotros": "no os divirtáis", "ustedes": "no se diviertan"}
     },
     "conjugations_en": {
@@ -2909,7 +2909,7 @@
       "future_simple": {"yo": "me arrepentiré", "tú": "te arrepentirás", "vos": "te arrepentirás", "él": "se arrepentirá", "nosotros": "nos arrepentiremos", "vosotros": "os arrepentiréis", "ellos": "se arrepentirán"},
       "condicional_simple": {"yo": "me arrepentiría", "tú": "te arrepentirías", "vos": "te arrepentirías", "él": "se arrepentiría", "nosotros": "nos arrepentiríamos", "vosotros": "os arrepentiríais", "ellos": "se arrepentirían"},
       "imperfect_indicative": {"yo": "me arrepentía", "tú": "te arrepentías", "vos": "te arrepentías", "él": "se arrepentía", "nosotros": "nos arrepentíamos", "vosotros": "os arrepentíais", "ellos": "se arrepentían"},
-      "imperative": {"tú": "se arrepiente", "usted": "me arrepienta", "vosotros": "arrepentirid", "ustedes": "me arrepientan"},
+      "imperative": {"tú": "arrepiéntete", "usted": "arrepiéntase", "vosotros": "arrepentíos", "ustedes": "arrepiéntanse"},
       "imperative_negative": {"tú": "no te arrepientas", "usted": "no se arrepienta", "vosotros": "no os arrepintáis", "ustedes": "no se arrepientan"}
     },
     "conjugations_en": {
@@ -2943,7 +2943,7 @@
       "future_simple": {"yo": "me reiré", "tú": "te reirás", "vos": "te reirás", "él": "se reirá", "nosotros": "nos reiremos", "vosotros": "os reiréis", "ellos": "se reirán"},
       "condicional_simple": {"yo": "me reiría", "tú": "te reirías", "vos": "te reirías", "él": "se reiría", "nosotros": "nos reiríamos", "vosotros": "os reiríais", "ellos": "se reirían"},
       "imperfect_indicative": {"yo": "me reía", "tú": "te reías", "vos": "te reías", "él": "se reía", "nosotros": "nos reíamos", "vosotros": "os reíais", "ellos": "se reían"},
-      "imperative": {"tú": "se ríe", "usted": "me ría", "vosotros": "reírid", "ustedes": "me rían"},
+      "imperative": {"tú": "ríete", "usted": "ríase", "vosotros": "reíos", "ustedes": "ríanse"},
       "imperative_negative": {"tú": "no te rías", "usted": "no se ría", "vosotros": "no os riáis", "ustedes": "no se rían"}
     },
     "conjugations_en": {
@@ -2977,7 +2977,7 @@
       "future_simple": {"yo": "me convertiré", "tú": "te convertirás", "vos": "te convertirás", "él": "se convertirá", "nosotros": "nos convertiremos", "vosotros": "os convertiréis", "ellos": "se convertirán"},
       "condicional_simple": {"yo": "me convertiría", "tú": "te convertirías", "vos": "te convertirías", "él": "se convertiría", "nosotros": "nos convertiríamos", "vosotros": "os convertiríais", "ellos": "se convertirían"},
       "imperfect_indicative": {"yo": "me convertía", "tú": "te convertías", "vos": "te convertías", "él": "se convertía", "nosotros": "nos convertíamos", "vosotros": "os convertíais", "ellos": "se convertían"},
-      "imperative": {"tú": "se convierte", "usted": "me convierta", "vosotros": "convertirid", "ustedes": "me conviertan"},
+      "imperative": {"tú": "conviértete", "usted": "conviértase", "vosotros": "convertíos", "ustedes": "conviértanse"},
       "imperative_negative": {"tú": "no te conviertas", "usted": "no se convierta", "vosotros": "no os convirtáis", "ustedes": "no se conviertan"}
     },
     "conjugations_en": {
@@ -3011,7 +3011,7 @@
       "future_simple": {"yo": "me acercaré", "tú": "te acercarás", "vos": "te acercarás", "él": "se acercará", "nosotros": "nos acercaremos", "vosotros": "os acercaréis", "ellos": "se acercarán"},
       "condicional_simple": {"yo": "me acercaría", "tú": "te acercarías", "vos": "te acercarías", "él": "se acercaría", "nosotros": "nos acercaríamos", "vosotros": "os acercaríais", "ellos": "se acercarían"},
       "imperfect_indicative": {"yo": "me acercaba", "tú": "te acercabas", "vos": "te acercabas", "él": "se acercaba", "nosotros": "nos acercábamos", "vosotros": "os acercabais", "ellos": "se acercaban"},
-      "imperative": {"tú": "se acerca", "usted": "me acerca", "vosotros": "acercarid", "ustedes": "me acercan"},
+      "imperative": {"tú": "acércate", "usted": "acérquese", "vosotros": "acercaos", "ustedes": "acérquense"},
       "imperative_negative": {"tú": "no te acerques", "usted": "no se acerque", "vosotros": "no os acerquéis", "ustedes": "no se acerquen"}
     },
     "conjugations_en": {
@@ -3045,7 +3045,7 @@
       "future_simple": {"yo": "me alejaré", "tú": "te alejarás", "vos": "te alejarás", "él": "se alejará", "nosotros": "nos alejaremos", "vosotros": "os alejaréis", "ellos": "se alejarán"},
       "condicional_simple": {"yo": "me alejaría", "tú": "te alejarías", "vos": "te alejarías", "él": "se alejaría", "nosotros": "nos alejaríamos", "vosotros": "os alejaríais", "ellos": "se alejarían"},
       "imperfect_indicative": {"yo": "me alejaba", "tú": "te alejabas", "vos": "te alejabas", "él": "se alejaba", "nosotros": "nos alejábamos", "vosotros": "os alejabais", "ellos": "se alejaban"},
-      "imperative": {"tú": "se aleja", "usted": "me aleja", "vosotros": "alejarid", "ustedes": "me alejan"},
+      "imperative": {"tú": "aléjate", "usted": "aléjese", "vosotros": "alejaos", "ustedes": "aléjense"},
       "imperative_negative": {"tú": "no te alejes", "usted": "no se aleje", "vosotros": "no os alejéis", "ustedes": "no se alejen"}
     },
     "conjugations_en": {
@@ -3079,7 +3079,7 @@
       "future_simple": {"yo": "me enfermaré", "tú": "te enfermarás", "vos": "te enfermarás", "él": "se enfermará", "nosotros": "nos enfermaremos", "vosotros": "os enfermaréis", "ellos": "se enfermarán"},
       "condicional_simple": {"yo": "me enfermaría", "tú": "te enfermarías", "vos": "te enfermarías", "él": "se enfermaría", "nosotros": "nos enfermaríamos", "vosotros": "os enfermaríais", "ellos": "se enfermarían"},
       "imperfect_indicative": {"yo": "me enfermaba", "tú": "te enfermabas", "vos": "te enfermabas", "él": "se enfermaba", "nosotros": "nos enfermábamos", "vosotros": "os enfermabais", "ellos": "se enfermaban"},
-      "imperative": {"tú": "se enferma", "usted": "me enferma", "vosotros": "enfermarid", "ustedes": "me enferman"},
+      "imperative": {"tú": "enférmate", "usted": "enférmese", "vosotros": "enfermaos", "ustedes": "enférmense"},
       "imperative_negative": {"tú": "no te enfermes", "usted": "no se enferme", "vosotros": "no os enferméis", "ustedes": "no se enfermen"}
     },
     "conjugations_en": {
@@ -3317,7 +3317,7 @@
       "future_simple": {"yo": "me despertaré", "tú": "te despertarás", "vos": "te despertarás", "él": "se despertará", "nosotros": "nos despertaremos", "vosotros": "os despertaréis", "ellos": "se despertarán"},
       "condicional_simple": {"yo": "me despertaría", "tú": "te despertarías", "vos": "te despertarías", "él": "se despertaría", "nosotros": "nos despertaríamos", "vosotros": "os despertaríais", "ellos": "se despertarían"},
       "imperfect_indicative": {"yo": "me despertaba", "tú": "te despertabas", "vos": "te despertabas", "él": "se despertaba", "nosotros": "nos despertábamos", "vosotros": "os despertabais", "ellos": "se despertaban"},
-      "imperative": {"tú": "se despierta", "usted": "me despierta", "vosotros": "despertarid", "ustedes": "me despiertan"},
+      "imperative": {"tú": "despiértate", "usted": "despiértese", "vosotros": "despertaos", "ustedes": "despiértense"},
       "imperative_negative": {"tú": "no te despiertes", "usted": "no se despierte", "vosotros": "no os despertéis", "ustedes": "no se despierten"}
     },
     "conjugations_en": {
@@ -4031,7 +4031,7 @@
       "future_simple": {"yo": "me reuniré", "tú": "te reunirás", "vos": "te reunirás", "él": "se reunirá", "nosotros": "nos reuniremos", "vosotros": "os reuniréis", "ellos": "se reunirán"},
       "condicional_simple": {"yo": "me reuniría", "tú": "te reunirías", "vos": "te reunirías", "él": "se reuniría", "nosotros": "nos reuniríamos", "vosotros": "os reuniríais", "ellos": "se reunirían"},
       "imperfect_indicative": {"yo": "me reunía", "tú": "te reunías", "vos": "te reunías", "él": "se reunía", "nosotros": "nos reuníamos", "vosotros": "os reuníais", "ellos": "se reunían"},
-      "imperative": {"tú": "se reúne", "usted": "me reúna", "vosotros": "reunirid", "ustedes": "me reúnan"},
+      "imperative": {"tú": "reúnete", "usted": "reúnase", "vosotros": "reuníos", "ustedes": "reúnanse"},
       "imperative_negative": {"tú": "no te reúnas", "usted": "no se reúna", "vosotros": "no os reunáis", "ustedes": "no se reúnan"}
     },
     "conjugations_en": {
@@ -4065,7 +4065,7 @@
       "future_simple": {"yo": "me casaré", "tú": "te casarás", "vos": "te casarás", "él": "se casará", "nosotros": "nos casaremos", "vosotros": "os casaréis", "ellos": "se casarán"},
       "condicional_simple": {"yo": "me casaría", "tú": "te casarías", "vos": "te casarías", "él": "se casaría", "nosotros": "nos casaríamos", "vosotros": "os casaríais", "ellos": "se casarían"},
       "imperfect_indicative": {"yo": "me casaba", "tú": "te casabas", "vos": "te casabas", "él": "se casaba", "nosotros": "nos casábamos", "vosotros": "os casabais", "ellos": "se casaban"},
-      "imperative": {"tú": "se casa", "usted": "me casa", "vosotros": "casarid", "ustedes": "me casan"},
+      "imperative": {"tú": "cásate", "usted": "cásese", "vosotros": "casaos", "ustedes": "cásense"},
       "imperative_negative": {"tú": "no te cases", "usted": "no se case", "vosotros": "no os caséis", "ustedes": "no se casen"}
     },
     "conjugations_en": {
@@ -4099,7 +4099,7 @@
       "future_simple": {"yo": "me separaré", "tú": "te separarás", "vos": "te separarás", "él": "se separará", "nosotros": "nos separaremos", "vosotros": "os separaréis", "ellos": "se separarán"},
       "condicional_simple": {"yo": "me separaría", "tú": "te separarías", "vos": "te separarías", "él": "se separaría", "nosotros": "nos separaríamos", "vosotros": "os separaríais", "ellos": "se separarían"},
       "imperfect_indicative": {"yo": "me separaba", "tú": "te separabas", "vos": "te separabas", "él": "se separaba", "nosotros": "nos separábamos", "vosotros": "os separabais", "ellos": "se separaban"},
-      "imperative": {"tú": "se separa", "usted": "me separa", "vosotros": "separarid", "ustedes": "me separan"},
+      "imperative": {"tú": "sepárate", "usted": "sepárese", "vosotros": "separaos", "ustedes": "sepárense"},
       "imperative_negative": {"tú": "no te separes", "usted": "no se separe", "vosotros": "no os separéis", "ustedes": "no se separen"}
     },
     "conjugations_en": {
@@ -4133,7 +4133,7 @@
       "future_simple": {"yo": "me enamoraré", "tú": "te enamorarás", "vos": "te enamorarás", "él": "se enamorará", "nosotros": "nos enamoraremos", "vosotros": "os enamoraréis", "ellos": "se enamorarán"},
       "condicional_simple": {"yo": "me enamoraría", "tú": "te enamorarías", "vos": "te enamorarías", "él": "se enamoraría", "nosotros": "nos enamoraríamos", "vosotros": "os enamoraríais", "ellos": "se enamorarían"},
       "imperfect_indicative": {"yo": "me enamoraba", "tú": "te enamorabas", "vos": "te enamorabas", "él": "se enamoraba", "nosotros": "nos enamorábamos", "vosotros": "os enamorabais", "ellos": "se enamoraban"},
-      "imperative": {"tú": "se enamora", "usted": "me enamora", "vosotros": "enamorarid", "ustedes": "me enamoran"},
+      "imperative": {"tú": "enamórate", "usted": "enamórese", "vosotros": "enamoraos", "ustedes": "enamórense"},
       "imperative_negative": {"tú": "no te enamores", "usted": "no se enamore", "vosotros": "no os enamoréis", "ustedes": "no se enamoren"}
     },
     "conjugations_en": {
@@ -5221,7 +5221,7 @@
       "future_simple": {"yo": "me adaptaré", "tú": "te adaptarás", "vos": "te adaptarás", "él": "se adaptará", "nosotros": "nos adaptaremos", "vosotros": "os adaptaréis", "ellos": "se adaptarán"},
       "condicional_simple": {"yo": "me adaptaría", "tú": "te adaptarías", "vos": "te adaptarías", "él": "se adaptaría", "nosotros": "nos adaptaríamos", "vosotros": "os adaptaríais", "ellos": "se adaptarían"},
       "imperfect_indicative": {"yo": "me adaptaba", "tú": "te adaptabas", "vos": "te adaptabas", "él": "se adaptaba", "nosotros": "nos adaptábamos", "vosotros": "os adaptabais", "ellos": "se adaptaban"},
-      "imperative": {"tú": "se adapta", "usted": "me adapta", "vosotros": "adaptarid", "ustedes": "me adaptan"},
+      "imperative": {"tú": "adáptate", "usted": "adáptese", "vosotros": "adaptaos", "ustedes": "adáptense"},
       "imperative_negative": {"tú": "no te adaptes", "usted": "no se adapte", "vosotros": "no os adaptéis", "ustedes": "no se adapten"}
     },
     "conjugations_en": {

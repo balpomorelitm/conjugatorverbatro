@@ -25,14 +25,34 @@ async function queryRecorderState() {
   });
 
   try {
-    navigator.serviceWorker.controller.postMessage({ type: 'request-get-recorder-state' }, [channel.port2]);
+    const capabilityReport = {
+      mediaRecorder: typeof window.MediaRecorder !== 'undefined',
+      mediaDevices: !!navigator.mediaDevices,
+      getUserMedia: !!(navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function'),
+    };
+
+    navigator.serviceWorker.controller.postMessage(
+      {
+        type: 'request-get-recorder-state',
+        capabilities: capabilityReport,
+        supported: capabilityReport.mediaRecorder && capabilityReport.mediaDevices,
+      },
+      [channel.port2]
+    );
+
     const result = await responsePromise;
-    recorderEnabled = !!(result && result.supported);
+    const normalizedResult = (result && typeof result === 'object') ? result : {};
+    const isSupported = typeof normalizedResult.supported === 'boolean'
+      ? normalizedResult.supported
+      : false;
+
+    recorderEnabled = isSupported;
     window.recorderEnabled = recorderEnabled;
     if (!recorderEnabled) {
-      console.warn('Recorder disabled by service worker response.');
+      console.warn('Recorder disabled by service worker response.', normalizedResult);
     }
-    return result;
+
+    return { ...normalizedResult, supported: isSupported };
   } catch (err) {
     console.error('Could not obtain recorder state:', err);
     recorderEnabled = false;

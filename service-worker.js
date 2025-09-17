@@ -60,7 +60,47 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'request-get-recorder-state') {
     const port = event.ports && event.ports[0];
     if (port) {
-      port.postMessage({ supported: false });
+      const data = event.data || {};
+      const { capabilities, flags, supported: reportedSupported } = data;
+
+      const normalizedCapabilities =
+        capabilities && typeof capabilities === 'object'
+          ? capabilities
+          : undefined;
+
+      const capabilitySupported =
+        normalizedCapabilities && typeof normalizedCapabilities.mediaRecorder === 'boolean'
+          ? Boolean(
+              normalizedCapabilities.mediaRecorder &&
+              (typeof normalizedCapabilities.mediaDevices === 'undefined' || normalizedCapabilities.mediaDevices) &&
+              (typeof normalizedCapabilities.getUserMedia === 'undefined' || normalizedCapabilities.getUserMedia)
+            )
+          : undefined;
+
+      const hasDisableFlag = Array.isArray(flags) && flags.includes('recorder-disabled');
+      const hasEnableFlag = Array.isArray(flags) && flags.includes('recorder-supported');
+
+      let supported = false;
+
+      if (hasDisableFlag) {
+        supported = false;
+      } else if (typeof capabilitySupported === 'boolean') {
+        supported = capabilitySupported;
+        if (typeof reportedSupported === 'boolean') {
+          supported = supported && reportedSupported;
+        }
+        if (!supported && hasEnableFlag) {
+          supported = true;
+        }
+      } else if (typeof reportedSupported === 'boolean') {
+        supported = reportedSupported;
+      } else if (hasEnableFlag) {
+        supported = true;
+      } else if (typeof self.MediaRecorder !== 'undefined') {
+        supported = true;
+      }
+
+      port.postMessage({ supported });
     }
   }
 });

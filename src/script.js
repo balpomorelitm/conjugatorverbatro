@@ -367,8 +367,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let countdownTimer;
   let countdownTime = 240;
   let remainingLives = 5;
-  let targetVolume=0.2;
-  targetVolume = loadSettings();
+  let targetVolume = loadSettings();
   preloadAudio();
   let timerTimeLeft = 0;
   let tickingSoundPlaying = false;

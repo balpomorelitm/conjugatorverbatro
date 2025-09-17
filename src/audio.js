@@ -1,31 +1,34 @@
 // Centralized audio management module
 // Exports individual sound constants, utility functions, and shared lists
 
-export const soundCorrect = new Audio('../assets/sounds/correct.mp3');
-export const soundWrong = new Audio('../assets/sounds/wrong.mp3');
-export const soundWrongStudy = new Audio('../assets/sounds/wongstudy.mp3');
-export const soundClick = new Audio('../assets/sounds/click.mp3');
-export const soundStart = new Audio('../assets/sounds/start-verb.mp3');
-export const soundSkip = new Audio('../assets/sounds/skip.mp3');
-export const menuMusic = new Audio('../assets/sounds/musicmenu.mp3');
+const assetUrl = relativePath => new URL(relativePath, import.meta.url).href;
+const createAudio = relativePath => new Audio(assetUrl(relativePath));
+
+export const soundCorrect = createAudio('../assets/sounds/correct.mp3');
+export const soundWrong = createAudio('../assets/sounds/wrong.mp3');
+export const soundWrongStudy = createAudio('../assets/sounds/wongstudy.mp3');
+export const soundClick = createAudio('../assets/sounds/click.mp3');
+export const soundStart = createAudio('../assets/sounds/start-verb.mp3');
+export const soundSkip = createAudio('../assets/sounds/skip.mp3');
+export const menuMusic = createAudio('../assets/sounds/musicmenu.mp3');
 menuMusic.loop = true;
-export const gameMusic = new Audio('../assets/sounds/musicgame.mp3');
+export const gameMusic = createAudio('../assets/sounds/musicgame.mp3');
 gameMusic.loop = true;
-export const soundGameOver = new Audio('../assets/sounds/gameover.mp3');
-export const soundbubblepop = new Audio('../assets/sounds/soundbubblepop.mp3');
-export const soundLifeGained = new Audio('../assets/sounds/soundLifeGained.mp3');
-export const soundElectricShock = new Audio('../assets/sounds/electricshock.mp3');
-export const soundTicking = new Audio('../assets/sounds/ticking.mp3');
-export const chuacheSound = new Audio('../assets/sounds/talks.mp3');
-export const soundLevelUp = new Audio('../assets/sounds/levelup.mp3');
-export const bossDigitalCorrupted = new Audio('../assets/sounds/bossDigitalCorrupted.mp3');
-export const systemRepaired = new Audio('../assets/sounds/systemRepaired.mp3');
-export const bossSkynetGlitch = new Audio('../assets/sounds/bossSkynetGlitch.mp3');
-export const bossNuclearCountdown = new Audio('../assets/sounds/bossNuclearCountdown.mp3');
-export const nuclearExplosion = new Audio('../assets/sounds/nuclearExplosion.mp3');
-export const bombDefused = new Audio('../assets/sounds/bombDefused.mp3');
-export const bossT1000Mirror = new Audio('../assets/sounds/bossT1000Mirror.mp3');
-export const mirrorShattered = new Audio('../assets/sounds/mirrorShattered.mp3');
+export const soundGameOver = createAudio('../assets/sounds/gameover.mp3');
+export const soundbubblepop = createAudio('../assets/sounds/soundbubblepop.mp3');
+export const soundLifeGained = createAudio('../assets/sounds/soundLifeGained.mp3');
+export const soundElectricShock = createAudio('../assets/sounds/electricshock.mp3');
+export const soundTicking = createAudio('../assets/sounds/ticking.mp3');
+export const chuacheSound = createAudio('../assets/sounds/talks.mp3');
+export const soundLevelUp = createAudio('../assets/sounds/levelup.mp3');
+export const bossDigitalCorrupted = createAudio('../assets/sounds/bossDigitalCorrupted.mp3');
+export const systemRepaired = createAudio('../assets/sounds/systemRepaired.mp3');
+export const bossSkynetGlitch = createAudio('../assets/sounds/bossSkynetGlitch.mp3');
+export const bossNuclearCountdown = createAudio('../assets/sounds/bossNuclearCountdown.mp3');
+export const nuclearExplosion = createAudio('../assets/sounds/nuclearExplosion.mp3');
+export const bombDefused = createAudio('../assets/sounds/bombDefused.mp3');
+export const bossT1000Mirror = createAudio('../assets/sounds/bossT1000Mirror.mp3');
+export const mirrorShattered = createAudio('../assets/sounds/mirrorShattered.mp3');
 
 // Collect all audio instances in a single array for bulk operations
 export const audioElements = [
@@ -63,7 +66,7 @@ export function preloadImages() {
     '../assets/images/musicoff.webp',
     '../assets/images/pixel_bubble.webp',
     '../assets/images/iconquestion.webp'
-  ];
+  ].map(assetUrl);
   sources.forEach(src => {
     const img = new Image();
     img.src = src;

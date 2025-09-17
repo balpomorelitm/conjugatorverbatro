@@ -391,11 +391,6 @@ body::after {
 }
 
 
-#toggle-reflexive {
-  position: relative;
-  padding-right: 28px;
-}
-
 #toggle-ignore-accents {
   position: relative;
   display: flex;

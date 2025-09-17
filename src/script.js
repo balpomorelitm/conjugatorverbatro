@@ -5048,6 +5048,8 @@ function startTimerMode() {
     clearInterval(game.boss.countdownInterval);
     game.boss.countdownInterval = null;
   }
+  game.verbsInPhaseCount = 0;
+  game.gameState = 'PLAYING';
   totalQuestions = 0;
   totalCorrect = 0;
   totalIncorrect = 0;
@@ -5130,6 +5132,8 @@ function startLivesMode() {
     clearInterval(game.boss.countdownInterval);
     game.boss.countdownInterval = null;
   }
+  game.verbsInPhaseCount = 0;
+  game.gameState = 'PLAYING';
   totalQuestions = 0;
   totalCorrect = 0;
   totalIncorrect = 0;
@@ -5651,6 +5655,8 @@ finalStartGameButton.addEventListener('click', async () => {
     } else if (window.selectedGameMode === 'lives') {
         startLivesMode();
     } else {
+        game.verbsInPhaseCount = 0;
+        game.gameState = 'PLAYING';
         levelState.bossesEncounteredTotal = 0;
         levelState.currentBossNumber = 0;
         levelState.freeClues = 0;

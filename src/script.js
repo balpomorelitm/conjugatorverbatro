@@ -4075,16 +4075,23 @@ function prepareNextQuestion() {
   if (unusedVerbs.length === 0) usedVerbs = [];
   const sourceArray = unusedVerbs.length > 0 ? unusedVerbs : allVerbData;
 
-     const v = sourceArray[Math.floor(Math.random() * sourceArray.length)];
+  const v = sourceArray[Math.floor(Math.random() * sourceArray.length)];
      if (!v || !v.conjugations || !v.infinitive_en) {
        console.error("Selected verb is invalid:", v);
        setTimeout(prepareNextQuestion, 50);
        return;
      }
 
-     if (!usedVerbs.includes(v.infinitive_es)){
-          usedVerbs.push(v.infinitive_es);
-     }
+  const availableTenses = currentOptions.tenses.filter(
+    t => v.conjugations?.[t]
+  );
+  if (availableTenses.length === 0) {
+    console.warn(
+      `No available tenses for ${v.infinitive_es} with current selection. Skipping.`
+    );
+    setTimeout(prepareNextQuestion, 50);
+    return;
+  }
      
    // ←──— INSERCIÓN A partir de aquí ───—
    // Paso 1: lee los botones de pronombre activos
@@ -4102,7 +4109,11 @@ function prepareNextQuestion() {
      ? allowedPronouns
     : pronouns;   // ['yo','tú','vos','él','nosotros','vosotros','ellos']
  
-  const tKey = currentOptions.tenses[Math.floor(Math.random() * currentOptions.tenses.length)];
+  if (!usedVerbs.includes(v.infinitive_es)) {
+    usedVerbs.push(v.infinitive_es);
+  }
+
+  const tKey = availableTenses[Math.floor(Math.random() * availableTenses.length)];
   const tenseObj = tenses.find(t => t.value === tKey);
   const tenseLabel = tenseObj ? tenseObj.name : tKey;
 

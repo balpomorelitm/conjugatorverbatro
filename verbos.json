@@ -621,8 +621,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["irregular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "sé", "tú": "sabes", "vos": "sabés", "él": "sabe", "nosotros": "sabemos", "vosotros": "sabéis", "ellos": "saben"},
@@ -631,8 +631,8 @@
       "future_simple": {"yo": "sabré", "tú": "sabrás", "vos": "sabrás", "él": "sabrá", "nosotros": "sabremos", "vosotros": "sabréis", "ellos": "sabrán"},
       "condicional_simple": {"yo": "sabría", "tú": "sabrías", "vos": "sabrías", "él": "sabría", "nosotros": "sabríamos", "vosotros": "sabríais", "ellos": "sabrían"},
       "imperfect_indicative": {"yo": "sabía", "tú": "sabías", "vos": "sabías", "él": "sabía", "nosotros": "sabíamos", "vosotros": "sabíais", "ellos": "sabían"},
-      "imperative": {"tú": "sabe", "usted": "sepa", "vosotros": "sabed", "ustedes": "sepan"},
-      "imperative_negative": {"tú": "no sepas", "usted": "no sepa", "vosotros": "no sepáis", "ustedes": "no sepan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "know", "you": "know", "he": "knows", "she": "knows", "it": "knows", "we": "know", "they": "know"},
@@ -641,8 +641,8 @@
       "future_simple": {"I": "will know", "you": "will know", "he": "will know", "she": "will know", "it": "will know", "we": "will know", "they": "will know"},
       "condicional_simple": {"I": "would know", "you": "would know", "he": "would know", "she": "would know", "it": "would know", "we": "would know", "they": "would know"},
       "imperfect_indicative": {"I": "was knowing", "you": "were knowing", "he": "was knowing", "she": "was knowing", "it": "was knowing", "we": "were knowing", "they": "were knowing"},
-      "imperative": {"you": "know", "you_formal": "know", "you_plural_spain": "know", "you_plural": "know"},
-      "imperative_negative": {"you": "do not know", "you_formal": "do not know", "you_plural_spain": "do not know", "you_plural": "do not know"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -655,8 +655,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["irregular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "puedo", "tú": "puedes", "vos": "podés", "él": "puede", "nosotros": "podemos", "vosotros": "podéis", "ellos": "pueden"},
@@ -665,8 +665,8 @@
       "future_simple": {"yo": "podré", "tú": "podrás", "vos": "podrás", "él": "podrá", "nosotros": "podremos", "vosotros": "podréis", "ellos": "podrán"},
       "condicional_simple": {"yo": "podría", "tú": "podrías", "vos": "podrías", "él": "podría", "nosotros": "podríamos", "vosotros": "podríais", "ellos": "podrían"},
       "imperfect_indicative": {"yo": "podía", "tú": "podías", "vos": "podías", "él": "podía", "nosotros": "podíamos", "vosotros": "podíais", "ellos": "podían"},
-      "imperative": {"tú": "puede", "usted": "pueda", "vosotros": "poded", "ustedes": "puedan"},
-      "imperative_negative": {"tú": "no puedas", "usted": "no pueda", "vosotros": "no podáis", "ustedes": "no puedan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "can", "you": "can", "he": "can", "she": "can", "it": "can", "we": "can", "they": "can"},
@@ -675,8 +675,8 @@
       "future_simple": {"I": "will be able", "you": "will be able", "he": "will be able", "she": "will be able", "it": "will be able", "we": "will be able", "they": "will be able"},
       "condicional_simple": {"I": "would be able", "you": "would be able", "he": "would be able", "she": "would be able", "it": "would be able", "we": "would be able", "they": "would be able"},
       "imperfect_indicative": {"I": "was able", "you": "were able", "he": "was able", "she": "was able", "it": "was able", "we": "were able", "they": "were able"},
-      "imperative": {"you": "can / be able", "you_formal": "can / be able", "you_plural_spain": "can / be able", "you_plural": "can / be able"},
-      "imperative_negative": {"you": "do not can / be able", "you_formal": "do not can / be able", "you_plural_spain": "do not can / be able", "you_plural": "do not can / be able"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -1267,8 +1267,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "parezco", "tú": "pareces", "vos": "parecés", "él": "parece", "nosotros": "parecemos", "vosotros": "parecéis", "ellos": "parecen"},
@@ -1277,8 +1277,8 @@
       "future_simple": {"yo": "pareceré", "tú": "parecerás", "vos": "parecerás", "él": "parecerá", "nosotros": "pareceremos", "vosotros": "pareceréis", "ellos": "parecerán"},
       "condicional_simple": {"yo": "parecería", "tú": "parecerías", "vos": "parecerías", "él": "parecería", "nosotros": "pareceríamos", "vosotros": "pareceríais", "ellos": "parecerían"},
       "imperfect_indicative": {"yo": "parecía", "tú": "parecías", "vos": "parecías", "él": "parecía", "nosotros": "parecíamos", "vosotros": "parecíais", "ellos": "parecían"},
-      "imperative": {"tú": "parece", "usted": "parezca", "vosotros": "pareced", "ustedes": "parezcan"},
-      "imperative_negative": {"tú": "no parezcas", "usted": "no parezca", "vosotros": "no parezcáis", "ustedes": "no parezcan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "seem", "you": "seem", "he": "seems", "she": "seems", "it": "seems", "we": "seem", "they": "seem"},
@@ -1287,8 +1287,8 @@
       "future_simple": {"I": "will seem", "you": "will seem", "he": "will seem", "she": "will seem", "it": "will seem", "we": "will seem", "they": "will seem"},
       "condicional_simple": {"I": "would seem", "you": "would seem", "he": "would seem", "she": "would seem", "it": "would seem", "we": "would seem", "they": "would seem"},
       "imperfect_indicative": {"I": "was seeming", "you": "were seeming", "he": "was seeming", "she": "was seeming", "it": "was seeming", "we": "were seeming", "they": "were seeming"},
-      "imperative": {"you": "seem", "you_formal": "seem", "you_plural_spain": "seem", "you_plural": "seem"},
-      "imperative_negative": {"you": "do not seem", "you_formal": "do not seem", "you_plural_spain": "do not seem", "you_plural": "do not seem"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -2797,8 +2797,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "quepo", "tú": "cabes", "vos": "cabés", "él": "cabe", "nosotros": "cabemos", "vosotros": "cabéis", "ellos": "caben"},
@@ -2807,8 +2807,8 @@
       "future_simple": {"yo": "cabré", "tú": "cabrás", "vos": "cabrás", "él": "cabrá", "nosotros": "cabremos", "vosotros": "cabréis", "ellos": "cabrán"},
       "condicional_simple": {"yo": "cabría", "tú": "cabrías", "vos": "cabrías", "él": "cabría", "nosotros": "cabríamos", "vosotros": "cabríais", "ellos": "cabrían"},
       "imperfect_indicative": {"yo": "cabía", "tú": "cabías", "vos": "cabías", "él": "cabía", "nosotros": "cabíamos", "vosotros": "cabíais", "ellos": "cabían"},
-      "imperative": {"tú": "cabe", "usted": "quepa", "vosotros": "cabed", "ustedes": "quepan"},
-      "imperative_negative": {"tú": "no quepas", "usted": "no quepa", "vosotros": "no quepáis", "ustedes": "no quepan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "fit", "you": "fit", "he": "fits", "she": "fits", "it": "fits", "we": "fit", "they": "fit"},
@@ -2817,8 +2817,8 @@
       "future_simple": {"I": "will fit", "you": "will fit", "he": "will fit", "she": "will fit", "it": "will fit", "we": "will fit", "they": "will fit"},
       "condicional_simple": {"I": "would fit", "you": "would fit", "he": "would fit", "she": "would fit", "it": "would fit", "we": "would fit", "they": "would fit"},
       "imperfect_indicative": {"I": "was fitting", "you": "were fitting", "he": "was fitting", "she": "was fitting", "it": "was fitting", "we": "were fitting", "they": "were fitting"},
-      "imperative": {"you": "fit", "you_formal": "fit", "you_plural_spain": "fit", "you_plural": "fit"},
-      "imperative_negative": {"you": "do not fit", "you_formal": "do not fit", "you_plural_spain": "do not fit", "you_plural": "do not fit"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -2831,8 +2831,8 @@
       "future_simple": ["irregular_future_conditional"],
       "condicional_simple": ["irregular_future_conditional"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["irregular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "valgo", "tú": "vales", "vos": "valés", "él": "vale", "nosotros": "valemos", "vosotros": "valéis", "ellos": "valen"},
@@ -2841,8 +2841,8 @@
       "future_simple": {"yo": "valdré", "tú": "valdrás", "vos": "valdrás", "él": "valdrá", "nosotros": "valdremos", "vosotros": "valdréis", "ellos": "valdrán"},
       "condicional_simple": {"yo": "valdría", "tú": "valdrías", "vos": "valdrías", "él": "valdría", "nosotros": "valdríamos", "vosotros": "valdríais", "ellos": "valdrían"},
       "imperfect_indicative": {"yo": "valía", "tú": "valías", "vos": "valías", "él": "valía", "nosotros": "valíamos", "vosotros": "valíais", "ellos": "valían"},
-      "imperative": {"tú": "vale", "usted": "valga", "vosotros": "valed", "ustedes": "valgan"},
-      "imperative_negative": {"tú": "no valgas", "usted": "no valga", "vosotros": "no valgáis", "ustedes": "no valgan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "am worth", "you": "are worth", "he": "is worth", "she": "is worth", "it": "is worth", "we": "are worth", "they": "are worth"},
@@ -2851,8 +2851,8 @@
       "future_simple": {"I": "will be worth", "you": "will be worth", "he": "will be worth", "she": "will be worth", "it": "will be worth", "we": "will be worth", "they": "will be worth"},
       "condicional_simple": {"I": "would be worth", "you": "would be worth", "he": "would be worth", "she": "would be worth", "it": "would be worth", "we": "would be worth", "they": "would be worth"},
       "imperfect_indicative": {"I": "was being worth", "you": "were being worth", "he": "was being worth", "she": "was being worth", "it": "was being worth", "we": "were being worth", "they": "were being worth"},
-      "imperative": {"you": "be worth", "you_formal": "be worth", "you_plural_spain": "be worth", "you_plural": "be worth"},
-      "imperative_negative": {"you": "do not be worth", "you_formal": "do not be worth", "you_plural_spain": "do not be worth", "you_plural": "do not be worth"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -3273,8 +3273,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["irregular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "cuesto", "tú": "cuestas", "vos": "costás", "él": "cuesta", "nosotros": "costamos", "vosotros": "costáis", "ellos": "cuestan"},
@@ -3283,8 +3283,8 @@
       "future_simple": {"yo": "costaré", "tú": "costarás", "vos": "costarás", "él": "costará", "nosotros": "costaremos", "vosotros": "costaréis", "ellos": "costarán"},
       "condicional_simple": {"yo": "costaría", "tú": "costarías", "vos": "costarías", "él": "costaría", "nosotros": "costaríamos", "vosotros": "costaríais", "ellos": "costarían"},
       "imperfect_indicative": {"yo": "costaba", "tú": "costabas", "vos": "costabas", "él": "costaba", "nosotros": "costábamos", "vosotros": "costabais", "ellos": "costaban"},
-      "imperative": {"tú": "cuesta", "usted": "cueste", "vosotros": "costad", "ustedes": "cuesten"},
-      "imperative_negative": {"tú": "no cuestes", "usted": "no cueste", "vosotros": "no costéis", "ustedes": "no cuesten"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "cost", "you": "cost", "he": "costs", "she": "costs", "it": "costs", "we": "cost", "they": "cost"},
@@ -3293,8 +3293,8 @@
       "future_simple": {"I": "will cost", "you": "will cost", "he": "will cost", "she": "will cost", "it": "will cost", "we": "will cost", "they": "will cost"},
       "condicional_simple": {"I": "would cost", "you": "would cost", "he": "would cost", "she": "would cost", "it": "would cost", "we": "would cost", "they": "would cost"},
       "imperfect_indicative": {"I": "was costing", "you": "were costing", "he": "was costing", "she": "was costing", "it": "was costing", "we": "were costing", "they": "were costing"},
-      "imperative": {"you": "cost", "you_formal": "cost", "you_plural_spain": "cost", "you_plural": "cost"},
-      "imperative_negative": {"you": "do not cost", "you_formal": "do not cost", "you_plural_spain": "do not cost", "you_plural": "do not cost"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -4361,8 +4361,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["regular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "existo", "tú": "existes", "vos": "existís", "él": "existe", "nosotros": "existimos", "vosotros": "existís", "ellos": "existen"},
@@ -4371,8 +4371,8 @@
       "future_simple": {"yo": "existiré", "tú": "existirás", "vos": "existirás", "él": "existirá", "nosotros": "existiremos", "vosotros": "existiréis", "ellos": "existirán"},
       "condicional_simple": {"yo": "existiría", "tú": "existirías", "vos": "existirías", "él": "existiría", "nosotros": "existiríamos", "vosotros": "existiríais", "ellos": "existirían"},
       "imperfect_indicative": {"yo": "existía", "tú": "existías", "vos": "existías", "él": "existía", "nosotros": "existíamos", "vosotros": "existíais", "ellos": "existían"},
-      "imperative": {"tú": "existe", "usted": "exista", "vosotros": "existid", "ustedes": "existan"},
-      "imperative_negative": {"tú": "no existas", "usted": "no exista", "vosotros": "no existáis", "ustedes": "no existan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "exist", "you": "exist", "he": "exists", "she": "exists", "it": "exists", "we": "exist", "they": "exist"},
@@ -4381,8 +4381,8 @@
       "future_simple": {"I": "will exist", "you": "will exist", "he": "will exist", "she": "will exist", "it": "will exist", "we": "will exist", "they": "will exist"},
       "condicional_simple": {"I": "would exist", "you": "would exist", "he": "would exist", "she": "would exist", "it": "would exist", "we": "would exist", "they": "would exist"},
       "imperfect_indicative": {"I": "was existing", "you": "were existing", "he": "was existing", "she": "was existing", "it": "was existing", "we": "were existing", "they": "were existing"},
-      "imperative": {"you": "exist", "you_formal": "exist", "you_plural_spain": "exist", "you_plural": "exist"},
-      "imperative_negative": {"you": "do not exist", "you_formal": "do not exist", "you_plural_spain": "do not exist", "you_plural": "do not exist"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {
@@ -4395,8 +4395,8 @@
       "future_simple": ["regular"],
       "condicional_simple": ["regular"],
       "imperfect_indicative": ["regular"],
-      "imperative": ["regular"],
-      "imperative_negative": ["irregular"]
+      "imperative": [],
+      "imperative_negative": []
     },
     "conjugations": {
       "present": {"yo": "nazco", "tú": "naces", "vos": "nacés", "él": "nace", "nosotros": "nacemos", "vosotros": "nacéis", "ellos": "nacen"},
@@ -4405,8 +4405,8 @@
       "future_simple": {"yo": "naceré", "tú": "nacerás", "vos": "nacerás", "él": "nacerá", "nosotros": "naceremos", "vosotros": "naceréis", "ellos": "nacerán"},
       "condicional_simple": {"yo": "nacería", "tú": "nacerías", "vos": "nacerías", "él": "nacería", "nosotros": "naceríamos", "vosotros": "naceríais", "ellos": "nacerían"},
       "imperfect_indicative": {"yo": "nacía", "tú": "nacías", "vos": "nacías", "él": "nacía", "nosotros": "nacíamos", "vosotros": "nacíais", "ellos": "nacían"},
-      "imperative": {"tú": "nace", "usted": "nazca", "vosotros": "naced", "ustedes": "nazcan"},
-      "imperative_negative": {"tú": "no nazcas", "usted": "no nazca", "vosotros": "no nazcáis", "ustedes": "no nazcan"}
+      "imperative": {},
+      "imperative_negative": {}
     },
     "conjugations_en": {
       "present": {"I": "am born", "you": "are born", "he": "is born", "she": "is born", "it": "is born", "we": "are born", "they": "are born"},
@@ -4415,8 +4415,8 @@
       "future_simple": {"I": "will be born", "you": "will be born", "he": "will be born", "she": "will be born", "it": "will be born", "we": "will be born", "they": "will be born"},
       "condicional_simple": {"I": "would be born", "you": "would be born", "he": "would be born", "she": "would be born", "it": "would be born", "we": "would be born", "they": "would be born"},
       "imperfect_indicative": {"I": "was being born", "you": "were being born", "he": "was being born", "she": "was being born", "it": "was being born", "we": "were being born", "they": "were being born"},
-      "imperative": {"you": "be born", "you_formal": "be born", "you_plural_spain": "be born", "you_plural": "be born"},
-      "imperative_negative": {"you": "do not be born", "you_formal": "do not be born", "you_plural_spain": "do not be born", "you_plural": "do not be born"}
+      "imperative": {},
+      "imperative_negative": {}
     }
   },
   {

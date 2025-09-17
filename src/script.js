@@ -59,6 +59,8 @@ const ASSET_URLS = {
   heart: assetUrl('../assets/images/heart.webp')
 };
 
+const pronouns = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
 let currentMusic = menuMusic;
@@ -2508,7 +2510,6 @@ backButton.addEventListener('click', () => {
     }
  
 
-  const pronouns = ['yo','tú','vos','él','nosotros','vosotros','ellos'];
   const pronounMap = {
     yo: ['I'],
     tú: ['you'],
@@ -2891,17 +2892,6 @@ function updateVerbDropdownCount() {
   const total = buttons.length;
   document.getElementById('verb-dropdown-count')
           .textContent = `(${selected}/${total})`;
-}
-if (loaded) {
-  renderVerbButtons();
-  initVerbDropdown();
-  renderTenseButtons();
-  initTenseDropdown();
-  renderPronounButtons();
-  initPronounDropdown();
-  renderVerbTypeButtons();
-  filterVerbTypes();  
-  renderSetupRecords();
 }
   const dropdownBtn     = document.getElementById('verb-dropdown-button');
   const dropdownMenu    = document.getElementById('verb-dropdown-menu');
@@ -3483,9 +3473,21 @@ function initPronounDropdown() {
   updatePronounDropdownCount();
   updateSelectAllPronounsButtonText(); // << --- ¡Importante! Llamada inicial para el texto del botón
   updateCurrentPronouns(); // Ya lo tenías, está bien
-}
-	
-document.addEventListener('click', e => {
+  }
+
+  if (loaded) {
+    renderVerbButtons();
+    initVerbDropdown();
+    renderTenseButtons();
+    initTenseDropdown();
+    renderPronounButtons();
+    initPronounDropdown();
+    renderVerbTypeButtons();
+    filterVerbTypes();
+    renderSetupRecords();
+  }
+
+  document.addEventListener('click', e => {
     if (openFilterDropdownMenu) { // Si hay un menú de filtro (Tense, Verb, o Pronoun) abierto
 
         // Comprobamos si el clic fue en alguno de los botones que abren los menús

@@ -225,28 +225,36 @@ const specificInfoData = {
            <p class="recall-tip"><strong>Recall Mode:</strong> "I would eat" / "he would eat"</p>`
   },
   imperativeAffirmativeInfo: {
-    title: "Imperative (Affirmative)",
+    title: "Regular Affirmative Imperative",
     html: `<p>Use the affirmative imperative to give <strong>direct commands, invitations, or instructions</strong>.</p>
-           <strong class="modal-subtitle">Formation Tips:</strong>
-           <ul>
-             <li><strong>tú:</strong> Usually the present indicative without the <em>-s</em> (<em>habla, come, escribe</em>).</li>
-             <li><strong>usted / ustedes:</strong> Use the present subjunctive forms (<em>hable, hablen</em>).</li>
-             <li><strong>vosotros:</strong> Replace the infinitive ending <em>-r</em> with <em>-d</em> (<em>hablad, comed</em>).</li>
-           </ul>
-           <p><strong>Common Irregulars:</strong> venir → ven, decir → di, salir → sal, hacer → haz, tener → ten, ir → ve, poner → pon, ser → sé.</p>
-           <p class="recall-tip"><strong>Practice Idea:</strong> "Ven aquí" / "Hablad más lento"</p>`
+           <strong class="modal-subtitle">Formation (Regular Verbs):</strong>
+           <p>The key is the ending. The stem of the verb does not change.</p>
+           <table class="tense-tooltip-table">
+             <tr><th>Pronoun</th><th>-ar (hablar)</th><th>-er (comer)</th><th>-ir (abrir)</th></tr>
+             <tr><td>tú</td><td>habl<strong>a</strong></td><td>com<strong>e</strong></td><td>abr<strong>e</strong></td></tr>
+             <tr><td>usted</td><td>habl<strong>e</strong></td><td>com<strong>a</strong></td><td>abr<strong>a</strong></td></tr>
+             <tr><td>nosotros</td><td>habl<strong>emos</strong></td><td>com<strong>amos</strong></td><td>abr<strong>amos</strong></td></tr>
+             <tr><td>vosotros</td><td>habl<strong>ad</strong></td><td>com<strong>ed</strong></td><td>abr<strong>id</strong></td></tr>
+             <tr><td>ustedes</td><td>habl<strong>en</strong></td><td>com<strong>an</strong></td><td>abr<strong>an</strong></td></tr>
+           </table>
+           <strong class="modal-subtitle">Pro Tip: Object Pronouns</strong>
+           <p>Pronouns are attached <strong>at the end</strong> of the verb. Remember to add an accent if needed to keep the stress in the right place: <em>¡cóme<strong>lo</strong>!, ¡dáme<strong>lo</strong>!, ¡explíca<strong>nos</strong>!</em></p>`
   },
   imperativeNegativeInfo: {
-    title: "Imperative (Negative)",
-    html: `<p>Use the negative imperative to tell someone <strong>not</strong> to do something.</p>
-           <strong class="modal-subtitle">Formation Tips:</strong>
-           <ul>
-             <li><strong>tú:</strong> Present subjunctive form with <em>no</em> (<em>no hables, no comas</em>).</li>
-             <li><strong>usted / ustedes:</strong> Same as affirmative, simply add <em>no</em> (<em>no hable, no hablen</em>).</li>
-             <li><strong>vosotros:</strong> Use the present subjunctive ending <em>-éis / -áis</em> (<em>no habléis, no comáis</em>).</li>
-           </ul>
-           <p><strong>Watch the Irregulars:</strong> no vayas, no seas, no des, no estés, no sepas.</p>
-           <p class="recall-tip"><strong>Practice Idea:</strong> "No salgas" / "No lleguen tarde"</p>`
+    title: "Regular Negative Imperative",
+    html: `<p>Use the negative imperative to tell someone <strong>NOT</strong> to do something.</p>
+           <strong class="modal-subtitle">The Golden Rule (Regular Verbs):</strong>
+           <p>It's simple! All forms use <strong>"no" + the present subjunctive</strong>. For regular verbs, this is very predictable.</p>
+           <table class="tense-tooltip-table">
+             <tr><th>Pronoun</th><th>-ar (hablar)</th><th>-er/-ir (comer/vivir)</th></tr>
+             <tr><td>tú</td><td>no hables</td><td>no comas / no vivas</td></tr>
+             <tr><td>usted</td><td>no hable</td><td>no coma / no viva</td></tr>
+             <tr><td>nosotros</td><td>no hablemos</td><td>no comamos / no vivamos</td></tr>
+             <tr><td>vosotros</td><td>no habléis</td><td>no comáis / no viváis</td></tr>
+             <tr><td>ustedes</td><td>no hablen</td><td>no coman / no vivan</td></tr>
+           </table>
+           <strong class="modal-subtitle">Pro Tip: Object Pronouns</strong>
+           <p>Unlike the affirmative, pronouns go <strong>before</strong> the verb: <em>¡No <strong>te</strong> levantes!, ¡No <strong>lo</strong> comas!</em></p>`
   },
   regularInfo: {
     title: "Regular Verbs",
@@ -646,33 +654,44 @@ const specificInfoData = {
            </div>`
   },
   irregularImperativeInfo: {
-    title: "Irregular Imperative",
-    html: `<p>Some common commands break the regular patterns, especially in the <strong>tú</strong> form.</p>
-           <strong class="modal-subtitle">Key Irregular tú Commands:</strong>
+    title: "Irregular Affirmative Imperative",
+    html: `<p>Some of the most common verbs have irregular commands, especially in the <strong>tú</strong> form.</p>
+           <strong class="modal-subtitle">The 8 Core Irregular "Tú" Commands:</strong>
+           <p class="irregular-highlight" style="text-align: center; font-size: 1.1em;">
+             Ven Di Sal Haz Ten Ve Pon Sé
+           </p>
+           <p style="text-align: center;">(venir, decir, salir, hacer, tener, ir, poner, ser)</p>
+           <strong class="modal-subtitle">Other Irregular Forms:</strong>
            <ul>
-             <li>venir → <span class="irregular-highlight">ven</span></li>
-             <li>decir → <span class="irregular-highlight">di</span></li>
-             <li>salir → <span class="irregular-highlight">sal</span></li>
-             <li>hacer → <span class="irregular-highlight">haz</span></li>
-             <li>tener → <span class="irregular-highlight">ten</span></li>
-             <li>ir → <span class="irregular-highlight">ve</span></li>
-             <li>poner → <span class="irregular-highlight">pon</span></li>
-             <li>ser → <span class="irregular-highlight">sé</span></li>
+             <li><strong>Usted / Ustedes / Nosotros:</strong> These forms are irregular if their <strong>present subjunctive</strong> is irregular.</li>
+             <li><em>Examples:</em>
+               <ul>
+                 <li><strong>hacer:</strong> haga, hagan, hagamos</li>
+                 <li><strong>tener:</strong> tenga, tengan, tengamos</li>
+                 <li><strong>ir:</strong> vaya, vayan, vamos</li>
+               </ul>
+             </li>
            </ul>
-           <p>Remember that <strong>usted/ustedes</strong> forms mirror the present subjunctive (e.g., <em>sea</em>, <em>vayan</em>).</p>`
+           <p>Remember, the <strong>vosotros</strong> command is almost never irregular (just *id* for "ir").</p>`
   },
   irregularNegativeImperativeInfo: {
     title: "Irregular Negative Imperative",
-    html: `<p>Negative commands use the <strong>present subjunctive</strong>, so any subjunctive irregularity appears here too.</p>
-           <strong class="modal-subtitle">Common Examples:</strong>
+    html: `<p>Negative commands use the <strong>present subjunctive</strong>, so any irregularity in the subjunctive will appear here.</p>
+           <strong class="modal-subtitle">Key Irregular Verbs to Know:</strong>
+           <table class="tense-tooltip-table">
+             <tr><th>Infinitive</th><th>Tú Command</th><th>Usted Command</th></tr>
+             <tr><td>ir (to go)</td><td>no vayas</td><td>no vaya</td></tr>
+             <tr><td>ser (to be)</td><td>no seas</td><td>no sea</td></tr>
+             <tr><td>dar (to give)</td><td>no des</td><td>no dé</td></tr>
+             <tr><td>estar (to be)</td><td>no estés</td><td>no esté</td></tr>
+             <tr><td>saber (to know)</td><td>no sepas</td><td>no sepa</td></tr>
+           </table>
+           <strong class="modal-subtitle">Remember the Pattern:</strong>
+           <p>If the 'yo' form in the present tense is irregular (e.g., <em>tengo, pongo, conozco</em>), that irregularity carries over to most negative commands.</p>
            <ul>
-             <li>no vayas (ir)</li>
-             <li>no seas (ser)</li>
-             <li>no des (dar)</li>
-             <li>no estés (estar)</li>
-             <li>no sepas (saber)</li>
-           </ul>
-           <p>Remember to add the reflexive pronoun <em>before</em> the verb in negative commands (e.g., <em>no te levantes</em>).</p>`
+               <li>tener → yo tengo → <em>no tengas, no tenga...</em></li>
+               <li>conocer → yo conozco → <em>no conozcas, no conozca...</em></li>
+           </ul>`
   },
   irregularImperfectInfo: {
     title: "Irregular Imperfect",

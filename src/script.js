@@ -3170,11 +3170,10 @@ function renderVerbButtons() {
 		  const grp = gb.dataset.group;
 
 		  // USA 'currentVerbButtons' para filtrar, NO 'allBtns' directamente
-		  const matched = currentVerbButtons.filter(b => { // <--- CAMBIO CRUCIAL AQUÍ: usa currentVerbButtons
-			const inf = b.dataset.value;
-			const normalizedInf = removeAccents(inf); // Asumo que tienes removeAccents globalmente
+                  const matched = currentVerbButtons.filter(b => { // <--- CAMBIO CRUCIAL AQUÍ: usa currentVerbButtons
+                        const inf = b.dataset.value;
 
-			if (grp === 'all') return true;
+                        if (grp === 'all') return true;
 			if (grp === 'reflexive') return inf.endsWith('se');
 			// Tu lógica original para ar, er, ir:
 			if (grp === 'ar') return !inf.endsWith('se') && inf.endsWith('ar'); 

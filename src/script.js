@@ -3966,10 +3966,20 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             evaluatedAnyTense = true;
 
             const verbTypesForTense = verbObj.types?.[tense] || [];
+            const stateEntryForTense = stateEntriesByTense[tense];
+            const manualDeselections = stateEntryForTense?.manuallyDeselected || new Set();
+            const hasReflexiveType = verbTypesForTense.includes('reflexive');
+            const reflexiveSelected = activeTypesForTense.includes('reflexive');
+            const reflexiveAllowedByFallback = useIrregularFallback && !manualDeselections.has('reflexive');
+
+            if (hasReflexiveType && !reflexiveSelected && !reflexiveAllowedByFallback) {
+                matchesAllTenses = false;
+                break;
+            }
+
             let matchesThisTense = false;
 
             if (useIrregularFallback) {
-                const manualDeselections = stateEntriesByTense[tense]?.manuallyDeselected || new Set();
                 matchesThisTense = verbTypesForTense.some(type => type !== 'regular' && !manualDeselections.has(type));
             } else {
                 matchesThisTense = activeTypesForTense.every(requiredType => {

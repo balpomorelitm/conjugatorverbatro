@@ -1072,7 +1072,15 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
 }
 
 function getEnglishTranslation(verbData, tense, pronoun) {
-  const mappings = pronounToEnglishOptions[pronoun] || [{ display: pronoun, key: pronoun.toLowerCase() }];
+  const originalMappings = pronounToEnglishOptions[pronoun] || [{ display: pronoun, key: pronoun.toLowerCase() }];
+  const shouldUseGenericYou =
+    (pronoun === 'vosotros' || pronoun === 'vosotras') &&
+    tense !== 'imperative' &&
+    tense !== 'imperative_negative';
+
+  const mappings = shouldUseGenericYou
+    ? originalMappings.map(({ display, key }) => ({ display, key: key === 'you_plural_spain' ? 'you' : key }))
+    : originalMappings;
   const conjugationsEN = verbData.conjugations_en && verbData.conjugations_en[tense];
 
   if (!conjugationsEN) {

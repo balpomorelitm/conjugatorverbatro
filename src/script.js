@@ -3981,16 +3981,16 @@ function applyIrregularityAndTenseFiltersToVerbList() {
                 break;
             }
 
-            let matchesThisTense = false;
-
-            matchesThisTense = activeTypesForTense.every(requiredType => {
+            const matchesThisTense = activeTypesForTense.some(requiredType => {
                 const requiresStrictRegular =
                     requiredType === 'regular' ||
                     (requiredType === 'regular_past_simple' && tense === 'past_simple');
 
                 if (requiresStrictRegular) {
-                    return verbTypesForTense.includes('regular') &&
-                           verbTypesForTense.every(type => type === 'regular');
+                    return (
+                        verbTypesForTense.includes('regular') &&
+                        verbTypesForTense.every(type => type === 'regular')
+                    );
                 }
 
                 return verbTypesForTense.includes(requiredType);
@@ -4002,8 +4002,10 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             }
         }
 
-        const shouldSelectVerb = matchesAllTenses && evaluatedAnyTense;
-        verbButton.classList.toggle('selected', shouldSelectVerb);
+        if (evaluatedAnyTense) {
+            const shouldSelectVerb = matchesAllTenses;
+            verbButton.classList.toggle('selected', shouldSelectVerb);
+        }
     });
 
     updateVerbDropdownCount();

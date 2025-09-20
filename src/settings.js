@@ -16,7 +16,10 @@ export const settings = {
     return stored !== null ? stored === 'true' : true;
   })(),
   defaultVosEnabled: false,
-  bossesDisabled: false
+  bossesDisabled: (() => {
+    const stored = localStorage.getItem('bossesDisabled');
+    return stored !== null ? stored === 'true' : true;
+  })()
 };
 
 if (typeof window !== 'undefined') {
@@ -59,7 +62,7 @@ export function loadSettings() {
   settings.animationsEnabled = anim !== null ? anim === 'true' : false;
   settings.chuacheReactionsEnabled = chuache !== null ? chuache === 'true' : true;
   settings.defaultVosEnabled = vos === 'true';
-  settings.bossesDisabled = bosses === 'true';
+  settings.bossesDisabled = bosses !== null ? bosses === 'true' : true;
 
   if (typeof window !== 'undefined') {
     window.animationsEnabled = settings.animationsEnabled;

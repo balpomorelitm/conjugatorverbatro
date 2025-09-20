@@ -2625,7 +2625,7 @@ function updatePronounDropdownCount() {
   // `filterVerbTypes` y otros selectores confían en esos valores para evitar errores
   // al ajustar las irregularidades por tiempo verbal.
   const irregularityTypes = [
-    { value: 'regular', name: 'Regular', negativeName: 'Irregular',
+    { value: 'regular', name: 'Regular',
       times: ['present', 'past_simple', 'present_perfect', 'future_simple', 'condicional_simple', 'imperfect_indicative', 'imperative', 'imperative_negative'],
       hint: '', infoKey: 'regularInfo' },
     { value: 'reflexive', name: 'Reflexive',
@@ -3707,15 +3707,13 @@ async function loadVerbs() {
   }
 
   const selectedTypesByTense = currentOptions?.selectedTypesByTense || {};
-  const fallbackByTense = currentOptions?.irregularFallbackByTense || {};
   const manuallyDeselectedByTense = currentOptions?.manuallyDeselectedIrregularities || {};
   const reflexiveExcludedByTense = {};
 
   currentOptions.tenses.forEach(tenseKey => {
     const selectedForTense = selectedTypesByTense[tenseKey] || [];
-    const fallbackForTense = !!fallbackByTense[tenseKey];
     const manualDeselections = new Set(manuallyDeselectedByTense[tenseKey] || []);
-    const hasFilters = selectedForTense.length > 0 || fallbackForTense;
+    const hasFilters = selectedForTense.length > 0;
 
     if (!hasFilters) {
       reflexiveExcludedByTense[tenseKey] = false;
@@ -3726,7 +3724,7 @@ async function loadVerbs() {
     const reflexiveManuallyDeselected = manualDeselections.has('reflexive');
 
     reflexiveExcludedByTense[tenseKey] =
-      reflexiveManuallyDeselected || (!fallbackForTense && !reflexiveSelected);
+      reflexiveManuallyDeselected || !reflexiveSelected;
   });
 
   const shouldSkipVerbForReflexive = verb =>
@@ -3806,7 +3804,6 @@ function getVerbObjectByInfinitive(infinitiveEs) {
 function buildIrregularitySelectionSnapshot(selectedTenses) {
   const selectedTypesByTense = {};
   const manuallyDeselectedByTense = {};
-  const fallbackByTense = {};
 
   selectedTenses.forEach(tenseKey => {
     const buttons = document.querySelectorAll(`.verb-type-button.selected[data-tense="${tenseKey}"]`);
@@ -3814,19 +3811,11 @@ function buildIrregularitySelectionSnapshot(selectedTenses) {
 
     const stateEntry = ensureIrregularityStateEntry(tenseKey);
     manuallyDeselectedByTense[tenseKey] = Array.from(stateEntry?.manuallyDeselected || []);
-
-    const hasSelectedTypes = selectedTypesByTense[tenseKey].length > 0;
-    const regularDeselected =
-      stateEntry?.manuallyDeselected.has('regular') &&
-      !(stateEntry?.selected.has('regular') || selectedTypesByTense[tenseKey].includes('regular'));
-
-    fallbackByTense[tenseKey] = !hasSelectedTypes && !!regularDeselected;
   });
 
   return {
     selectedTypesByTense,
-    manuallyDeselectedByTense,
-    fallbackByTense
+    manuallyDeselectedByTense
   };
 }
 
@@ -3834,17 +3823,7 @@ function isReflexiveActiveForTense(tenseKey) {
   if (!tenseKey) return false;
 
   const selectedTypes = currentOptions?.selectedTypesByTense?.[tenseKey] || [];
-  if (selectedTypes.includes('reflexive')) {
-    return true;
-  }
-
-  const fallbackActive = currentOptions?.irregularFallbackByTense?.[tenseKey];
-  if (fallbackActive) {
-    const manuallyDeselected = currentOptions?.manuallyDeselectedIrregularities?.[tenseKey] || [];
-    return !manuallyDeselected.includes('reflexive');
-  }
-
-  return false;
+  return selectedTypes.includes('reflexive');
 }
 
 // Helper para obtener los tipos de irregularidad de un verbo para los tiempos seleccionados
@@ -3877,21 +3856,7 @@ function updateVerbTypeButtonLabel(button) {
     const nameSpan = button.querySelector('.verb-type-name');
     if (!nameSpan) return;
 
-    const positiveLabel = button.dataset.positiveLabel || nameSpan.textContent;
-    const negativeLabel = button.dataset.negativeLabel;
-
-    let labelToUse = positiveLabel;
-
-    if (negativeLabel) {
-        const tenseKey = button.dataset.tense;
-        const stateEntry = tenseKey ? ensureIrregularityStateEntry(tenseKey) : null;
-        const isManuallyDeselected = stateEntry ? stateEntry.manuallyDeselected.has(button.dataset.value) : false;
-        const isSelected = button.classList.contains('selected');
-
-        if (!isSelected && isManuallyDeselected) {
-            labelToUse = negativeLabel;
-        }
-    }
+    const labelToUse = button.dataset.positiveLabel || nameSpan.textContent;
 
     if (nameSpan.textContent !== labelToUse) {
         nameSpan.textContent = labelToUse;
@@ -3975,7 +3940,6 @@ function updateVerbTypeButtonsVisualState() {
 function applyIrregularityAndTenseFiltersToVerbList() {
     const currentSelectedTenses = getSelectedTenses();
     const activeTypesByTense = {};
-    const irregularFallbackByTense = {};
     const manualDeselectionsByTense = {};
 
     currentSelectedTenses.forEach(tense => {
@@ -3985,8 +3949,6 @@ function applyIrregularityAndTenseFiltersToVerbList() {
 
         const stateEntry = ensureIrregularityStateEntry(tense);
         manualDeselectionsByTense[tense] = new Set(stateEntry.manuallyDeselected);
-        const regularDeselected = stateEntry.manuallyDeselected.has('regular') && !stateEntry.selected.has('regular');
-        irregularFallbackByTense[tense] = activeTypes.length === 0 && regularDeselected;
     });
 
     document.querySelectorAll('#verb-buttons .verb-button').forEach(verbButton => {
@@ -4000,8 +3962,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
 
         for (const tense of currentSelectedTenses) {
             const activeTypesForTense = activeTypesByTense[tense] || [];
-            const useIrregularFallback = irregularFallbackByTense[tense];
-            const hasFilters = activeTypesForTense.length > 0 || useIrregularFallback;
+            const hasFilters = activeTypesForTense.length > 0;
 
             if (!hasFilters) {
                 continue;
@@ -4013,7 +3974,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             const manualDeselections = manualDeselectionsByTense[tense] || new Set();
             const shouldExcludeReflexive =
                 manualDeselections.has('reflexive') ||
-                (!useIrregularFallback && activeTypesForTense.length > 0 && !activeTypesForTense.includes('reflexive'));
+                !activeTypesForTense.includes('reflexive');
 
             if (shouldExcludeReflexive && verbTypesForTense.includes('reflexive')) {
                 matchesAllTenses = false;
@@ -4022,22 +3983,18 @@ function applyIrregularityAndTenseFiltersToVerbList() {
 
             let matchesThisTense = false;
 
-            if (useIrregularFallback) {
-                matchesThisTense = verbTypesForTense.some(type => type !== 'regular' && !manualDeselections.has(type));
-            } else {
-                matchesThisTense = activeTypesForTense.every(requiredType => {
-                    const requiresStrictRegular =
-                        requiredType === 'regular' ||
-                        (requiredType === 'regular_past_simple' && tense === 'past_simple');
+            matchesThisTense = activeTypesForTense.every(requiredType => {
+                const requiresStrictRegular =
+                    requiredType === 'regular' ||
+                    (requiredType === 'regular_past_simple' && tense === 'past_simple');
 
-                    if (requiresStrictRegular) {
-                        return verbTypesForTense.includes('regular') &&
-                               verbTypesForTense.every(type => type === 'regular');
-                    }
+                if (requiresStrictRegular) {
+                    return verbTypesForTense.includes('regular') &&
+                           verbTypesForTense.every(type => type === 'regular');
+                }
 
-                    return verbTypesForTense.includes(requiredType);
-                });
-            }
+                return verbTypesForTense.includes(requiredType);
+            });
 
             if (!matchesThisTense) {
                 matchesAllTenses = false;
@@ -5695,7 +5652,6 @@ finalStartGameButton.addEventListener('click', async () => {
     };
     const irregularitySnapshot = buildIrregularitySelectionSnapshot(selTenses);
     currentOptions.selectedTypesByTense = irregularitySnapshot.selectedTypesByTense;
-    currentOptions.irregularFallbackByTense = irregularitySnapshot.fallbackByTense;
     currentOptions.manuallyDeselectedIrregularities = irregularitySnapshot.manuallyDeselectedByTense;
     resetBackgroundColor();
     updateBackgroundForLevel(1);
@@ -6068,9 +6024,6 @@ function renderVerbTypeButtons() {
       button.dataset.times = type.times.join(',');
       button.dataset.infokey = type.infoKey;
       button.dataset.positiveLabel = type.name;
-      if (type.negativeName) {
-        button.dataset.negativeLabel = type.negativeName;
-      }
 
       button.innerHTML = `
         <span class="verb-type-name">${type.name}</span>

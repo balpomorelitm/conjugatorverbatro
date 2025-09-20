@@ -2659,6 +2659,13 @@ function updatePronounDropdownCount() {
     { value: 'irregular_imperative_negative', name: 'Irregular negative imperative', times: ['imperative_negative'],
       hint: '⚙️ ir -> no vayas', infoKey: 'irregularNegativeImperativeInfo' }
   ];
+
+  const REGULAR_TYPE_VALUE = 'regular';
+  const regularIrregularityDefinition = irregularityTypes.find(type => type.value === REGULAR_TYPE_VALUE);
+
+  function regularTypeAvailableForTense(tenseKey) {
+    return Boolean(regularIrregularityDefinition && regularIrregularityDefinition.times.includes(tenseKey));
+  }
   const tenses = [
     { value: 'present',        name: 'Present',         infoKey: 'presentInfo' },
     { value: 'past_simple',    name: 'Simple Past',     infoKey: 'pastSimpleInfo' },
@@ -3845,6 +3852,10 @@ function ensureIrregularityStateEntry(tenseKey) {
             selected: new Set(),
             manuallyDeselected: new Set()
         };
+
+        if (regularTypeAvailableForTense(tenseKey)) {
+            irregularitySelectionState[tenseKey].selected.add(REGULAR_TYPE_VALUE);
+        }
     }
 
     return irregularitySelectionState[tenseKey];

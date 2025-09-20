@@ -3706,6 +3706,36 @@ async function loadVerbs() {
     return false;
   }
 
+  const selectedTypesByTense = currentOptions?.selectedTypesByTense || {};
+  const fallbackByTense = currentOptions?.irregularFallbackByTense || {};
+  const manuallyDeselectedByTense = currentOptions?.manuallyDeselectedIrregularities || {};
+  const reflexiveExcludedByTense = {};
+
+  currentOptions.tenses.forEach(tenseKey => {
+    const selectedForTense = selectedTypesByTense[tenseKey] || [];
+    const fallbackForTense = !!fallbackByTense[tenseKey];
+    const manualDeselections = new Set(manuallyDeselectedByTense[tenseKey] || []);
+    const hasFilters = selectedForTense.length > 0 || fallbackForTense;
+
+    if (!hasFilters) {
+      reflexiveExcludedByTense[tenseKey] = false;
+      return;
+    }
+
+    const reflexiveSelected = selectedForTense.includes('reflexive');
+    const reflexiveManuallyDeselected = manualDeselections.has('reflexive');
+
+    reflexiveExcludedByTense[tenseKey] =
+      reflexiveManuallyDeselected || (!fallbackForTense && !reflexiveSelected);
+  });
+
+  const shouldSkipVerbForReflexive = verb =>
+    currentOptions.tenses.some(tenseKey => {
+      if (!reflexiveExcludedByTense[tenseKey]) return false;
+      const verbTypesForTense = verb.types?.[tenseKey] || [];
+      return verbTypesForTense.includes('reflexive');
+    });
+
   let verbsToConsiderForGame = [];
 
   if (manuallySelectedVerbInfinitives.length > 0) {
@@ -3720,6 +3750,8 @@ async function loadVerbs() {
       currentOptions.tenses.some(tenseKey => v.conjugations[tenseKey] !== undefined)
     );
 
+    verbsToConsiderForGame = verbsToConsiderForGame.filter(v => !shouldSkipVerbForReflexive(v));
+
     if (verbsToConsiderForGame.length === 0) {
       alert('None of the verbs you manually selected are available for the chosen tenses. Please adjust the tenses or your verb selection.');
       allVerbData = [];
@@ -3731,11 +3763,23 @@ async function loadVerbs() {
       currentOptions.tenses.some(tenseKey => {
         // Para cada tiempo seleccionado...
         const irregularityTypes = v.types[tenseKey] || [];
-        return irregularityTypes.some(typeInVerb =>
+        const matchesSelectedType = irregularityTypes.some(typeInVerb =>
           selectedTypes.includes(typeInVerb) // ...el tipo debe estar entre los seleccionados.
         );
+
+        if (!matchesSelectedType) {
+          return false;
+        }
+
+        if (reflexiveExcludedByTense[tenseKey] && irregularityTypes.includes('reflexive')) {
+          return false;
+        }
+
+        return true;
       })
     );
+
+    verbsToConsiderForGame = verbsToConsiderForGame.filter(v => !shouldSkipVerbForReflexive(v));
   }
 
   // Comprobación final y asignación
@@ -3932,7 +3976,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
     const currentSelectedTenses = getSelectedTenses();
     const activeTypesByTense = {};
     const irregularFallbackByTense = {};
-    const stateEntriesByTense = {};
+    const manualDeselectionsByTense = {};
 
     currentSelectedTenses.forEach(tense => {
         const activeButtons = document.querySelectorAll(`.verb-type-button.selected:not(:disabled)[data-tense="${tense}"]`);
@@ -3940,7 +3984,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
         activeTypesByTense[tense] = activeTypes;
 
         const stateEntry = ensureIrregularityStateEntry(tense);
-        stateEntriesByTense[tense] = stateEntry;
+        manualDeselectionsByTense[tense] = new Set(stateEntry.manuallyDeselected);
         const regularDeselected = stateEntry.manuallyDeselected.has('regular') && !stateEntry.selected.has('regular');
         irregularFallbackByTense[tense] = activeTypes.length === 0 && regularDeselected;
     });
@@ -3966,13 +4010,12 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             evaluatedAnyTense = true;
 
             const verbTypesForTense = verbObj.types?.[tense] || [];
-            const stateEntryForTense = stateEntriesByTense[tense];
-            const manualDeselections = stateEntryForTense?.manuallyDeselected || new Set();
-            const hasReflexiveType = verbTypesForTense.includes('reflexive');
-            const reflexiveSelected = activeTypesForTense.includes('reflexive');
-            const reflexiveAllowedByFallback = useIrregularFallback && !manualDeselections.has('reflexive');
+            const manualDeselections = manualDeselectionsByTense[tense] || new Set();
+            const shouldExcludeReflexive =
+                manualDeselections.has('reflexive') ||
+                (!useIrregularFallback && activeTypesForTense.length > 0 && !activeTypesForTense.includes('reflexive'));
 
-            if (hasReflexiveType && !reflexiveSelected && !reflexiveAllowedByFallback) {
+            if (shouldExcludeReflexive && verbTypesForTense.includes('reflexive')) {
                 matchesAllTenses = false;
                 break;
             }

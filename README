@@ -1,168 +1,112 @@
-🎮 The Conjugator 
+🎮 The Conjugator
 An immersive retro-pixelated Spanish verb conjugation game that combines effective learning with advanced gamification mechanics. Battle the antagonist "Chuache" (inspired by Terminator) while mastering Spanish verb conjugations through engaging gameplay.
-🌟 Features
-🎯 Game Modes
 
-⏱️ Time Attack: 4 minutes initial timer with dynamic time adjustments based on performance
-❤️‍🩹 Survival: Life-based system with multiple mechanics to gain extra lives
-📚 Study Mode: Practice without pressure - no scoring or timers
+🌟 Key Features
+Three Game Modes: Choose between Time Attack, Survival, or a pressure-free Study Mode.
 
-💭 Difficulty Levels
+Progressive Difficulty Levels: From translation (Easy) to conjugation production (Hard).
 
-ReCall (Easy): Spanish → English translation (5 base points)
-ConjugaATE (Normal): Spanish infinitive → Spanish conjugation (10 base points)
-Pr0duc€ (Hard): English infinitive → Spanish conjugation (15 base points)
+Epic Boss Battles: Unique encounters that test your skills in unexpected ways.
+
+Advanced Scoring System: Earn points and bonuses for speed, accuracy, streaks, and complexity.
+
+Levelling and Progression: Level up, unlock visual upgrades, and receive free hints.
+
+Adaptive Interface: Fully responsive design with advanced filters to customize your learning.
+
+Visual & Audio Effects: A complete retro experience with animations, music, and sound effects.
+
+Global Competition: Save your records in a Supabase database and compete in the Hall of Fame.
+
+Offline Functionality: Thanks to a Service Worker, you can play anytime, anywhere.
+
+🎯 Gameplay Mechanics
+Game Modes
+⏱️ Time Attack: Start with 4 minutes, with the timer dynamically adjusting based on your performance.
+
+❤️‍🩹 Survival: A life-based system with multiple mechanics to gain extra lives.
+
+📚 Study Mode: Practice without the pressure of timers or scores.
+
+Difficulty Levels
+ReCall (Easy): Translate from Spanish to English (5 base points).
+
+ConjugaATE (Normal): Conjugate a Spanish infinitive (10 base points).
+
+Pr0duc€ (Hard): Translate and conjugate from English to Spanish (15 base points).
 
 🤖 Boss Battles
-Face epic boss encounters every few questions:
+Every few questions, face a boss with unique mechanics:
 
-🔧 Digital Corrupted: Repair glitched verb forms
-🤖 Skynet Glitch: Decode corrupted infinitives and pronouns
-💣 Nuclear Countdown: Defuse the bomb with correct conjugations under time pressure
-🪞 T-1000 Mirror: Type conjugations backwards to shatter the mirror
+🔧 Digital Corrupted: Repair glitched verb forms.
 
-⚙️ Advanced Mechanics
-Sophisticated Scoring System
-Points = (BasePoints + TenseBonus + PronounBonus + VerbBonus + AccentBonus + IrregularityBonus + ReflexiveBonus) × Multiplier × SpeedBonus
+🤖 Skynet Glitch: Decode corrupted infinitives and pronouns.
 
-Progressive multipliers for consecutive streaks
-Complexity bonuses: more tenses, pronouns, verbs = more points
-Speed bonus (answer in <5 seconds)
-Accent bonus (+8 points for correct accents)
-Irregularity bonus (10 points × irregularity types)
+💣 Nuclear Countdown: Defuse the bomb with correct conjugations before time runs out.
 
-Level System & Progression
+🪞 T-1000 Mirror: Type conjugations backward to shatter the mirror.
 
-Levels every 10 correct answers
-Dynamic background colors that change by level
-Special visual effects at high levels (level 8+ has iridescent background)
-Free clues as level-up rewards
+Detailed Scoring System
+Scores are calculated using a sophisticated formula that rewards multiple factors:
+Points = (BasePoints + Bonuses) × Multiplier × SpeedBonus
 
-Survival Mechanics (Lives Mode)
-Three ways to gain lives:
+Streak Multiplier: Increases with each consecutive correct answer.
 
-Accumulation: Correct answers (progression: 10, 20, 33, 47...)
-Streaks: Consecutive correct answers (initial goal: 5, increases +2 each time)
-🎁 Prize Verbs: Randomly appear on irregular/reflexive verbs
+Complexity Bonus: More tenses, pronouns, or verbs selected equals more points.
 
-🎨 Technical Features
-Adaptive Interface
+Speed Bonus: Answer in under 5 seconds for extra points.
 
-Step-by-step configuration system (mode → difficulty → customization)
-Advanced filters: verb tenses, irregularity types, pronouns
-Verb search and grouping (by ending: -ar, -er, -ir, reflexive)
-Complete responsive design for mobile devices
+Accent Bonus: +8 points for using accents correctly.
 
-Visual & Audio Effects
+Irregularity Bonus: +10 points for each irregularity type in the verb.
 
-Pixelated animations consistent with retro aesthetic
-Complete audio system (music, effects, volume control)
-Particle effects (confetti for gaining lives, fire for streaks)
-Character animations (Chuache reacts based on performance)
+Boss Victory: +500 points (scales with each boss reappearance).
 
-Persistence & Competition
+🧠 Pedagogical Content
+Included Verb Tenses
+The game includes 6 indicative tenses for practice:
 
-Supabase database for global records
-Hall of Fame with best scores by mode
-Persistent configuration (volume, visual preferences)
-Service Worker for offline functionality
+Present
 
-🧠 Pedagogy & Content
-Smart Filter System
+Simple Past (Preterite)
 
-6 verb tenses: Present, Simple Past, Present Perfect, Imperfect, Future, Conditional
-11 irregularity types: From regular to completely irregular
-Detailed educational tooltips for each grammatical concept
-Hint system with progressive penalties
+Present Perfect
 
-Content Adaptability
+Imperfect
 
-Manual verb selection or automatic filtering by characteristics
-Score preview based on selected configuration
-Dynamic balance between used/unused verbs
+Future
 
-🎮 How to Play
+Conditional
 
-Choose Game Mode: Time Attack, Survival, or Study Mode
-Select Difficulty: ReCall, ConjugaATE, or Pr0duc€
-Configure Settings:
+Hint and Help System
+Progressive Hints: Use hints for help, but be aware of scoring penalties.
 
-Select verb tenses to practice
-Choose irregularity types or specific verbs
-Select pronouns to include
+Level-Up Rewards: Earn free hints by leveling up as a reward for your progress.
 
-
-Start Playing: Answer conjugation questions to build streaks and score points
-Face Boss Battles: Every few questions, battle unique bosses with special mechanics
-Track Progress: Watch your score climb and compete on global leaderboards
-
-🏆 Scoring & Progression
-Base Scoring
-
-ReCall Mode: 5 points per correct answer
-ConjugaATE Mode: 10 points per correct answer
-Pr0duc€ Mode: 15 points per correct answer
-
-Bonuses
-
-Speed Bonus: Answer quickly for extra points
-Streak Multiplier: Build consecutive correct answers
-Complexity Bonus: More tenses/pronouns/verbs = more points
-Accent Bonus: +8 points for proper accent marks
-Irregularity Bonus: +10 points per irregularity type
-Boss Victory: +500 points (scales with boss reappearances)
-
-🎵 Audio System
-The game features a complete audio experience:
-
-Background Music: Menu and game music with volume controls
-Sound Effects: Feedback for correct/incorrect answers, boss battles, and special events
-Character Voice: Chuache's reactions and commentary
-Boss-Specific Audio: Unique sounds for each boss encounter
+Educational Tooltips: Detailed information on each grammatical concept is just a click away.
 
 🛠️ Technical Architecture
-Core Technologies
+Core: Vanilla JavaScript, HTML5, and CSS3 for a pure, framework-free web experience.
 
-Vanilla JavaScript: No frameworks, pure web technologies
-CSS3: Advanced animations and visual effects
-HTML5: Semantic markup and accessibility
-Supabase: Backend database for leaderboards
-Service Worker: Offline functionality
+Backend: Supabase for managing global leaderboards.
 
-Key Components
+Offline: A Service Worker ensures functionality without an internet connection.
 
-Game Engine: State management and game loop
-Audio Manager: Sound effects and music system
-Progress Tracker: Level progression and statistics
-Boss Battle System: Special encounter mechanics
-Leaderboard System: Global score tracking
-
-
-🎯 Educational Value
-This game represents an excellent example of a "serious game" that:
-
-Maintains user engagement during extended periods
-Provides immediate pedagogical feedback
-Adapts to different skill levels
-Effectively gamifies the learning of complex linguistic structures
-
-Gameplay Settings
-
-Verb selection (manual or by type)
-Tense selection
-Pronoun configuration
-Difficulty scaling
+Audio: A complete system with background music, sound effects, and character voice-overs, all with volume controls.
 
 📈 Future Enhancements
+Analytics to identify learning patterns.
 
-Analytics for learning pattern identification
-More granular achievement system
-Real-time collaborative/competitive mode
-Expansion to other verb tenses (subjunctive, imperative)
-Adaptive AI that adjusts difficulty based on individual performance
+A more granular achievement system.
 
-📄 License
+Real-time collaborative or competitive mode.
+
+Expansion to more verb tenses (Subjunctive, Imperative).
+
+Adaptive AI that adjusts difficulty based on player performance.
+
+📄 License & Contact
 © 2025 Pablo Torrado, University of Hong Kong.
-Licensed under CC BY-NC-ND 4.0
-🤝 Contributing
-This project is currently maintained by Pablo Torrado at the University of Hong Kong. For questions or suggestions, please open an issue on GitHub.
+Licensed under CC BY-NC-ND 4.0.
+
+For questions or suggestions, please open an issue on GitHub.

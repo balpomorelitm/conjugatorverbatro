@@ -1,112 +1,96 @@
-🎮 The Conjugator
+# 🎮 The Conjugator
+
 An immersive retro-pixelated Spanish verb conjugation game that combines effective learning with advanced gamification mechanics. Battle the antagonist "Chuache" (inspired by Terminator) while mastering Spanish verb conjugations through engaging gameplay.
 
-🌟 Key Features
-Three Game Modes: Choose between Time Attack, Survival, or a pressure-free Study Mode.
+---
 
-Progressive Difficulty Levels: From translation (Easy) to conjugation production (Hard).
+## 🌟 Key Features
 
-Epic Boss Battles: Unique encounters that test your skills in unexpected ways.
+* **Three Game Modes:** Choose between Time Attack, Survival, or a pressure-free Study Mode.
 
-Advanced Scoring System: Earn points and bonuses for speed, accuracy, streaks, and complexity.
+* **Progressive Difficulty Levels:** From translation (Easy) to conjugation production (Hard).
 
-Levelling and Progression: Level up, unlock visual upgrades, and receive free hints.
+* **Epic Boss Battles:** Unique encounters that test your skills in unexpected ways.
 
-Adaptive Interface: Fully responsive design with advanced filters to customize your learning.
+* **Advanced Scoring System:** Earn points and bonuses for speed, accuracy, streaks, and complexity.
 
-Visual & Audio Effects: A complete retro experience with animations, music, and sound effects.
+* **Levelling and Progression:** Level up, unlock visual upgrades, and receive free hints.
 
-Global Competition: Save your records in a Supabase database and compete in the Hall of Fame.
+* **Adaptive Interface:** Fully responsive design with advanced filters to customize your learning.
 
-Offline Functionality: Thanks to a Service Worker, you can play anytime, anywhere.
+* **Visual & Audio Effects:** A complete retro experience with animations, music, and sound effects.
 
-🎯 Gameplay Mechanics
-Game Modes
-⏱️ Time Attack: Start with 4 minutes, with the timer dynamically adjusting based on your performance.
+* **Global Competition:** Save your records in a Supabase database and compete in the Hall of Fame.
 
-❤️‍🩹 Survival: A life-based system with multiple mechanics to gain extra lives.
+* **Offline Functionality:** Thanks to a Service Worker, you can play anytime, anywhere.
 
-📚 Study Mode: Practice without the pressure of timers or scores.
+---
 
-Difficulty Levels
-ReCall (Easy): Translate from Spanish to English (5 base points).
+## 🎯 Gameplay Mechanics
 
-ConjugaATE (Normal): Conjugate a Spanish infinitive (10 base points).
+### Game Modes
 
-Pr0duc€ (Hard): Translate and conjugate from English to Spanish (15 base points).
+* ⏱️ **Time Attack:** Start with 4 minutes, with the timer dynamically adjusting based on your performance.
 
-🤖 Boss Battles
+* ❤️‍🩹 **Survival:** A life-based system with multiple mechanics to gain extra lives.
+
+* 📚 **Study Mode:** Practice without the pressure of timers or scores.
+
+### Difficulty Levels
+
+* **ReCall (Easy):** Translate from Spanish to English (5 base points).
+
+* **ConjugaATE (Normal):** Conjugate a Spanish infinitive (10 base points).
+
+* **Pr0duc€ (Hard):** Translate and conjugate from English to Spanish (15 base points).
+
+### 🤖 Boss Battles
+
 Every few questions, face a boss with unique mechanics:
 
-🔧 Digital Corrupted: Repair glitched verb forms.
+* 🔧 **Digital Corrupted:** Repair glitched verb forms.
 
-🤖 Skynet Glitch: Decode corrupted infinitives and pronouns.
+* 🤖 **Skynet Glitch:** Decode corrupted infinitives and pronouns.
 
-💣 Nuclear Countdown: Defuse the bomb with correct conjugations before time runs out.
+* 💣 **Nuclear Countdown:** Defuse the bomb with correct conjugations before time runs out.
 
-🪞 T-1000 Mirror: Type conjugations backward to shatter the mirror.
+* 🪞 **T-1000 Mirror:** Type conjugations backward to shatter the mirror.
 
-Detailed Scoring System
+### Detailed Scoring System
+
 Scores are calculated using a sophisticated formula that rewards multiple factors:
-Points = (BasePoints + Bonuses) × Multiplier × SpeedBonus
+`Points = (BasePoints + Bonuses) × Multiplier × SpeedBonus`
 
-Streak Multiplier: Increases with each consecutive correct answer.
+* **Streak Multiplier:** Increases with each consecutive correct answer.
 
-Complexity Bonus: More tenses, pronouns, or verbs selected equals more points.
+* **Complexity Bonus:** More tenses, pronouns, or verbs selected equals more points.
 
-Speed Bonus: Answer in under 5 seconds for extra points.
+* **Speed Bonus:** Answer in under 5 seconds for extra points.
 
-Accent Bonus: +8 points for using accents correctly.
+* **Accent Bonus:** +8 points for using accents correctly.
 
-Irregularity Bonus: +10 points for each irregularity type in the verb.
+* **Irregularity Bonus:** +10 points for each irregularity type in the verb.
 
-Boss Victory: +500 points (scales with each boss reappearance).
+* **Boss Victory:** +500 points (scales with each boss reappearance).
 
-🧠 Pedagogical Content
-Included Verb Tenses
+---
+
+## 🧠 Pedagogical Content
+
+### Included Verb Tenses
+
 The game includes 6 indicative tenses for practice:
 
-Present
+* Present
 
-Simple Past (Preterite)
+* Simple Past (Preterite)
 
-Present Perfect
+* Present Perfect
 
-Imperfect
+* Imperfect
 
-Future
+* Future
 
-Conditional
+* Conditional
 
-Hint and Help System
-Progressive Hints: Use hints for help, but be aware of scoring penalties.
-
-Level-Up Rewards: Earn free hints by leveling up as a reward for your progress.
-
-Educational Tooltips: Detailed information on each grammatical concept is just a click away.
-
-🛠️ Technical Architecture
-Core: Vanilla JavaScript, HTML5, and CSS3 for a pure, framework-free web experience.
-
-Backend: Supabase for managing global leaderboards.
-
-Offline: A Service Worker ensures functionality without an internet connection.
-
-Audio: A complete system with background music, sound effects, and character voice-overs, all with volume controls.
-
-📈 Future Enhancements
-Analytics to identify learning patterns.
-
-A more granular achievement system.
-
-Real-time collaborative or competitive mode.
-
-Expansion to more verb tenses (Subjunctive, Imperative).
-
-Adaptive AI that adjusts difficulty based on player performance.
-
-📄 License & Contact
-© 2025 Pablo Torrado, University of Hong Kong.
-Licensed under CC BY-NC-ND 4.0.
-
-For questions or suggestions, please open an issue on GitHub.
+###

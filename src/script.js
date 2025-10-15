@@ -4157,7 +4157,8 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             }
 
             const requiresRegular = typesToMatch.includes(REGULAR_TYPE_VALUE);
-            const onlyRegularSelected = requiresRegular && typesToMatch.length === 1;
+            const onlyRegularSelected =
+                requiresRegular && typesToMatch.length === 1 && !reflexiveSelected;
             const remainingTypes = onlyRegularSelected ? [] : typesToMatch;
 
             if (requiresRegular && onlyRegularSelected) {

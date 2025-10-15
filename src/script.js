@@ -4139,10 +4139,14 @@ function applyIrregularityAndTenseFiltersToVerbList() {
 
             const verbTypesForTense = verbObj.types?.[tense] || [];
             const manualDeselections = manualDeselectionsByTense[tense] || new Set();
-            const reflexiveSelected = activeTypesForTense.includes('reflexive') &&
+            const reflexiveSelected =
+                activeTypesForTense.includes('reflexive') &&
                 !manualDeselections.has('reflexive');
+            const typesToMatch = activeTypesForTense.filter(type => type !== 'reflexive');
+            const reflexiveIsExclusiveSelection =
+                reflexiveSelected && typesToMatch.length === 0;
 
-            if (reflexiveSelected && !verbTypesForTense.includes('reflexive')) {
+            if (reflexiveIsExclusiveSelection && !verbTypesForTense.includes('reflexive')) {
                 matchesAllTenses = false;
                 break;
             }
@@ -4152,7 +4156,6 @@ function applyIrregularityAndTenseFiltersToVerbList() {
                 break;
             }
 
-            const typesToMatch = activeTypesForTense.filter(type => type !== 'reflexive');
             const requiresRegular = typesToMatch.includes(REGULAR_TYPE_VALUE);
             const onlyRegularSelected = requiresRegular && typesToMatch.length === 1;
             const remainingTypes = onlyRegularSelected ? [] : typesToMatch;
@@ -4168,7 +4171,7 @@ function applyIrregularityAndTenseFiltersToVerbList() {
                 }
             }
 
-            const matchesThisTense = remainingTypes.length === 0 || remainingTypes.some(requiredType => {
+            let matchesThisTense = remainingTypes.length === 0 || remainingTypes.some(requiredType => {
                 if (requiredType === REGULAR_TYPE_VALUE) {
                     return (
                         verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
@@ -4178,6 +4181,10 @@ function applyIrregularityAndTenseFiltersToVerbList() {
 
                 return verbTypesForTense.includes(requiredType);
             });
+
+            if (!matchesThisTense && reflexiveSelected) {
+                matchesThisTense = verbTypesForTense.includes('reflexive');
+            }
 
             if (!matchesThisTense) {
                 matchesAllTenses = false;

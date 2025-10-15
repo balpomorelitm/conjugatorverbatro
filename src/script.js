@@ -2661,6 +2661,7 @@ function updatePronounDropdownCount() {
   ];
 
   const REGULAR_TYPE_VALUE = 'regular';
+  const REGULAR_PAST_SIMPLE_VALUE = 'regular_past_simple';
   const regularIrregularityDefinition = irregularityTypes.find(type => type.value === REGULAR_TYPE_VALUE);
 
   function regularTypeAvailableForTense(tenseKey) {
@@ -3160,24 +3161,36 @@ function renderVerbButtons() {
 	  // Llama a la función global allBtns() para obtener el array de botones
 	  const currentVerbButtons = allBtns(); // <--- Esta línea obtiene el array de la función global
 
-	  document.querySelectorAll('#verb-groups-panel .group-button')
-		.forEach(gb => {
-		  const grp = gb.dataset.group;
+          const irregularFilterState = buildActiveIrregularityFilterState();
+          const reflexiveCache = new Map();
 
-		  // USA 'currentVerbButtons' para filtrar, NO 'allBtns' directamente
+          document.querySelectorAll('#verb-groups-panel .group-button')
+                .forEach(gb => {
+                  const grp = gb.dataset.group;
+
+                  // USA 'currentVerbButtons' para filtrar, NO 'allBtns' directamente
                   const matched = currentVerbButtons.filter(b => { // <--- CAMBIO CRUCIAL AQUÍ: usa currentVerbButtons
                         const inf = b.dataset.value;
 
                         if (grp === 'all') return true;
-			if (grp === 'reflexive') return inf.endsWith('se');
-			// Tu lógica original para ar, er, ir:
-			if (grp === 'ar') return !inf.endsWith('se') && inf.endsWith('ar'); 
-			if (grp === 'er') return !inf.endsWith('se') && inf.endsWith('er');
-			if (grp === 'ir') return !inf.endsWith('se') && inf.endsWith('ir');
-			// Esto era de mi ejemplo, tu lógica puede ser diferente, adáptala si es necesario
-			// return inf.endsWith(grp); 
-			return false; // Fallback si no es ninguno de los anteriores
-		  });
+                        if (grp === 'reflexive') {
+                          if (!inf.endsWith('se')) return false;
+                          if (!reflexiveCache.has(inf)) {
+                            reflexiveCache.set(
+                              inf,
+                              shouldIncludeReflexiveVerb(inf, irregularFilterState)
+                            );
+                          }
+                          return reflexiveCache.get(inf);
+                        }
+                        // Tu lógica original para ar, er, ir:
+                        if (grp === 'ar') return !inf.endsWith('se') && inf.endsWith('ar');
+                        if (grp === 'er') return !inf.endsWith('se') && inf.endsWith('er');
+                        if (grp === 'ir') return !inf.endsWith('se') && inf.endsWith('ir');
+                        // Esto era de mi ejemplo, tu lógica puede ser diferente, adáptala si es necesario
+                        // return inf.endsWith(grp);
+                        return false; // Fallback si no es ninguno de los anteriores
+                  });
 
 		  const allOn = matched.length > 0 && matched.every(b => b.classList.contains('selected'));
 		  gb.classList.toggle('active', allOn);
@@ -3289,25 +3302,37 @@ function renderVerbButtons() {
 	  });
 
 		// 3) Filtrar por grupos con TOGGLE y marcar el propio botón
-		groupsPanel.querySelectorAll('.group-button').forEach(gb => {
-		  gb.addEventListener('click', e => {
-			e.preventDefault();
-			if (soundClick) safePlay(soundClick); 
-			const grp = gb.dataset.group; // "all" | "reflexive" | "ar" | "er" | "ir"
+                groupsPanel.querySelectorAll('.group-button').forEach(gb => {
+                  gb.addEventListener('click', e => {
+                        e.preventDefault();
+                        if (soundClick) safePlay(soundClick);
+                        const grp = gb.dataset.group; // "all" | "reflexive" | "ar" | "er" | "ir"
 
-			// ① Recoger solo los botones de verbo que pertenecen a este grupo
-			const matched = allBtns().filter(b => {
-			  const inf = b.dataset.value;
-			  const normalizedInf = removeAccents(inf);
-			  
-			  if (grp === 'all') return true;
-			  if (grp === 'reflexive') return inf.endsWith('se');
-			  if (grp === 'ar') return normalizedInf.endsWith('ar');
-			  if (grp === 'er') return normalizedInf.endsWith('er');
-			  if (grp === 'ir') return normalizedInf.endsWith('ir');
-			  
-			  return inf.endsWith(grp);
-			});
+                        const irregularFilterState = buildActiveIrregularityFilterState();
+                        const reflexiveCache = new Map();
+
+                        // ① Recoger solo los botones de verbo que pertenecen a este grupo
+                        const matched = allBtns().filter(b => {
+                          const inf = b.dataset.value;
+                          const normalizedInf = removeAccents(inf);
+
+                          if (grp === 'all') return true;
+                          if (grp === 'reflexive') {
+                            if (!inf.endsWith('se')) return false;
+                            if (!reflexiveCache.has(inf)) {
+                              reflexiveCache.set(
+                                inf,
+                                shouldIncludeReflexiveVerb(inf, irregularFilterState)
+                              );
+                            }
+                            return reflexiveCache.get(inf);
+                          }
+                          if (grp === 'ar') return normalizedInf.endsWith('ar');
+                          if (grp === 'er') return normalizedInf.endsWith('er');
+                          if (grp === 'ir') return normalizedInf.endsWith('ir');
+
+                          return inf.endsWith(grp);
+                        });
 
 			// ② Decidir si los apagamos (si todos ya estaban seleccionados) o los encendemos
 			const allCurrentlyOn = matched.every(b => b.classList.contains('selected'));
@@ -3806,6 +3831,156 @@ function getSelectedTenses() {
 // Helper para obtener el objeto verbo completo desde initialRawVerbData
 function getVerbObjectByInfinitive(infinitiveEs) {
     return initialRawVerbData.find(v => v.infinitive_es === infinitiveEs);
+}
+
+function buildActiveIrregularityFilterState() {
+  const selectedTenses = getSelectedTenses();
+  const activeTypesByTense = {};
+  const manualDeselectionsByTense = {};
+  let hasAnyIrregularSelections = false;
+
+  selectedTenses.forEach(tense => {
+    const activeButtons = document.querySelectorAll(
+      `.verb-type-button.selected:not(:disabled)[data-tense="${tense}"]`
+    );
+    const activeTypes = Array.from(activeButtons).map(btn => btn.dataset.value);
+
+    if (
+      activeTypes.some(
+        type =>
+          type !== 'reflexive' &&
+          type !== REGULAR_TYPE_VALUE &&
+          type !== REGULAR_PAST_SIMPLE_VALUE
+      )
+    ) {
+      hasAnyIrregularSelections = true;
+    }
+
+    activeTypesByTense[tense] = activeTypes;
+
+    const stateEntry = ensureIrregularityStateEntry(tense);
+    manualDeselectionsByTense[tense] = new Set(
+      stateEntry?.manuallyDeselected || []
+    );
+  });
+
+  return {
+    selectedTenses,
+    activeTypesByTense,
+    manualDeselectionsByTense,
+    hasAnyIrregularSelections
+  };
+}
+
+function isVerbStrictRegularForTense(types = [], tenseKey = '') {
+  if (!Array.isArray(types)) return false;
+  return types.every(type => {
+    if (type === 'reflexive') return true;
+    if (type === REGULAR_TYPE_VALUE) return true;
+    if (tenseKey === 'past_simple' && type === REGULAR_PAST_SIMPLE_VALUE) {
+      return true;
+    }
+    return false;
+  });
+}
+
+function isVerbStrictRegularAcrossAllTenses(verbObj) {
+  if (!verbObj || !verbObj.types) return false;
+  return Object.entries(verbObj.types).every(([tenseKey, types]) =>
+    isVerbStrictRegularForTense(types, tenseKey)
+  );
+}
+
+function shouldIncludeReflexiveVerb(infinitiveEs, filterState) {
+  if (!infinitiveEs) return false;
+  const verbObj = getVerbObjectByInfinitive(infinitiveEs);
+  if (!verbObj) return false;
+
+  const {
+    selectedTenses,
+    activeTypesByTense,
+    manualDeselectionsByTense,
+    hasAnyIrregularSelections
+  } = filterState;
+
+  if (!selectedTenses || selectedTenses.length === 0) {
+    return isVerbStrictRegularAcrossAllTenses(verbObj);
+  }
+
+  let evaluatedAtLeastOneTense = false;
+
+  for (const tense of selectedTenses) {
+    const typesForTense = verbObj.types?.[tense] || [];
+    if (typesForTense.length === 0) continue;
+
+    evaluatedAtLeastOneTense = true;
+
+    if (!typesForTense.includes('reflexive')) {
+      return false;
+    }
+
+    const manualDeselections = manualDeselectionsByTense[tense] || new Set();
+    if (manualDeselections.has('reflexive')) {
+      return false;
+    }
+
+    const activeTypes = activeTypesByTense[tense] || [];
+    const selectedWithoutReflexive = activeTypes.filter(
+      type => type !== 'reflexive'
+    );
+    const manualRegularDeselected =
+      manualDeselections.has(REGULAR_TYPE_VALUE) ||
+      (tense === 'past_simple' &&
+        manualDeselections.has(REGULAR_PAST_SIMPLE_VALUE));
+
+    const verbIrregulars = typesForTense.filter(
+      type =>
+        type !== 'reflexive' &&
+        type !== REGULAR_TYPE_VALUE &&
+        type !== REGULAR_PAST_SIMPLE_VALUE
+    );
+
+    const selectedIrregulars = selectedWithoutReflexive.filter(
+      type =>
+        type !== REGULAR_TYPE_VALUE &&
+        type !== REGULAR_PAST_SIMPLE_VALUE
+    );
+
+    if (selectedIrregulars.length === 0) {
+      if (verbIrregulars.length > 0) {
+        return false;
+      }
+      if (manualRegularDeselected) {
+        return false;
+      }
+      if (!hasAnyIrregularSelections && !activeTypes.length) {
+        continue;
+      }
+      continue;
+    }
+
+    const allIrregularsAllowed = verbIrregulars.every(irreg =>
+      selectedIrregulars.includes(irreg)
+    );
+    if (!allIrregularsAllowed) {
+      return false;
+    }
+
+    if (verbIrregulars.length === 0 && manualRegularDeselected) {
+      return false;
+    }
+
+    if (verbIrregulars.length === 0 && selectedIrregulars.length > 0) {
+      // Regular reflexive verbs are allowed unless regular was manually deselected.
+      continue;
+    }
+  }
+
+  if (!evaluatedAtLeastOneTense) {
+    return isVerbStrictRegularAcrossAllTenses(verbObj);
+  }
+
+  return true;
 }
 
 function buildIrregularitySelectionSnapshot(selectedTenses) {

@@ -4142,7 +4142,13 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             const reflexiveSelected = activeTypesForTense.includes('reflexive') &&
                 !manualDeselections.has('reflexive');
 
-            if (reflexiveSelected && !verbTypesForTense.includes('reflexive')) {
+            const typesToMatch = activeTypesForTense.filter(type => type !== 'reflexive');
+            const hasNonReflexiveFilters = typesToMatch.length > 0;
+            const requiresRegular = typesToMatch.includes(REGULAR_TYPE_VALUE);
+            const onlyRegularSelected = requiresRegular && typesToMatch.length === 1;
+            const remainingTypes = onlyRegularSelected ? [] : typesToMatch;
+
+            if (reflexiveSelected && !verbTypesForTense.includes('reflexive') && !hasNonReflexiveFilters) {
                 matchesAllTenses = false;
                 break;
             }
@@ -4152,34 +4158,31 @@ function applyIrregularityAndTenseFiltersToVerbList() {
                 break;
             }
 
-            const typesToMatch = activeTypesForTense.filter(type => type !== 'reflexive');
-            const requiresRegular = typesToMatch.includes(REGULAR_TYPE_VALUE);
-            const onlyRegularSelected = requiresRegular && typesToMatch.length === 1;
-            const remainingTypes = onlyRegularSelected ? [] : typesToMatch;
+            let matchesNonReflexive = false;
 
-            if (requiresRegular && onlyRegularSelected) {
-                const matchesRegular =
-                    verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
-                    isVerbStrictRegularForTense(verbTypesForTense, tense);
+            if (hasNonReflexiveFilters) {
+                if (requiresRegular && onlyRegularSelected) {
+                    matchesNonReflexive =
+                        verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
+                        isVerbStrictRegularForTense(verbTypesForTense, tense);
+                } else {
+                    matchesNonReflexive = remainingTypes.some(requiredType => {
+                        if (requiredType === REGULAR_TYPE_VALUE) {
+                            return (
+                                verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
+                                isVerbStrictRegularForTense(verbTypesForTense, tense)
+                            );
+                        }
 
-                if (!matchesRegular) {
-                    matchesAllTenses = false;
-                    break;
+                        return verbTypesForTense.includes(requiredType);
+                    });
                 }
             }
 
-            const matchesThisTense = remainingTypes.length === 0 || remainingTypes.some(requiredType => {
-                if (requiredType === REGULAR_TYPE_VALUE) {
-                    return (
-                        verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
-                        isVerbStrictRegularForTense(verbTypesForTense, tense)
-                    );
-                }
+            const matchesReflexive =
+                reflexiveSelected && verbTypesForTense.includes('reflexive');
 
-                return verbTypesForTense.includes(requiredType);
-            });
-
-            if (!matchesThisTense) {
+            if (!matchesNonReflexive && !matchesReflexive) {
                 matchesAllTenses = false;
                 break;
             }

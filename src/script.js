@@ -4063,11 +4063,7 @@ function doesVerbMatchIrregularityFiltersForTenses(
       reflexiveSelected && verbTypesForTense.includes('reflexive');
 
     if (hasNonReflexiveFilters) {
-      if (!matchesNonReflexive) {
-        return false;
-      }
-
-      if (reflexiveSelected && !matchesReflexive) {
+      if (!matchesNonReflexive && !(reflexiveSelected && matchesReflexive)) {
         return false;
       }
     } else {

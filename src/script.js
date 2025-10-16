@@ -4182,7 +4182,15 @@ function applyIrregularityAndTenseFiltersToVerbList() {
             const matchesReflexive =
                 reflexiveSelected && verbTypesForTense.includes('reflexive');
 
-            if (!matchesNonReflexive && !matchesReflexive) {
+            if (hasNonReflexiveFilters) {
+                if (!matchesNonReflexive) {
+                    matchesAllTenses = false;
+                    break;
+                }
+            } else if (reflexiveSelected && !matchesReflexive) {
+                matchesAllTenses = false;
+                break;
+            } else if (!reflexiveSelected && !hasNonReflexiveFilters) {
                 matchesAllTenses = false;
                 break;
             }

@@ -3735,19 +3735,42 @@ async function loadVerbs() {
     return false;
   }
 
-  const selectedTypesByTense = currentOptions?.selectedTypesByTense || {};
-  const manuallyDeselectedByTense = currentOptions?.manuallyDeselectedIrregularities || {};
+  const originalSelectedTypesByTense = currentOptions?.selectedTypesByTense || {};
+  const originalManualDeselectionsByTense =
+    currentOptions?.manuallyDeselectedIrregularities || {};
+
+  const effectiveTenses = currentOptions.tenses.filter(tenseKey => {
+    const selectedForTense = originalSelectedTypesByTense[tenseKey] || [];
+    return selectedForTense.length > 0;
+  });
+
+  if (effectiveTenses.length === 0) {
+    alert('Please select at least one irregularity type for the chosen tenses.');
+    allVerbData = [];
+    return false;
+  }
+
+  const selectedTypesByTense = {};
+  const manuallyDeselectedByTense = {};
+
+  effectiveTenses.forEach(tenseKey => {
+    selectedTypesByTense[tenseKey] = Array.from(
+      originalSelectedTypesByTense[tenseKey] || []
+    );
+    manuallyDeselectedByTense[tenseKey] = Array.from(
+      originalManualDeselectionsByTense[tenseKey] || []
+    );
+  });
+
+  currentOptions.tenses = effectiveTenses;
+  currentOptions.selectedTypesByTense = selectedTypesByTense;
+  currentOptions.manuallyDeselectedIrregularities = manuallyDeselectedByTense;
+
   const reflexiveExcludedByTense = {};
 
   currentOptions.tenses.forEach(tenseKey => {
     const selectedForTense = selectedTypesByTense[tenseKey] || [];
     const manualDeselections = new Set(manuallyDeselectedByTense[tenseKey] || []);
-    const hasFilters = selectedForTense.length > 0;
-
-    if (!hasFilters) {
-      reflexiveExcludedByTense[tenseKey] = false;
-      return;
-    }
 
     const reflexiveSelected = selectedForTense.includes('reflexive');
     const reflexiveManuallyDeselected = manualDeselections.has('reflexive');
@@ -3787,23 +3810,12 @@ async function loadVerbs() {
 
   } else {
     verbsToConsiderForGame = initialRawVerbData.filter(v =>
-      currentOptions.tenses.some(tenseKey => {
-        // Para cada tiempo seleccionado...
-        const irregularityTypes = v.types[tenseKey] || [];
-        const matchesSelectedType = irregularityTypes.some(typeInVerb =>
-          selectedTypes.includes(typeInVerb) // ...el tipo debe estar entre los seleccionados.
-        );
-
-        if (!matchesSelectedType) {
-          return false;
-        }
-
-        if (reflexiveExcludedByTense[tenseKey] && irregularityTypes.includes('reflexive')) {
-          return false;
-        }
-
-        return true;
-      })
+      doesVerbMatchIrregularityFiltersForTenses(
+        v,
+        currentOptions.tenses,
+        selectedTypesByTense,
+        manuallyDeselectedByTense
+      )
     );
 
     verbsToConsiderForGame = verbsToConsiderForGame.filter(v => !shouldSkipVerbForReflexive(v));
@@ -3972,6 +3984,110 @@ function shouldIncludeReflexiveVerb(infinitiveEs, filterState) {
   return true;
 }
 
+function doesVerbMatchIrregularityFiltersForTenses(
+  verbObj,
+  tenses,
+  selectedTypesByTense = {},
+  manuallyDeselectedByTense = {}
+) {
+  if (!verbObj) return false;
+  if (!Array.isArray(tenses) || tenses.length === 0) {
+    return isVerbStrictRegularAcrossAllTenses(verbObj);
+  }
+
+  let evaluatedAnyTense = false;
+
+  for (const tense of tenses) {
+    const selectedTypes = Array.isArray(selectedTypesByTense?.[tense])
+      ? selectedTypesByTense[tense]
+      : [];
+    const manualDeselectionsRaw = manuallyDeselectedByTense?.[tense];
+    const manualDeselections =
+      manualDeselectionsRaw instanceof Set
+        ? manualDeselectionsRaw
+        : new Set(
+            Array.isArray(manualDeselectionsRaw)
+              ? manualDeselectionsRaw
+              : []
+          );
+
+    const hasActiveTypes = selectedTypes.length > 0;
+    const hasManualDeselections = manualDeselections.size > 0;
+
+    if (!hasActiveTypes && !hasManualDeselections) {
+      continue;
+    }
+
+    evaluatedAnyTense = true;
+
+    const verbTypesForTense = verbObj.types?.[tense] || [];
+    const reflexiveSelected =
+      selectedTypes.includes('reflexive') &&
+      !manualDeselections.has('reflexive');
+
+    const nonReflexiveSelections = selectedTypes.filter(
+      type => type !== 'reflexive'
+    );
+    const hasNonReflexiveFilters = nonReflexiveSelections.length > 0;
+    const requiresRegular = nonReflexiveSelections.includes(REGULAR_TYPE_VALUE);
+    const onlyRegularSelected =
+      requiresRegular && nonReflexiveSelections.length === 1;
+    const remainingTypes = onlyRegularSelected ? [] : nonReflexiveSelections;
+
+    if (!reflexiveSelected && verbTypesForTense.includes('reflexive')) {
+      return false;
+    }
+
+    let matchesNonReflexive = false;
+
+    if (hasNonReflexiveFilters) {
+      if (requiresRegular && onlyRegularSelected) {
+        matchesNonReflexive =
+          verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
+          isVerbStrictRegularForTense(verbTypesForTense, tense);
+      } else {
+        matchesNonReflexive = remainingTypes.some(requiredType => {
+          if (requiredType === REGULAR_TYPE_VALUE) {
+            return (
+              verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
+              isVerbStrictRegularForTense(verbTypesForTense, tense)
+            );
+          }
+
+          return verbTypesForTense.includes(requiredType);
+        });
+      }
+    }
+
+    const matchesReflexive =
+      reflexiveSelected && verbTypesForTense.includes('reflexive');
+
+    if (hasNonReflexiveFilters) {
+      if (!matchesNonReflexive) {
+        return false;
+      }
+
+      if (reflexiveSelected && !matchesReflexive) {
+        return false;
+      }
+    } else {
+      if (reflexiveSelected) {
+        if (!matchesReflexive) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+
+  if (!evaluatedAnyTense) {
+    return isVerbStrictRegularAcrossAllTenses(verbObj);
+  }
+
+  return true;
+}
+
 function buildIrregularitySelectionSnapshot(selectedTenses) {
   const selectedTypesByTense = {};
   const manuallyDeselectedByTense = {};
@@ -4118,88 +4234,25 @@ function applyIrregularityAndTenseFiltersToVerbList() {
         manualDeselectionsByTense[tense] = new Set(stateEntry.manuallyDeselected);
     });
 
-    document.querySelectorAll('#verb-buttons .verb-button').forEach(verbButton => {
-        const infinitiveEs = verbButton.dataset.value;
+    const hasAnyFilters = currentSelectedTenses.some(
+        tense => (activeTypesByTense[tense] || []).length > 0
+    );
 
+    document.querySelectorAll('#verb-buttons .verb-button').forEach(verbButton => {
+        if (!hasAnyFilters) return;
+
+        const infinitiveEs = verbButton.dataset.value;
         const verbObj = getVerbObjectByInfinitive(infinitiveEs);
         if (!verbObj) return;
 
-        let matchesAllTenses = true;
-        let evaluatedAnyTense = false;
+        const shouldSelectVerb = doesVerbMatchIrregularityFiltersForTenses(
+            verbObj,
+            currentSelectedTenses,
+            activeTypesByTense,
+            manualDeselectionsByTense
+        );
 
-        for (const tense of currentSelectedTenses) {
-            const activeTypesForTense = activeTypesByTense[tense] || [];
-            const hasFilters = activeTypesForTense.length > 0;
-
-            if (!hasFilters) {
-                continue;
-            }
-
-            evaluatedAnyTense = true;
-
-            const verbTypesForTense = verbObj.types?.[tense] || [];
-            const manualDeselections = manualDeselectionsByTense[tense] || new Set();
-            const reflexiveSelected = activeTypesForTense.includes('reflexive') &&
-                !manualDeselections.has('reflexive');
-
-            const typesToMatch = activeTypesForTense.filter(type => type !== 'reflexive');
-            const hasNonReflexiveFilters = typesToMatch.length > 0;
-            const requiresRegular = typesToMatch.includes(REGULAR_TYPE_VALUE);
-            const onlyRegularSelected = requiresRegular && typesToMatch.length === 1;
-            const remainingTypes = onlyRegularSelected ? [] : typesToMatch;
-
-            if (reflexiveSelected && !verbTypesForTense.includes('reflexive') && !hasNonReflexiveFilters) {
-                matchesAllTenses = false;
-                break;
-            }
-
-            if (!reflexiveSelected && verbTypesForTense.includes('reflexive')) {
-                matchesAllTenses = false;
-                break;
-            }
-
-            let matchesNonReflexive = false;
-
-            if (hasNonReflexiveFilters) {
-                if (requiresRegular && onlyRegularSelected) {
-                    matchesNonReflexive =
-                        verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
-                        isVerbStrictRegularForTense(verbTypesForTense, tense);
-                } else {
-                    matchesNonReflexive = remainingTypes.some(requiredType => {
-                        if (requiredType === REGULAR_TYPE_VALUE) {
-                            return (
-                                verbTypesForTense.includes(REGULAR_TYPE_VALUE) &&
-                                isVerbStrictRegularForTense(verbTypesForTense, tense)
-                            );
-                        }
-
-                        return verbTypesForTense.includes(requiredType);
-                    });
-                }
-            }
-
-            const matchesReflexive =
-                reflexiveSelected && verbTypesForTense.includes('reflexive');
-
-            if (hasNonReflexiveFilters) {
-                if (!matchesNonReflexive) {
-                    matchesAllTenses = false;
-                    break;
-                }
-            } else if (reflexiveSelected && !matchesReflexive) {
-                matchesAllTenses = false;
-                break;
-            } else if (!reflexiveSelected && !hasNonReflexiveFilters) {
-                matchesAllTenses = false;
-                break;
-            }
-        }
-
-        if (evaluatedAnyTense) {
-            const shouldSelectVerb = matchesAllTenses;
-            verbButton.classList.toggle('selected', shouldSelectVerb);
-        }
+        verbButton.classList.toggle('selected', shouldSelectVerb);
     });
 
     updateVerbDropdownCount();

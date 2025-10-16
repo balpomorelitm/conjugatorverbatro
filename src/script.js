@@ -4062,22 +4062,12 @@ function doesVerbMatchIrregularityFiltersForTenses(
     const matchesReflexive =
       reflexiveSelected && verbTypesForTense.includes('reflexive');
 
-    if (hasNonReflexiveFilters) {
-      if (!matchesNonReflexive) {
-        return false;
-      }
+    const matchesAnySelection =
+      (hasNonReflexiveFilters ? matchesNonReflexive : false) ||
+      matchesReflexive;
 
-      if (reflexiveSelected && !matchesReflexive) {
-        return false;
-      }
-    } else {
-      if (reflexiveSelected) {
-        if (!matchesReflexive) {
-          return false;
-        }
-      } else {
-        return false;
-      }
+    if (!matchesAnySelection) {
+      return false;
     }
   }
 

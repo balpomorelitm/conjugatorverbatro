@@ -4058,6 +4058,7 @@ function doesVerbMatchIrregularityFiltersForTenses(
 
     if (matches) {
       return true;
+
     }
   }
 

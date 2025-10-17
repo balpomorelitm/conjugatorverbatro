@@ -3963,7 +3963,12 @@ function evaluateVerbAgainstTenseFilters(
   let matches = false;
 
   if (hasNonReflexiveFilters && reflexiveSelected) {
-    matches = matchesNonReflexive && matchesReflexive;
+    // When both reflexive and other types are selected, treat the selection
+    // as a union so that reflexive verbs are *added* to the pool instead of
+    // intersecting with the other filters. This matches the expectation that
+    // enabling the reflexive toggle should increase (or at least not decrease)
+    // the number of available verbs.
+    matches = matchesNonReflexive || matchesReflexive;
   } else if (hasNonReflexiveFilters) {
     matches = matchesNonReflexive;
   } else if (reflexiveSelected) {

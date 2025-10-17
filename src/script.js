@@ -3779,12 +3779,25 @@ async function loadVerbs() {
       reflexiveManuallyDeselected || !reflexiveSelected;
   });
 
-  const shouldSkipVerbForReflexive = verb =>
-    currentOptions.tenses.some(tenseKey => {
+  const shouldSkipVerbForReflexive = verb => {
+    if (!verb || !currentOptions?.tenses?.length) return false;
+
+    const reflexiveAllowedSomewhere = currentOptions.tenses.some(tenseKey => {
+      if (reflexiveExcludedByTense[tenseKey]) return false;
+      const verbTypesForTense = verb.types?.[tenseKey] || [];
+      return verbTypesForTense.includes('reflexive');
+    });
+
+    if (reflexiveAllowedSomewhere) {
+      return false;
+    }
+
+    return currentOptions.tenses.some(tenseKey => {
       if (!reflexiveExcludedByTense[tenseKey]) return false;
       const verbTypesForTense = verb.types?.[tenseKey] || [];
       return verbTypesForTense.includes('reflexive');
     });
+  };
 
   let verbsToConsiderForGame = [];
 

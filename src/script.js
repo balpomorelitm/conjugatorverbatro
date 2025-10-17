@@ -4062,22 +4062,12 @@ function doesVerbMatchIrregularityFiltersForTenses(
     const matchesReflexive =
       reflexiveSelected && verbTypesForTense.includes('reflexive');
 
-    if (hasNonReflexiveFilters) {
-      if (!matchesNonReflexive) {
-        return false;
-      }
+    const matchesAnySelection =
+      (hasNonReflexiveFilters ? matchesNonReflexive : false) ||
+      matchesReflexive;
 
-      if (reflexiveSelected && !matchesReflexive) {
-        return false;
-      }
-    } else {
-      if (reflexiveSelected) {
-        if (!matchesReflexive) {
-          return false;
-        }
-      } else {
-        return false;
-      }
+    if (!matchesAnySelection) {
+      return false;
     }
   }
 
@@ -4197,17 +4187,9 @@ function updateVerbTypeButtonsVisualState() {
             return;
         }
 
-        const tenseActiveTypes = activeTypesByTense[buttonTense];
-        const isActiveForSelectedVerbs = tenseActiveTypes ? tenseActiveTypes.has(typeValue) : false;
         const isSelectedInState = selected.has(typeValue);
 
-        let shouldBeSelected = isSelectedInState;
-
-        if (!shouldBeSelected && isActiveForSelectedVerbs && !manuallyDeselected.has(typeValue)) {
-            shouldBeSelected = true;
-        }
-
-        if (shouldBeSelected) {
+        if (isSelectedInState) {
             typeButton.classList.add('selected');
             selected.add(typeValue);
             manuallyDeselected.delete(typeValue);

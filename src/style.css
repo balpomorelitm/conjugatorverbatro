@@ -4401,7 +4401,7 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   /* Mirror effect: horizontally flip text */
   transform: scaleX(-1);
   text-align: right; /* Adjust text alignment for better readability */
-  direction: rtl; /* Right-to-left text direction */
+  direction: ltr; /* Use left-to-right typing; mirror effect handled via transform */
 }
 
 #game-screen.t1000-active #answer-input-es::placeholder {

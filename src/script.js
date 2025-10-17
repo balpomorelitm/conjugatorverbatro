@@ -1026,6 +1026,7 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
     ansES.value = '';
     ansES.placeholder = 'Type the conjugation backwards...';
     ansES.disabled = false;
+    ansES.style.direction = 'ltr';
     ansES.focus();
   }
   const checkAnswerButton = document.getElementById('check-answer-button');
@@ -4792,18 +4793,8 @@ function checkAnswer() {
 
         streak = 0;
         multiplier = 1.0;
-        
-        let correctAnswerText = '';
-        if (currentOptions.mode === 'receptive') {
-          const englishTranslations = getEnglishTranslation(currentChallenge, currentChallenge.tense, currentChallenge.pronoun);
-          const originalEnglish = englishTranslations[0] || 'translation';
-          const reversedEnglish = originalEnglish.split('').reverse().join('');
-          correctAnswerText = `❌ The correct mirror was: "${originalEnglish}" → "${reversedEnglish}"`;
-        } else {
-          correctAnswerText = `❌ The correct mirror was: "${currentChallenge.correctAnswer}" → "${currentChallenge.reversedAnswer}"`;
-        }
-        
-        if (feedback) feedback.textContent = correctAnswerText;
+
+        if (feedback) feedback.textContent = '❌ ¡Incorrecto!';
         safePlay(soundWrong);
 
         if (gameContainer) {

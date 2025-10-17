@@ -3960,12 +3960,19 @@ function evaluateVerbAgainstTenseFilters(
   const matchesReflexive =
     reflexiveSelected && verbTypesForTense.includes('reflexive');
 
-  const matchesAnySelection =
-    (hasNonReflexiveFilters ? matchesNonReflexive : false) || matchesReflexive;
+  let matches = false;
+
+  if (hasNonReflexiveFilters && reflexiveSelected) {
+    matches = matchesNonReflexive && matchesReflexive;
+  } else if (hasNonReflexiveFilters) {
+    matches = matchesNonReflexive;
+  } else if (reflexiveSelected) {
+    matches = matchesReflexive;
+  }
 
   return {
     evaluated: true,
-    matches: matchesAnySelection
+    matches
   };
 }
 

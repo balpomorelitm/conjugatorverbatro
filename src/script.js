@@ -4354,9 +4354,29 @@ function prepareNextQuestion() {
        return;
      }
 
-  const availableTenses = currentOptions.tenses.filter(
-    t => v.conjugations?.[t]
-  );
+  const selectedTypesByTense = currentOptions.selectedTypesByTense || {};
+  const manualDeselectionsByTense =
+    currentOptions.manuallyDeselectedIrregularities || {};
+
+  const availableTenses = currentOptions.tenses.filter(tenseKey => {
+    if (!v.conjugations?.[tenseKey]) return false;
+
+    const selectedTypes = selectedTypesByTense[tenseKey] || [];
+    const manualDeselections = manualDeselectionsByTense[tenseKey];
+
+    const { evaluated, matches } = evaluateVerbAgainstTenseFilters(
+      v,
+      tenseKey,
+      selectedTypes,
+      manualDeselections
+    );
+
+    // Si no se evaluó (por ejemplo, sin filtros activos), permitimos el tiempo
+    // para mantener compatibilidad con configuraciones más antiguas.
+    if (!evaluated) return true;
+
+    return matches;
+  });
   if (availableTenses.length === 0) {
     console.warn(
       `No available tenses for ${v.infinitive_es} with current selection. Skipping.`

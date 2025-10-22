@@ -1,3 +1,14 @@
+const tenseShortDescriptions = {
+  present: 'Actions happening now or regularly.',
+  past_simple: 'Actions completed at a specific past moment.',
+  present_perfect: 'Actions linking the past to the present.',
+  imperfect_indicative: 'Ongoing or habitual actions in the past.',
+  future_simple: 'Actions that will happen.',
+  condicional_simple: 'Actions that would happen.',
+  imperative: 'Affirmative commands or requests.',
+  imperative_negative: 'Negative commands or requests.'
+};
+
 const specificInfoData = {
   timerMode: {
     title: "⏱️ Time attack ⏱️ (4 Minutes)",
@@ -822,3 +833,8 @@ const bossTooltips = {
 };
 
 Object.assign(specificInfoData, bossTooltips);
+
+if (typeof window !== 'undefined') {
+  window.tenseShortDescriptions = tenseShortDescriptions;
+  window.specificInfoData = specificInfoData;
+}

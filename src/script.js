@@ -56,7 +56,8 @@ const ASSET_URLS = {
   bossHack: assetUrl('../assets/images/bosshack.webp'),
   bossSkynetVideo: assetUrl('../assets/images/bosssg.webm'),
   bossT1000: assetUrl('../assets/images/bosst-1000.webp'),
-  heart: assetUrl('../assets/images/heart.webp')
+  heart: assetUrl('../assets/images/heart.webp'),
+  helpIcon: assetUrl('../assets/images/iconquestion.webp')
 };
 
 const pronouns = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
@@ -2666,14 +2667,14 @@ function updatePronounDropdownCount() {
     return Boolean(regularIrregularityDefinition && regularIrregularityDefinition.times.includes(tenseKey));
   }
   const tenses = [
-    { value: 'present',        name: 'Present',         infoKey: 'presentInfo' },
-    { value: 'past_simple',    name: 'Simple Past',     infoKey: 'pastSimpleInfo' },
-    { value: 'present_perfect',name: 'Present Perfect', infoKey: 'presentPerfectInfo' },
-    { value: 'imperfect_indicative', name: 'Imperfect', infoKey: 'imperfectInfo' },
-    { value: 'future_simple',        name: 'Future',    infoKey: 'futureInfo' },
-    { value: 'condicional_simple',   name: 'Condicional', infoKey: 'conditionalInfo' },
-    { value: 'imperative', name: 'Imperative (Affirmative)', infoKey: 'imperativeAffirmativeInfo' },
-    { value: 'imperative_negative', name: 'Imperative (Negative)', infoKey: 'imperativeNegativeInfo' }
+    { value: 'present', name: 'Present', infoKey: 'presentInfo', color: null },
+    { value: 'past_simple', name: 'Simple Past', infoKey: 'pastSimpleInfo', color: 'rgba(183, 28, 28, 0.35)' },
+    { value: 'present_perfect', name: 'Present Perfect', infoKey: 'presentPerfectInfo', color: 'rgba(239, 83, 80, 0.3)' },
+    { value: 'imperfect_indicative', name: 'Imperfect', infoKey: 'imperfectInfo', color: 'rgba(56, 142, 60, 0.3)' },
+    { value: 'future_simple', name: 'Future', infoKey: 'futureInfo', color: 'rgba(30, 136, 229, 0.3)' },
+    { value: 'condicional_simple', name: 'Condicional', infoKey: 'conditionalInfo', color: 'rgba(126, 87, 194, 0.3)' },
+    { value: 'imperative', name: 'Imperative (Affirmative)', infoKey: 'imperativeAffirmativeInfo', color: 'rgba(255, 202, 40, 0.3)' },
+    { value: 'imperative_negative', name: 'Imperative (Negative)', infoKey: 'imperativeNegativeInfo', color: 'rgba(255, 112, 67, 0.3)' }
   ];
 
   let totalCorrectAnswersForLife = 0; 
@@ -6243,20 +6244,65 @@ function renderVerbTypeButtons() {
     };
   });
 
+  const shortDescriptionsSource =
+    typeof globalThis !== 'undefined' && globalThis.tenseShortDescriptions
+      ? globalThis.tenseShortDescriptions
+      : {};
+
   // Crear secciones para cada tiempo verbal
   Object.entries(tenseGroups).forEach(([tenseKey, group]) => {
     if (group.irregularities.length === 0) return;
 
-    // Crear encabezado de la sección
-    const sectionHeader = document.createElement('h4');
-    sectionHeader.className = 'tense-section-header';
-    sectionHeader.textContent = group.label;
-    container.appendChild(sectionHeader);
+    const tenseObj = tenses.find(t => t.value === tenseKey);
+    const tenseInfoKey = tenseObj?.infoKey || '';
+    const tenseColor = tenseObj?.color;
 
-    // Crear contenedor para los botones de esta sección
+    // Contenedor para los botones de esta sección
     const sectionContainer = document.createElement('div');
     sectionContainer.className = 'tense-irregularity-section';
     sectionContainer.dataset.tense = tenseKey;
+
+    if (tenseColor) {
+      sectionContainer.style.backgroundColor = tenseColor;
+    } else if (tenseKey === 'present') {
+      sectionContainer.style.backgroundColor = 'transparent';
+    }
+
+    // Cabecera (título + icono de ayuda)
+    const headerWrapper = document.createElement('div');
+    headerWrapper.className = 'tense-section-header-content';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'tense-section-title';
+    titleSpan.textContent = group.label;
+    headerWrapper.appendChild(titleSpan);
+
+    if (tenseInfoKey && typeof specificInfoData !== 'undefined' && specificInfoData[tenseInfoKey]) {
+      const helpIcon = document.createElement('img');
+      helpIcon.src = ASSET_URLS.helpIcon;
+      helpIcon.alt = 'Help';
+      helpIcon.className = 'section-help-icon';
+      helpIcon.dataset.infoKey = tenseInfoKey;
+      helpIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal(tenseInfoKey);
+      });
+      headerWrapper.appendChild(helpIcon);
+    }
+
+    const sectionHeader = document.createElement('h4');
+    sectionHeader.className = 'tense-section-header';
+    sectionHeader.appendChild(headerWrapper);
+    container.appendChild(sectionHeader);
+
+    const descriptionText = shortDescriptionsSource[tenseKey] || '';
+    if (descriptionText) {
+      const descriptionElement = document.createElement('em');
+      descriptionElement.className = 'tense-section-description';
+      descriptionElement.textContent = descriptionText;
+      container.appendChild(descriptionElement);
+    }
 
     const stateEntry = ensureIrregularityStateEntry(tenseKey);
     const validTypeValues = new Set(group.irregularities.map(type => type.value));

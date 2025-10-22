@@ -56,10 +56,85 @@ const ASSET_URLS = {
   bossHack: assetUrl('../assets/images/bosshack.webp'),
   bossSkynetVideo: assetUrl('../assets/images/bosssg.webm'),
   bossT1000: assetUrl('../assets/images/bosst-1000.webp'),
-  heart: assetUrl('../assets/images/heart.webp')
+  heart: assetUrl('../assets/images/heart.webp'),
+  helpIcon: assetUrl('../assets/images/iconquestion.webp')
 };
 
 const pronouns = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+
+function getTenseTooltip(key) {
+  if (typeof window === 'undefined') return '';
+  const tooltipMap = window.tooltips || {};
+  return tooltipMap[key] || '';
+}
+
+function hideGlobalTooltip() {
+  if (typeof document === 'undefined') return;
+  const tooltipEl = document.getElementById('tooltip');
+  if (!tooltipEl) return;
+  tooltipEl.style.display = 'none';
+  tooltipEl.style.visibility = '';
+  tooltipEl.style.top = '';
+  tooltipEl.style.left = '';
+  tooltipEl.style.transform = '';
+  tooltipEl.style.width = '';
+  tooltipEl.style.maxWidth = '';
+  tooltipEl.style.opacity = '';
+  tooltipEl.innerHTML = '';
+}
+
+function attachTenseTooltip(iconElement, tooltipKey) {
+  if (!iconElement || typeof document === 'undefined') return;
+  const tooltipEl = document.getElementById('tooltip');
+  if (!tooltipEl) return;
+
+  const show = () => {
+    const text = getTenseTooltip(tooltipKey);
+    if (!text) return;
+
+    tooltipEl.innerHTML = `<p>${text}</p>`;
+    tooltipEl.style.display = 'block';
+    tooltipEl.style.visibility = 'hidden';
+    tooltipEl.style.transform = 'none';
+    tooltipEl.style.width = 'max-content';
+    tooltipEl.style.maxWidth = '260px';
+
+    requestAnimationFrame(() => {
+      if (typeof window === 'undefined') return;
+      const rect = iconElement.getBoundingClientRect();
+      const tooltipRect = tooltipEl.getBoundingClientRect();
+      const margin = 12;
+
+      let top = rect.bottom + margin;
+      if (top + tooltipRect.height > window.innerHeight - margin) {
+        top = rect.top - tooltipRect.height - margin;
+      }
+      let left = rect.left;
+      if (left + tooltipRect.width > window.innerWidth - margin) {
+        left = window.innerWidth - tooltipRect.width - margin;
+      }
+      if (left < margin) left = margin;
+      if (top < margin) top = margin;
+
+      tooltipEl.style.top = `${top}px`;
+      tooltipEl.style.left = `${left}px`;
+      tooltipEl.style.visibility = 'visible';
+      tooltipEl.style.opacity = '1';
+    });
+  };
+
+  const hide = () => {
+    hideGlobalTooltip();
+  };
+
+  iconElement.addEventListener('mouseenter', show);
+  iconElement.addEventListener('focus', show);
+  iconElement.addEventListener('mouseleave', hide);
+  iconElement.addEventListener('blur', hide);
+  iconElement.addEventListener('touchstart', show, { passive: true });
+  iconElement.addEventListener('touchend', hide);
+  iconElement.addEventListener('touchcancel', hide);
+}
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -2691,12 +2766,12 @@ function updatePronounDropdownCount() {
 				closeSpecificModal();
 				return; // Importante: no procesar más el Escape si se cerró un modal
 			}
-			if (tooltip && tooltip.style.display === 'block') {
-				tooltip.style.display = 'none';
-				if (document.body) document.body.classList.remove('tooltip-open-no-scroll');
-				if (window.typeInterval) clearInterval(window.typeInterval);
-				return; // Importante: no procesar más el Escape si se cerró un tooltip
-			}
+                        if (tooltip && tooltip.style.display === 'block') {
+                                hideGlobalTooltip();
+                                if (document.body) document.body.classList.remove('tooltip-open-no-scroll');
+                                if (window.typeInterval) clearInterval(window.typeInterval);
+                                return; // Importante: no procesar más el Escape si se cerró un tooltip
+                        }
 
                         if (configFlowScreen.style.display === 'flex') { // Asegurarse que la pantalla de config esté activa
 				if (currentConfigStep === 'details' || currentConfigStep === 'difficulty') {
@@ -2913,17 +2988,66 @@ function updateVerbDropdownCount() {
 	
 function renderTenseButtons() {
   const container = document.getElementById('tense-buttons');
+  hideGlobalTooltip();
   container.innerHTML = '';
   tenses.forEach(t => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.classList.add('tense-button');
+    btn.classList.add('tense-button', 'tense-selection-item');
     btn.dataset.value = t.value;
     btn.dataset.infokey = t.infoKey;
-    btn.innerHTML = `${t.name} <span class="context-info-icon" data-info-key="${t.infoKey}"></span>`;
     if (t.value === 'present') btn.classList.add('selected');
+
+    const header = document.createElement('div');
+    header.className = 'tense-header';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'tense-name';
+    nameEl.textContent = t.name;
+    header.appendChild(nameEl);
+
+    const helpIcon = document.createElement('img');
+    helpIcon.classList.add('help-icon', 'tooltip-trigger');
+    helpIcon.src = ASSET_URLS.helpIcon;
+    helpIcon.alt = `More about ${t.name}`;
+    helpIcon.dataset.tooltipKey = t.value;
+    helpIcon.dataset.infokey = t.infoKey;
+    helpIcon.tabIndex = 0;
+    helpIcon.setAttribute('role', 'button');
+    header.appendChild(helpIcon);
+
+    btn.appendChild(header);
+
+    const descriptionEl = document.createElement('em');
+    descriptionEl.className = 'tense-description';
+    descriptionEl.textContent = getTenseTooltip(t.value);
+    btn.appendChild(descriptionEl);
+
+    helpIcon.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      hideGlobalTooltip();
+      if (typeof soundClick !== 'undefined') safePlay(soundClick);
+      openSpecificModal(t.infoKey);
+    });
+
+    helpIcon.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+        event.preventDefault();
+        hideGlobalTooltip();
+        if (typeof soundClick !== 'undefined') safePlay(soundClick);
+        openSpecificModal(t.infoKey);
+      }
+    });
+
+    helpIcon.addEventListener('touchstart', (event) => {
+      event.stopPropagation();
+    });
+
+    attachTenseTooltip(helpIcon, t.value);
+
     btn.addEventListener('click', (e) => {
-      if (e.target.closest('.context-info-icon')) return;
+      if (e.target.closest('.help-icon')) return;
       safePlay(soundClick);
       btn.classList.toggle('selected');
       document.querySelectorAll('.verb-type-button.selected').forEach(typeBtn => {
@@ -5827,8 +5951,7 @@ levelState.bossesEncounteredTotal = 0;
   });
   
   // Cerrar tooltips
-  const tooltip = document.getElementById('tooltip');
-  if (tooltip) tooltip.style.display = 'none';
+  hideGlobalTooltip();
   
 
   // Actualizar records en la pantalla de splash
@@ -6683,7 +6806,7 @@ function showLifeGainedAnimation() {
   if (specificModal) specificModal.style.display = 'none';
   if (specificModalBackdrop) specificModalBackdrop.style.display = 'none';
 
-  if (tooltip) tooltip.style.display = 'none';
+  hideGlobalTooltip();
   if (generalBackdrop) generalBackdrop.style.display = 'none';
   
 function startBubbles() {

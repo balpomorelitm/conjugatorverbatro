@@ -1409,30 +1409,74 @@ button:active {
 }
 /* Estilo base para los botones de tiempo */
 #tense-buttons .tense-button {
-  background-color: #e0e0e0;    /* gris claro */
-  color: #555;                  /* texto oscuro suave */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 12px;
-  margin: 0 4px;
-  opacity: 0.5;                 /* aspecto "desactivado" */
+  background-color: rgba(36, 36, 36, 0.9);
+  color: var(--text-color);
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin: 0 0 8px 0;
   cursor: pointer;
-  transition: opacity 0.2s;
-  position: relative;           /* para posicionar el icono dentro */
-  padding-right: 28px;          /* espacio para el icono */
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  width: 100%;
 }
 
 /* Cuando está seleccionado, rojo y opacidad completa */
 #tense-buttons .tense-button.selected {
-  background-color: #d32f2f;    /* rojo vivo */
-  color: #fff;                  /* texto blanco */
+  background-color: #d32f2f;
+  color: #fff;
   border-color: #b71c1c;
-  opacity: 1;
 }
 
 /* (Opcional) si quieres cambiar el cursor cuando no está activo */
 #tense-buttons .tense-button:not(.selected) {
   cursor: pointer;
+}
+
+.tense-selection-item {
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.tense-selection-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-color-blue);
+}
+
+.tense-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-weight: 600;
+}
+
+.tense-name {
+  flex: 1;
+}
+
+.tense-selection-item .help-icon {
+  width: 16px;
+  height: 16px;
+  cursor: help;
+  margin-left: 8px;
+  flex-shrink: 0;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.6));
+  image-rendering: pixelated;
+}
+
+.tense-description {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #ccc;
+  display: block;
+}
+
+#tense-buttons .tense-button.selected .tense-description {
+  color: #f3eaea;
 }
 .tense-label {
   font-size: 1.1em;

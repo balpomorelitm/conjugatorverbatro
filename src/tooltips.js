@@ -1,3 +1,14 @@
+const tooltips = {
+  present: 'Actions happening now or regularly.',
+  past_simple: 'Completed actions at a specific moment in the past.',
+  present_perfect: 'Past actions tied to the present or recently finished.',
+  imperfect_indicative: 'Ongoing, habitual, or descriptive actions in the past.',
+  future_simple: 'Actions that will happen or predictions about the future.',
+  condicional_simple: 'Actions that would happen under certain conditions.',
+  imperative: 'Commands or instructions telling someone to do something.',
+  imperative_negative: 'Commands telling someone not to do something.'
+};
+
 const specificInfoData = {
   timerMode: {
     title: "⏱️ Time attack ⏱️ (4 Minutes)",
@@ -822,3 +833,8 @@ const bossTooltips = {
 };
 
 Object.assign(specificInfoData, bossTooltips);
+
+if (typeof window !== 'undefined') {
+  window.tooltips = tooltips;
+  window.specificInfoData = specificInfoData;
+}

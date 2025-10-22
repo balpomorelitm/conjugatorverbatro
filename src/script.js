@@ -6294,15 +6294,16 @@ function renderVerbTypeButtons() {
     const sectionHeader = document.createElement('h4');
     sectionHeader.className = 'tense-section-header';
     sectionHeader.appendChild(headerWrapper);
-    container.appendChild(sectionHeader);
 
     const descriptionText = shortDescriptionsSource[tenseKey] || '';
     if (descriptionText) {
       const descriptionElement = document.createElement('em');
       descriptionElement.className = 'tense-section-description';
       descriptionElement.textContent = descriptionText;
-      container.appendChild(descriptionElement);
+      sectionHeader.appendChild(descriptionElement);
     }
+
+    container.appendChild(sectionHeader);
 
     const stateEntry = ensureIrregularityStateEntry(tenseKey);
     const validTypeValues = new Set(group.irregularities.map(type => type.value));

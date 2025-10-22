@@ -118,12 +118,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>-ar</th><th>-er</th><th>-ir</th></tr>
-             <tr><td>yo</td><td>-o</td><td>-o</td><td>-o</td></tr>
-             <tr><td>tú</td><td>-as</td><td>-es</td><td>-es</td></tr>
-             <tr><td>él/ella/ud.</td><td>-a</td><td>-e</td><td>-e</td></tr>
-             <tr><td>nosotros</td><td>-amos</td><td>-emos</td><td>-imos</td></tr>
-             <tr><td>vosotros</td><td>-áis</td><td>-éis</td><td>-ís</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>-an</td><td>-en</td><td>-en</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-o</td><td>-o</td><td>-o</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-as</td><td>-es</td><td>-es</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-ás</td><td>-és</td><td>-ís</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-a</td><td>-e</td><td>-e</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-amos</td><td>-emos</td><td>-imos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-áis</td><td>-éis</td><td>-ís</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-an</td><td>-en</td><td>-en</td></tr>
            </table>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I eat" / "he eats"</p>`
   },
@@ -138,12 +139,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>-ar</th><th>-er/-ir</th></tr>
-             <tr><td>yo</td><td>-é</td><td>-í</td></tr>
-             <tr><td>tú</td><td>-aste</td><td>-iste</td></tr>
-             <tr><td>él/ella/ud.</td><td>-ó</td><td>-ió</td></tr>
-             <tr><td>nosotros</td><td>-amos</td><td>-imos</td></tr>
-             <tr><td>vosotros</td><td>-asteis</td><td>-isteis</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>-aron</td><td>-ieron</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-é</td><td>-í</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-aste</td><td>-iste</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-aste</td><td>-iste</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-ó</td><td>-ió</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-amos</td><td>-imos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-asteis</td><td>-isteis</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-aron</td><td>-ieron</td></tr>
            </table>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I ate" / "he ate"</p>`
   },
@@ -158,12 +160,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>Haber</th><th>+ Participle</th></tr>
-             <tr><td>yo</td><td>he</td><td rowspan="6">habl<strong>ado</strong><br>com<strong>ido</strong><br>viv<strong>ido</strong></td></tr>
-             <tr><td>tú</td><td>has</td></tr>
-             <tr><td>él/ella/ud.</td><td>ha</td></tr>
-             <tr><td>nosotros</td><td>hemos</td></tr>
-             <tr><td>vosotros</td><td>habéis</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>han</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>he</td><td rowspan="7">habl<strong>ado</strong><br>com<strong>ido</strong><br>viv<strong>ido</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>has</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>has</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>ha</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>hemos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habéis</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>han</td></tr>
            </table>
            <p><strong>Irregular Participles:</strong> abrir → abierto, decir → dicho, ver → visto, poner → puesto.</p>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I have eaten" / "he has eaten"</p>`
@@ -182,12 +185,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>-ar</th><th>-er/-ir</th></tr>
-             <tr><td>yo</td><td>-aba</td><td>-ía</td></tr>
-             <tr><td>tú</td><td>-abas</td><td>-ías</td></tr>
-             <tr><td>él/ella/ud.</td><td>-aba</td><td>-ía</td></tr>
-             <tr><td>nosotros</td><td>-ábamos</td><td>-íamos</td></tr>
-             <tr><td>vosotros</td><td>-abais</td><td>-íais</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>-aban</td><td>-ían</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-aba</td><td>-ía</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-abas</td><td>-ías</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-abas</td><td>-ías</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-aba</td><td>-ía</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-ábamos</td><td>-íamos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-abais</td><td>-íais</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-aban</td><td>-ían</td></tr>
            </table>
            <p><strong>Only 3 Irregular Verbs:</strong> ir (iba), ser (era), and ver (veía).</p>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I was eating" / "I used to eat"</p>`
@@ -203,12 +207,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>Ending (for all verbs)</th></tr>
-             <tr><td>yo</td><td>-é</td></tr>
-             <tr><td>tú</td><td>-ás</td></tr>
-             <tr><td>él/ella/ud.</td><td>-á</td></tr>
-             <tr><td>nosotros</td><td>-emos</td></tr>
-             <tr><td>vosotros</td><td>-éis</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>-án</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-é</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-ás</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-ás</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-á</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-emos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-éis</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-án</td></tr>
            </table>
            <p><strong>Irregular Stems:</strong> decir → dir-, hacer → har-, poder → podr-, tener → tendr-.</p>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I will eat" / "he will eat"</p>`
@@ -225,12 +230,13 @@ const specificInfoData = {
            </ul>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>Ending (for all verbs)</th></tr>
-             <tr><td>yo</td><td>-ía</td></tr>
-             <tr><td>tú</td><td>-ías</td></tr>
-             <tr><td>él/ella/ud.</td><td>-ía</td></tr>
-             <tr><td>nosotros</td><td>-íamos</td></tr>
-             <tr><td>vosotros</td><td>-íais</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>-ían</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-ía</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-ías</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-ías</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-ía</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-íamos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-íais</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-ían</td></tr>
            </table>
            <p><strong>Irregular Stems:</strong> Same as the future tense (dir-, har-, podr-, tendr-, etc.).</p>
            <p class="recall-tip"><strong>Recall Mode:</strong> "I would eat" / "he would eat"</p>`
@@ -242,11 +248,12 @@ const specificInfoData = {
            <p>The key is the ending. The stem of the verb does not change.</p>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>-ar (hablar)</th><th>-er (comer)</th><th>-ir (abrir)</th></tr>
-             <tr><td>tú</td><td>habl<strong>a</strong></td><td>com<strong>e</strong></td><td>abr<strong>e</strong></td></tr>
-             <tr><td>usted</td><td>habl<strong>e</strong></td><td>com<strong>a</strong></td><td>abr<strong>a</strong></td></tr>
-             <tr><td>nosotros</td><td>habl<strong>emos</strong></td><td>com<strong>amos</strong></td><td>abr<strong>amos</strong></td></tr>
-             <tr><td>vosotros</td><td>habl<strong>ad</strong></td><td>com<strong>ed</strong></td><td>abr<strong>id</strong></td></tr>
-             <tr><td>ustedes</td><td>habl<strong>en</strong></td><td>com<strong>an</strong></td><td>abr<strong>an</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>habl<strong>a</strong></td><td>com<strong>e</strong></td><td>abr<strong>e</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>habl<strong>á</strong></td><td>com<strong>é</strong></td><td>abr<strong>í</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">usted</span></td><td>habl<strong>e</strong></td><td>com<strong>a</strong></td><td>abr<strong>a</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>habl<strong>emos</strong></td><td>com<strong>amos</strong></td><td>abr<strong>amos</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habl<strong>ad</strong></td><td>com<strong>ed</strong></td><td>abr<strong>id</strong></td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ustedes</span></td><td>habl<strong>en</strong></td><td>com<strong>an</strong></td><td>abr<strong>an</strong></td></tr>
            </table>
            <strong class="modal-subtitle">Pro Tip: Object Pronouns</strong>
            <p>Pronouns are attached <strong>at the end</strong> of the verb. Remember to add an accent if needed to keep the stress in the right place: <em>¡cóme<strong>lo</strong>!, ¡dáme<strong>lo</strong>!, ¡explíca<strong>nos</strong>!</em></p>`
@@ -258,11 +265,12 @@ const specificInfoData = {
            <p>It's simple! All forms use <strong>"no" + the present subjunctive</strong>. For regular verbs, this is very predictable.</p>
            <table class="tense-tooltip-table">
              <tr><th>Pronoun</th><th>-ar (hablar)</th><th>-er/-ir (comer/vivir)</th></tr>
-             <tr><td>tú</td><td>no hables</td><td>no comas / no vivas</td></tr>
-             <tr><td>usted</td><td>no hable</td><td>no coma / no viva</td></tr>
-             <tr><td>nosotros</td><td>no hablemos</td><td>no comamos / no vivamos</td></tr>
-             <tr><td>vosotros</td><td>no habléis</td><td>no comáis / no viváis</td></tr>
-             <tr><td>ustedes</td><td>no hablen</td><td>no coman / no vivan</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>no hables</td><td>no comas / no vivas</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>no hables</td><td>no comas / no vivas</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">usted</span></td><td>no hable</td><td>no coma / no viva</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>no hablemos</td><td>no comamos / no vivamos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>no habléis</td><td>no comáis / no viváis</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ustedes</span></td><td>no hablen</td><td>no coman / no vivan</td></tr>
            </table>
            <strong class="modal-subtitle">Pro Tip: Object Pronouns</strong>
            <p>Unlike the affirmative, pronouns go <strong>before</strong> the verb: <em>¡No <strong>te</strong> levantes!, ¡No <strong>lo</strong> comas!</em></p>`
@@ -273,31 +281,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>hablar (pres.)</caption>
-               <tr><td>yo</td><td>hablo</td></tr>
-               <tr><td>tú</td><td>hablas</td></tr>
-               <tr><td>él</td><td>habla</td></tr>
-               <tr><td>nosotros</td><td>hablamos</td></tr>
-               <tr><td>vosotros</td><td>habláis</td></tr>
-               <tr><td>ellos</td><td>hablan</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>hablo</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>hablas</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>hablás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>habla</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>hablamos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habláis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>hablan</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>beber (pres.)</caption>
-               <tr><td>yo</td><td>bebo</td></tr>
-               <tr><td>tú</td><td>bebes</td></tr>
-               <tr><td>él</td><td>bebe</td></tr>
-               <tr><td>nosotros</td><td>bebemos</td></tr>
-               <tr><td>vosotros</td><td>bebéis</td></tr>
-               <tr><td>ellos</td><td>beben</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>bebo</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>bebes</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>bebés</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>bebe</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>bebemos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>bebéis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>beben</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>vivir (pres.)</caption>
-               <tr><td>yo</td><td>vivo</td></tr>
-               <tr><td>tú</td><td>vives</td></tr>
-               <tr><td>él</td><td>vive</td></tr>
-               <tr><td>nosotros</td><td>vivimos</td></tr>
-               <tr><td>vosotros</td><td>vivís</td></tr>
-               <tr><td>ellos</td><td>viven</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>vivo</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>vives</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>vivís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>vive</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>vivimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>vivís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>viven</td></tr>
+            </table>
            </div>
            <p><strong>Examples:</strong> comer, hablar, vivir, estudiar, trabajar</p>`
   },
@@ -307,22 +318,24 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>Endings for -ar verbs</caption>
-               <tr><td>yo</td><td>-é</td></tr>
-               <tr><td>tú</td><td>-aste</td></tr>
-               <tr><td>él/ella/ud.</td><td>-ó</td></tr>
-               <tr><td>nosotros</td><td>-amos</td></tr>
-               <tr><td>vosotros</td><td>-asteis</td></tr>
-               <tr><td>ellos/ellas/uds.</td><td>-aron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-é</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-aste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-aste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-ó</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-amos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-asteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-aron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>Endings for -er / -ir verbs</caption>
-               <tr><td>yo</td><td>-í</td></tr>
-               <tr><td>tú</td><td>-iste</td></tr>
-               <tr><td>él/ella/ud.</td><td>-ió</td></tr>
-               <tr><td>nosotros</td><td>-imos</td></tr>
-               <tr><td>vosotros</td><td>-isteis</td></tr>
-               <tr><td>ellos/ellas/uds.</td><td>-ieron</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>-í</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>-iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>-iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>-ió</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>-imos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>-isteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>-ieron</td></tr>
+            </table>
            </div>
            <p class="recall-tip"><strong>Example:</strong> hablar → hablé, hablaste, habló</p>`
   },
@@ -337,31 +350,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>dar (pres.)</caption>
-               <tr><td>yo</td><td>d<span class="irregular-highlight">oy</span></td></tr>
-               <tr><td>tú</td><td>das</td></tr>
-               <tr><td>él</td><td>da</td></tr>
-               <tr><td>nosotros</td><td>damos</td></tr>
-               <tr><td>vosotros</td><td>dais</td></tr>
-               <tr><td>ellos</td><td>dan</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>d<span class="irregular-highlight">oy</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>das</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>das</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>da</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>damos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>dais</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>dan</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>saber (pres.)</caption>
-               <tr><td>yo</td><td><span class="irregular-highlight">sé</span></td></tr>
-               <tr><td>tú</td><td>sabes</td></tr>
-               <tr><td>él</td><td>sabe</td></tr>
-               <tr><td>nosotros</td><td>sabemos</td></tr>
-               <tr><td>vosotros</td><td>sabéis</td></tr>
-               <tr><td>ellos</td><td>saben</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td><span class="irregular-highlight">sé</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>sabes</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>sabés</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>sabe</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>sabemos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>sabéis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>saben</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>ver (pres.)</caption>
-               <tr><td>yo</td><td>v<span class="irregular-highlight">eo</span></td></tr>
-               <tr><td>tú</td><td>ves</td></tr>
-               <tr><td>él</td><td>ve</td></tr>
-               <tr><td>nosotros</td><td>vemos</td></tr>
-               <tr><td>vosotros</td><td>veis</td></tr>
-               <tr><td>ellos</td><td>ven</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>v<span class="irregular-highlight">eo</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>ves</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>ves</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>ve</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>vemos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>veis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>ven</td></tr>
+            </table>
            </div>`
   },
   stemChangingInfo: {
@@ -377,31 +393,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>querer (e→ie)</caption>
-               <tr><td>yo</td><td>qu<span class="irregular-highlight">ie</span>ro</td></tr>
-               <tr><td>tú</td><td>qu<span class="irregular-highlight">ie</span>res</td></tr>
-               <tr><td>él</td><td>qu<span class="irregular-highlight">ie</span>re</td></tr>
-               <tr><td>nosotros</td><td>queremos</td></tr>
-               <tr><td>vosotros</td><td>queréis</td></tr>
-               <tr><td>ellos</td><td>qu<span class="irregular-highlight">ie</span>ren</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>qu<span class="irregular-highlight">ie</span>ro</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>qu<span class="irregular-highlight">ie</span>res</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>querés</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>qu<span class="irregular-highlight">ie</span>re</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>queremos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>queréis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>qu<span class="irregular-highlight">ie</span>ren</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>dormir (o→ue)</caption>
-               <tr><td>yo</td><td>d<span class="irregular-highlight">ue</span>rmo</td></tr>
-               <tr><td>tú</td><td>d<span class="irregular-highlight">ue</span>rmes</td></tr>
-               <tr><td>él</td><td>d<span class="irregular-highlight">ue</span>rme</td></tr>
-               <tr><td>nosotros</td><td>dormimos</td></tr>
-               <tr><td>vosotros</td><td>dormís</td></tr>
-               <tr><td>ellos</td><td>d<span class="irregular-highlight">ue</span>rmen</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>d<span class="irregular-highlight">ue</span>rmo</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>d<span class="irregular-highlight">ue</span>rmes</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>dormís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>d<span class="irregular-highlight">ue</span>rme</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>dormimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>dormís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>d<span class="irregular-highlight">ue</span>rmen</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>pedir (e→i)</caption>
-               <tr><td>yo</td><td>p<span class="irregular-highlight">i</span>do</td></tr>
-               <tr><td>tú</td><td>p<span class="irregular-highlight">i</span>des</td></tr>
-               <tr><td>él</td><td>p<span class="irregular-highlight">i</span>de</td></tr>
-               <tr><td>nosotros</td><td>pedimos</td></tr>
-               <tr><td>vosotros</td><td>pedís</td></tr>
-               <tr><td>ellos</td><td>p<span class="irregular-highlight">i</span>den</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>p<span class="irregular-highlight">i</span>do</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>p<span class="irregular-highlight">i</span>des</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>pedís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>p<span class="irregular-highlight">i</span>de</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>pedimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>pedís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>p<span class="irregular-highlight">i</span>den</td></tr>
+            </table>
            </div>`
   },
   multipleIrregularInfo: {
@@ -410,31 +429,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>tener</caption>
-               <tr><td>yo</td><td>ten<span class="irregular-highlight">go</span></td></tr>
-               <tr><td>tú</td><td>t<span class="irregular-highlight">ie</span>nes</td></tr>
-               <tr><td>él</td><td>t<span class="irregular-highlight">ie</span>ne</td></tr>
-               <tr><td>nosotros</td><td>tenemos</td></tr>
-               <tr><td>vosotros</td><td>tenéis</td></tr>
-               <tr><td>ellos</td><td>t<span class="irregular-highlight">ie</span>nen</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>ten<span class="irregular-highlight">go</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>t<span class="irregular-highlight">ie</span>nes</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>tenés</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>t<span class="irregular-highlight">ie</span>ne</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>tenemos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>tenéis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>t<span class="irregular-highlight">ie</span>nen</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>decir</caption>
-               <tr><td>yo</td><td>d<span class="irregular-highlight">igo</span></td></tr>
-               <tr><td>tú</td><td>d<span class="irregular-highlight">i</span>ces</td></tr>
-               <tr><td>él</td><td>d<span class="irregular-highlight">i</span>ce</td></tr>
-               <tr><td>nosotros</td><td>decimos</td></tr>
-               <tr><td>vosotros</td><td>decís</td></tr>
-               <tr><td>ellos</td><td>d<span class="irregular-highlight">i</span>cen</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>d<span class="irregular-highlight">igo</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>d<span class="irregular-highlight">i</span>ces</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>decís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>d<span class="irregular-highlight">i</span>ce</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>decimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>decís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>d<span class="irregular-highlight">i</span>cen</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>venir</caption>
-               <tr><td>yo</td><td>ven<span class="irregular-highlight">go</span></td></tr>
-               <tr><td>tú</td><td>v<span class="irregular-highlight">ie</span>nes</td></tr>
-               <tr><td>él</td><td>v<span class="irregular-highlight">ie</span>ne</td></tr>
-               <tr><td>nosotros</td><td>venimos</td></tr>
-               <tr><td>vosotros</td><td>venís</td></tr>
-               <tr><td>ellos</td><td>v<span class="irregular-highlight">ie</span>nen</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>ven<span class="irregular-highlight">go</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>v<span class="irregular-highlight">ie</span>nes</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>venís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>v<span class="irregular-highlight">ie</span>ne</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>venimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>venís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>v<span class="irregular-highlight">ie</span>nen</td></tr>
+            </table>
            </div>`
   },
   yChangeInfo: {
@@ -443,31 +465,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>leer (pret.)</caption>
-               <tr><td>yo</td><td>leí</td></tr>
-               <tr><td>tú</td><td>leíste</td></tr>
-               <tr><td>él</td><td>le<span class="irregular-highlight">y</span>ó</td></tr>
-               <tr><td>nosotros</td><td>leímos</td></tr>
-               <tr><td>vosotros</td><td>leísteis</td></tr>
-               <tr><td>ellos</td><td>le<span class="irregular-highlight">y</span>eron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>leí</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>leíste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>leíste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>le<span class="irregular-highlight">y</span>ó</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>leímos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>leísteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>le<span class="irregular-highlight">y</span>eron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>oír (pret.)</caption>
-               <tr><td>yo</td><td>oí</td></tr>
-               <tr><td>tú</td><td>oíste</td></tr>
-               <tr><td>él</td><td>o<span class="irregular-highlight">y</span>ó</td></tr>
-               <tr><td>nosotros</td><td>oímos</td></tr>
-               <tr><td>vosotros</td><td>oísteis</td></tr>
-               <tr><td>ellos</td><td>o<span class="irregular-highlight">y</span>eron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>oí</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>oíste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>oíste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>o<span class="irregular-highlight">y</span>ó</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>oímos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>oísteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>o<span class="irregular-highlight">y</span>eron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>construir (pres.)</caption>
-               <tr><td>yo</td><td>constru<span class="irregular-highlight">y</span>o</td></tr>
-               <tr><td>tú</td><td>constru<span class="irregular-highlight">y</span>es</td></tr>
-               <tr><td>él</td><td>constru<span class="irregular-highlight">y</span>e</td></tr>
-               <tr><td>nosotros</td><td>construimos</td></tr>
-               <tr><td>vosotros</td><td>construís</td></tr>
-               <tr><td>ellos</td><td>constru<span class="irregular-highlight">y</span>en</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>constru<span class="irregular-highlight">y</span>o</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>constru<span class="irregular-highlight">y</span>es</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>construís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>constru<span class="irregular-highlight">y</span>e</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>construimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>construís</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>constru<span class="irregular-highlight">y</span>en</td></tr>
+            </table>
            </div>`
   },
   irregularRootInfo: {
@@ -483,31 +508,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>estar (pret.)</caption>
-               <tr><td>yo</td><td><span class="irregular-highlight">estuv</span>e</td></tr>
-               <tr><td>tú</td><td><span class="irregular-highlight">estuv</span>iste</td></tr>
-               <tr><td>él</td><td><span class="irregular-highlight">estuv</span>o</td></tr>
-               <tr><td>nosotros</td><td><span class="irregular-highlight">estuv</span>imos</td></tr>
-               <tr><td>vosotros</td><td><span class="irregular-highlight">estuv</span>isteis</td></tr>
-               <tr><td>ellos</td><td><span class="irregular-highlight">estuv</span>ieron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td><span class="irregular-highlight">estuv</span>e</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td><span class="irregular-highlight">estuv</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td><span class="irregular-highlight">estuv</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td><span class="irregular-highlight">estuv</span>o</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td><span class="irregular-highlight">estuv</span>imos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td><span class="irregular-highlight">estuv</span>isteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td><span class="irregular-highlight">estuv</span>ieron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>hacer (pret.)</caption>
-               <tr><td>yo</td><td><span class="irregular-highlight">hic</span>e</td></tr>
-               <tr><td>tú</td><td><span class="irregular-highlight">hic</span>iste</td></tr>
-               <tr><td>él</td><td><span class="irregular-highlight">hiz</span>o</td></tr>
-               <tr><td>nosotros</td><td><span class="irregular-highlight">hic</span>imos</td></tr>
-               <tr><td>vosotros</td><td><span class="irregular-highlight">hic</span>isteis</td></tr>
-               <tr><td>ellos</td><td><span class="irregular-highlight">hic</span>ieron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td><span class="irregular-highlight">hic</span>e</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td><span class="irregular-highlight">hic</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td><span class="irregular-highlight">hic</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td><span class="irregular-highlight">hiz</span>o</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td><span class="irregular-highlight">hic</span>imos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td><span class="irregular-highlight">hic</span>isteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td><span class="irregular-highlight">hic</span>ieron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>querer (pret.)</caption>
-               <tr><td>yo</td><td><span class="irregular-highlight">quis</span>e</td></tr>
-               <tr><td>tú</td><td><span class="irregular-highlight">quis</span>iste</td></tr>
-               <tr><td>él</td><td><span class="irregular-highlight">quis</span>o</td></tr>
-               <tr><td>nosotros</td><td><span class="irregular-highlight">quis</span>imos</td></tr>
-               <tr><td>vosotros</td><td><span class="irregular-highlight">quis</span>isteis</td></tr>
-               <tr><td>ellos</td><td><span class="irregular-highlight">quis</span>ieron</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td><span class="irregular-highlight">quis</span>e</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td><span class="irregular-highlight">quis</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td><span class="irregular-highlight">quis</span>iste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td><span class="irregular-highlight">quis</span>o</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td><span class="irregular-highlight">quis</span>imos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td><span class="irregular-highlight">quis</span>isteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td><span class="irregular-highlight">quis</span>ieron</td></tr>
+            </table>
            </div>`
   },
   stemChange3rdInfo: {
@@ -521,31 +549,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>pedir (pret.)</caption>
-               <tr><td>yo</td><td>pedí</td></tr>
-               <tr><td>tú</td><td>pediste</td></tr>
-               <tr><td>él</td><td>p<span class="irregular-highlight">i</span>dió</td></tr>
-               <tr><td>nosotros</td><td>pedimos</td></tr>
-               <tr><td>vosotros</td><td>pedisteis</td></tr>
-               <tr><td>ellos</td><td>p<span class="irregular-highlight">i</span>dieron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>pedí</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>pediste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>pediste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>p<span class="irregular-highlight">i</span>dió</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>pedimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>pedisteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>p<span class="irregular-highlight">i</span>dieron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>dormir (pret.)</caption>
-               <tr><td>yo</td><td>dormí</td></tr>
-               <tr><td>tú</td><td>dormiste</td></tr>
-               <tr><td>él</td><td>d<span class="irregular-highlight">u</span>rmió</td></tr>
-               <tr><td>nosotros</td><td>dormimos</td></tr>
-               <tr><td>vosotros</td><td>dormisteis</td></tr>
-               <tr><td>ellos</td><td>d<span class="irregular-highlight">u</span>rmieron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>dormí</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>dormiste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>dormiste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>d<span class="irregular-highlight">u</span>rmió</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>dormimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>dormisteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>d<span class="irregular-highlight">u</span>rmieron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>morir (pret.)</caption>
-               <tr><td>yo</td><td>morí</td></tr>
-               <tr><td>tú</td><td>moriste</td></tr>
-               <tr><td>él</td><td>m<span class="irregular-highlight">u</span>rió</td></tr>
-               <tr><td>nosotros</td><td>morimos</td></tr>
-               <tr><td>vosotros</td><td>moristeis</td></tr>
-               <tr><td>ellos</td><td>m<span class="irregular-highlight">u</span>rieron</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>morí</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>moriste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>moriste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>m<span class="irregular-highlight">u</span>rió</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>morimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>moristeis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>m<span class="irregular-highlight">u</span>rieron</td></tr>
+            </table>
            </div>`
   },
   totallyIrregularInfo: {
@@ -554,31 +585,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>ser / ir (pret.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">fui</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">fuiste</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">fue</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">fuimos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">fuisteis</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">fueron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">fui</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">fuiste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">fuiste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">fue</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">fuimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">fuisteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">fueron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>dar (pret.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">di</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">diste</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">dio</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">dimos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">disteis</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">dieron</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">di</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">diste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">diste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">dio</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">dimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">disteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">dieron</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>ver (pret.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">vi</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">viste</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">vio</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">vimos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">visteis</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">vieron</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">vi</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">viste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">viste</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">vio</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">vimos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">visteis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">vieron</td></tr>
+            </table>
            </div>`
   },
   irregularParticipleInfo: {
@@ -595,31 +629,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>ver (pres. perf.)</caption>
-               <tr><td>yo</td><td>he <span class="irregular-highlight">visto</span></td></tr>
-               <tr><td>tú</td><td>has <span class="irregular-highlight">visto</span></td></tr>
-               <tr><td>él</td><td>ha <span class="irregular-highlight">visto</span></td></tr>
-               <tr><td>nosotros</td><td>hemos <span class="irregular-highlight">visto</span></td></tr>
-               <tr><td>vosotros</td><td>habéis <span class="irregular-highlight">visto</span></td></tr>
-               <tr><td>ellos</td><td>han <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>he <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>has <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>has <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>ha <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>hemos <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habéis <span class="irregular-highlight">visto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>han <span class="irregular-highlight">visto</span></td></tr>
              </table>
              <table class="conjugation-box">
                <caption>escribir (pres. perf.)</caption>
-               <tr><td>yo</td><td>he <span class="irregular-highlight">escrito</span></td></tr>
-               <tr><td>tú</td><td>has <span class="irregular-highlight">escrito</span></td></tr>
-               <tr><td>él</td><td>ha <span class="irregular-highlight">escrito</span></td></tr>
-               <tr><td>nosotros</td><td>hemos <span class="irregular-highlight">escrito</span></td></tr>
-               <tr><td>vosotros</td><td>habéis <span class="irregular-highlight">escrito</span></td></tr>
-               <tr><td>ellos</td><td>han <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>he <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>has <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>has <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>ha <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>hemos <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habéis <span class="irregular-highlight">escrito</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>han <span class="irregular-highlight">escrito</span></td></tr>
              </table>
              <table class="conjugation-box">
                <caption>poner (pres. perf.)</caption>
-               <tr><td>yo</td><td>he <span class="irregular-highlight">puesto</span></td></tr>
-               <tr><td>tú</td><td>has <span class="irregular-highlight">puesto</span></td></tr>
-               <tr><td>él</td><td>ha <span class="irregular-highlight">puesto</span></td></tr>
-               <tr><td>nosotros</td><td>hemos <span class="irregular-highlight">puesto</span></td></tr>
-               <tr><td>vosotros</td><td>habéis <span class="irregular-highlight">puesto</span></td></tr>
-               <tr><td>ellos</td><td>han <span class="irregular-highlight">puesto</span></td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>he <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>has <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>has <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>ha <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>hemos <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>habéis <span class="irregular-highlight">puesto</span></td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>han <span class="irregular-highlight">puesto</span></td></tr>
+            </table>
            </div>`
   },
   irregularFutureInfo: {
@@ -637,31 +674,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>tener (fut.)</caption>
-               <tr><td>yo</td><td>ten<span class="irregular-highlight">dr</span>é</td></tr>
-               <tr><td>tú</td><td>ten<span class="irregular-highlight">dr</span>ás</td></tr>
-               <tr><td>él</td><td>ten<span class="irregular-highlight">dr</span>á</td></tr>
-               <tr><td>nosotros</td><td>ten<span class="irregular-highlight">dr</span>emos</td></tr>
-               <tr><td>vosotros</td><td>ten<span class="irregular-highlight">dr</span>éis</td></tr>
-               <tr><td>ellos</td><td>ten<span class="irregular-highlight">dr</span>án</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>ten<span class="irregular-highlight">dr</span>é</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>ten<span class="irregular-highlight">dr</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>ten<span class="irregular-highlight">dr</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>ten<span class="irregular-highlight">dr</span>á</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>ten<span class="irregular-highlight">dr</span>emos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>ten<span class="irregular-highlight">dr</span>éis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>ten<span class="irregular-highlight">dr</span>án</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>salir (fut.)</caption>
-               <tr><td>yo</td><td>sal<span class="irregular-highlight">dr</span>é</td></tr>
-               <tr><td>tú</td><td>sal<span class="irregular-highlight">dr</span>ás</td></tr>
-               <tr><td>él</td><td>sal<span class="irregular-highlight">dr</span>á</td></tr>
-               <tr><td>nosotros</td><td>sal<span class="irregular-highlight">dr</span>emos</td></tr>
-               <tr><td>vosotros</td><td>sal<span class="irregular-highlight">dr</span>éis</td></tr>
-               <tr><td>ellos</td><td>sal<span class="irregular-highlight">dr</span>án</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>sal<span class="irregular-highlight">dr</span>é</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>sal<span class="irregular-highlight">dr</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>sal<span class="irregular-highlight">dr</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>sal<span class="irregular-highlight">dr</span>á</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>sal<span class="irregular-highlight">dr</span>emos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>sal<span class="irregular-highlight">dr</span>éis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>sal<span class="irregular-highlight">dr</span>án</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>decir (fut.)</caption>
-               <tr><td>yo</td><td>d<span class="irregular-highlight">ir</span>é</td></tr>
-               <tr><td>tú</td><td>d<span class="irregular-highlight">ir</span>ás</td></tr>
-               <tr><td>él</td><td>d<span class="irregular-highlight">ir</span>á</td></tr>
-               <tr><td>nosotros</td><td>d<span class="irregular-highlight">ir</span>emos</td></tr>
-               <tr><td>vosotros</td><td>d<span class="irregular-highlight">ir</span>éis</td></tr>
-               <tr><td>ellos</td><td>d<span class="irregular-highlight">ir</span>án</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>d<span class="irregular-highlight">ir</span>é</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>d<span class="irregular-highlight">ir</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>d<span class="irregular-highlight">ir</span>ás</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td>d<span class="irregular-highlight">ir</span>á</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>d<span class="irregular-highlight">ir</span>emos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>d<span class="irregular-highlight">ir</span>éis</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td>d<span class="irregular-highlight">ir</span>án</td></tr>
+            </table>
            </div>`
   },
   irregularImperativeInfo: {
@@ -690,12 +730,12 @@ const specificInfoData = {
     html: `<p>Negative commands use the <strong>present subjunctive</strong>, so any irregularity in the subjunctive will appear here.</p>
            <strong class="modal-subtitle">Key Irregular Verbs to Know:</strong>
            <table class="tense-tooltip-table">
-             <tr><th>Infinitive</th><th>Tú Command</th><th>Usted Command</th></tr>
-             <tr><td>ir (to go)</td><td>no vayas</td><td>no vaya</td></tr>
-             <tr><td>ser (to be)</td><td>no seas</td><td>no sea</td></tr>
-             <tr><td>dar (to give)</td><td>no des</td><td>no dé</td></tr>
-             <tr><td>estar (to be)</td><td>no estés</td><td>no esté</td></tr>
-             <tr><td>saber (to know)</td><td>no sepas</td><td>no sepa</td></tr>
+             <tr><th>Infinitive</th><th><span class="tooltip-pronoun pronoun-tu">tú</span> Command</th><th><span class="tooltip-pronoun pronoun-vos">vos</span> Command</th><th><span class="tooltip-pronoun pronoun-el">usted</span> Command</th></tr>
+             <tr><td>ir (to go)</td><td>no vayas</td><td>no vayas</td><td>no vaya</td></tr>
+             <tr><td>ser (to be)</td><td>no seas</td><td>no seas</td><td>no sea</td></tr>
+             <tr><td>dar (to give)</td><td>no des</td><td>no des</td><td>no dé</td></tr>
+             <tr><td>estar (to be)</td><td>no estés</td><td>no estés</td><td>no esté</td></tr>
+             <tr><td>saber (to know)</td><td>no sepas</td><td>no sepas</td><td>no sepa</td></tr>
            </table>
            <strong class="modal-subtitle">Remember the Pattern:</strong>
            <p>If the 'yo' form in the present tense is irregular (e.g., <em>tengo, pongo, conozco</em>), that irregularity carries over to most negative commands.</p>
@@ -710,31 +750,34 @@ const specificInfoData = {
            <div class="conjugation-boxes">
              <table class="conjugation-box">
                <caption>ir (impf.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">iba</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">ibas</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">iba</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">íbamos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">ibais</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">iban</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">iba</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">ibas</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">ibas</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">iba</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">íbamos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">ibais</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">iban</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>ser (impf.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">era</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">eras</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">era</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">éramos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">erais</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">eran</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">era</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">eras</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">eras</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">era</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">éramos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">erais</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">eran</td></tr>
              </table>
              <table class="conjugation-box">
                <caption>ver (impf.)</caption>
-               <tr><td>yo</td><td class="irregular-highlight">veía</td></tr>
-               <tr><td>tú</td><td class="irregular-highlight">veías</td></tr>
-               <tr><td>él</td><td class="irregular-highlight">veía</td></tr>
-               <tr><td>nosotros</td><td class="irregular-highlight">veíamos</td></tr>
-               <tr><td>vosotros</td><td class="irregular-highlight">veíais</td></tr>
-               <tr><td>ellos</td><td class="irregular-highlight">veían</td></tr>
-             </table>
+               <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td class="irregular-highlight">veía</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td class="irregular-highlight">veías</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td class="irregular-highlight">veías</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-el">él</span></td><td class="irregular-highlight">veía</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td class="irregular-highlight">veíamos</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td class="irregular-highlight">veíais</td></tr>
+               <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos</span></td><td class="irregular-highlight">veían</td></tr>
+            </table>
            </div>`
   },
   reflexiveInfo: {
@@ -744,12 +787,13 @@ const specificInfoData = {
            <p><em>"Yo <strong>me lavo</strong> las manos."</em> (I wash my hands.)</p>
            <table class="tense-tooltip-table irregular-tooltip-table">
              <tr><th>Pronoun</th><th>Reflexive Pronoun</th></tr>
-             <tr><td>yo</td><td>me</td></tr>
-             <tr><td>tú</td><td>te</td></tr>
-             <tr><td>él/ella/ud.</td><td>se</td></tr>
-             <tr><td>nosotros</td><td>nos</td></tr>
-             <tr><td>vosotros</td><td>os</td></tr>
-             <tr><td>ellos/ellas/uds.</td><td>se</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-yo">yo</span></td><td>me</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-tu">tú</span></td><td>te</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vos">vos</span></td><td>te</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-el">él/ella/ud.</span></td><td>se</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-nosotros">nosotros</span></td><td>nos</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-vosotros">vosotros</span></td><td>os</td></tr>
+             <tr><td><span class="tooltip-pronoun pronoun-ellos">ellos/ellas/uds.</span></td><td>se</td></tr>
            </table>
            <p>Notice how the infinitive ends in <strong>-se</strong> (e.g., levantar<strong>se</strong>, duchar<strong>se</strong>, llamar<strong>se</strong>).</p>`
   },

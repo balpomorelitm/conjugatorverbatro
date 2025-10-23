@@ -1,6 +1,6 @@
 const CACHE_NAME = 'conjugator-cache-v3';
 const URLS_TO_CACHE = [
-  'public/index.html',
+  'index.html',
   'src/style.css',
   'src/script.js',
   'src/level.js',

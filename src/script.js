@@ -6547,7 +6547,7 @@ function updateGameTitle() {
     'timer': 'Time Attack',
     'lives': 'Survival',
     'receptive': 'ReCall',
-    'productive_easy': 'ConjugaATE',
+    'productive_easy': 'ConjugAte',
     'productive': 'Pr0duc€'
   };
   const displayMode = shortModeLabels[currentOptions.mode] || currentOptions.mode;

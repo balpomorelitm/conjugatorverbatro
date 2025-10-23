@@ -28,7 +28,7 @@ An immersive retro-pixelated Spanish verb conjugation game that combines effecti
 ### Difficulty Levels
 
 * **ReCall (Easy):** Translate from Spanish to English (5 base points).
-* **ConjugaATE (Normal):** Conjugate a Spanish infinitive (10 base points).
+* **ConjugAte (Normal):** Conjugate a Spanish infinitive (10 base points).
 * **Pr0duc€ (Hard):** Translate and conjugate from English to Spanish (15 base points).
 
 ### 🤖 Boss Battles

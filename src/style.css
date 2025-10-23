@@ -4414,19 +4414,12 @@ transform: translateY(var(--fire-rise-height, -5em)) scale(0);
   text-shadow: 0 0 2px rgba(255,255,255,0.3);
   font-weight: bold;
   font-family: 'Baumans', cursive;
-
-  /* Mirror effect: horizontally flip text */
-  transform: scaleX(-1);
-  text-align: right; /* Adjust text alignment for better readability */
-  direction: ltr; /* Use left-to-right typing; mirror effect handled via transform */
 }
 
 #game-screen.t1000-active #answer-input-es::placeholder {
   color: #606060;
   font-style: italic;
   font-family: 'Baumans', cursive;
-  /* Placeholder text should also be mirrored for consistency */
-  transform: scaleX(-1);
 }
 
 /* Alternative approach using CSS writing-mode (if transform doesn't work well) */

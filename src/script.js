@@ -2196,14 +2196,6 @@ function displayClue() {
     });
   }
 
-  const animChk = document.getElementById('toggle-animations-setting');
-  if (animChk) {
-    animChk.addEventListener('change', () => {
-      settings.animationsEnabled = animChk.checked;
-      window.animationsEnabled = settings.animationsEnabled;
-      saveSetting('animationsEnabled', animChk.checked);
-    });
-  }
   const chChk = document.getElementById('toggle-chuache-reactions-setting');
   if (chChk) {
     chChk.addEventListener('change', () => {
@@ -2234,7 +2226,6 @@ function displayClue() {
     resetSettingsButton.addEventListener('click', () => {
       localStorage.removeItem('musicVolume');
       localStorage.removeItem('sfxVolume');
-      localStorage.removeItem('animationsEnabled');
       localStorage.removeItem('chuacheReactionsEnabled');
       localStorage.removeItem('defaultVosEnabled');
       localStorage.removeItem('bossesDisabled');

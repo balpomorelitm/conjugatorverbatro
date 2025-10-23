@@ -3,7 +3,6 @@
  * Claves almacenadas en localStorage:
  *  - musicVolume: volumen de la música de fondo.
  *  - sfxVolume: volumen de los efectos de sonido.
- *  - animationsEnabled: habilita o deshabilita las animaciones.
  *  - chuacheReactionsEnabled: muestra u oculta las reacciones de Chuache.
  *  - defaultVosEnabled: habilita el voseo por defecto.
  */
@@ -54,12 +53,14 @@ applyChuacheVisibility();
 export function loadSettings() {
   const musicVol = localStorage.getItem('musicVolume');
   const sfxVol = localStorage.getItem('sfxVolume');
-  const anim = localStorage.getItem('animationsEnabled');
   const chuache = localStorage.getItem('chuacheReactionsEnabled');
   const vos = localStorage.getItem('defaultVosEnabled');
   const bosses = localStorage.getItem('bossesDisabled');
 
-  settings.animationsEnabled = anim !== null ? anim === 'true' : false;
+  if (localStorage.getItem('animationsEnabled') !== null) {
+    localStorage.removeItem('animationsEnabled');
+  }
+  settings.animationsEnabled = false;
   settings.chuacheReactionsEnabled = chuache !== null ? chuache === 'true' : true;
   settings.defaultVosEnabled = vos === 'true';
   settings.bossesDisabled = bosses !== null ? bosses === 'true' : true;
@@ -95,8 +96,6 @@ export function loadSettings() {
     sfxAudio.forEach(a => { a.volume = 1.0; });
   }
 
-  const animChk = document.getElementById('toggle-animations-setting');
-  if (animChk) animChk.checked = settings.animationsEnabled;
   const chuacheChk = document.getElementById('toggle-chuache-reactions-setting');
   if (chuacheChk) chuacheChk.checked = settings.chuacheReactionsEnabled;
   const vosChk = document.getElementById('default-enable-vos-setting');

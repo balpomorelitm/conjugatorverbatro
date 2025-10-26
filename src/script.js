@@ -6795,15 +6795,6 @@ window.addEventListener('resize', () => {
   if (generalTooltipForHiding) generalTooltipForHiding.style.display = 'none';
   if (generalBackdropForHiding) generalBackdropForHiding.style.display = 'none';
 
-  const coffeeLink = document.getElementById('coffee-link');
-  if (coffeeLink) {
-    coffeeLink.addEventListener('click', () => {
-      const original = coffeeLink.textContent;
-      coffeeLink.textContent = 'THANKS!';
-      setTimeout(() => { coffeeLink.textContent = original; }, 1500);
-    });
-  }
-
   function calculateGameStats() {
     const totalAnswered = totalCorrect + totalIncorrect;
     const accuracy = totalAnswered ? Math.round((totalCorrect / totalAnswered) * 100) : 0;

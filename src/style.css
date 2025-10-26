@@ -1483,43 +1483,6 @@ button:active {
   filter: brightness(1.5);
 }
 
-/* Buy Me a Coffee button */
-.game-footer .coffee-link {
-  color: #8b0000; /* dark red text for contrast */
-  text-decoration: none;
-  padding: 4px 8px;
-  border: 1px solid #8b0000; /* matching dark red border */
-  border-radius: 4px;
-
-  background: linear-gradient(45deg, #d4af37, #fffbcc);
-  box-shadow: 0 0 5px rgba(212, 175, 55, 0.7);
-
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
-  filter: brightness(1.2);
-  transition: box-shadow 0.2s, filter 0.2s;
-}
-.splash-footer .coffee-link {
-  color: #8b0000;
-  text-decoration: none;
-  padding: 4px 8px;
-  border: 1px solid #8b0000;
-  border-radius: 4px;
-  background: linear-gradient(45deg, #d4af37, #fffbcc);
-  box-shadow: 0 0 5px rgba(212, 175, 55, 0.7);
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.9);
-  filter: brightness(1.2);
-  transition: box-shadow 0.2s, filter 0.2s;
-}
-.game-footer .coffee-link:hover {
-
-  box-shadow: 0 0 8px rgba(255, 215, 0, 1);
-
-  filter: brightness(1.3);
-}
-.splash-footer .coffee-link:hover {
-  box-shadow: 0 0 8px rgba(255, 215, 0, 1);
-  filter: brightness(1.3);
-}
 #left-bubbles, #right-bubbles {
   position: fixed;
   top: 0;
@@ -4091,10 +4054,6 @@ body.iridescent-level.level-up-shake {
 
 #splash-step .splash-footer a.feedback-link {
     color: #FFFFFF !important;
-}
-
-#splash-step .splash-footer a.coffee-link {
-    color: #000000 !important;
 }
 
 #splash-records-box .hof-header h1 {

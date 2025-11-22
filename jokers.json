@@ -6,8 +6,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "verb_ending", "value": "ar" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "verb_ending",
+      "value": "ar"
+    },
+    "art": {
+      "icon": "school",
+      "primary_color": "#4CAF50",
+      "bg_style": "grid",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_aprendiz",
@@ -16,8 +28,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "verb_ending", "value": "er" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "verb_ending",
+      "value": "er"
+    },
+    "art": {
+      "icon": "menu_book",
+      "primary_color": "#1976D2",
+      "bg_style": "stripes",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_experto",
@@ -26,8 +50,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "verb_ending", "value": "ir" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "verb_ending",
+      "value": "ir"
+    },
+    "art": {
+      "icon": "military_tech",
+      "primary_color": "#9C27B0",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_yoyo",
@@ -36,8 +72,20 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 50 },
-    "condition": { "target": "pronoun", "value": "yo" }
+    "effect": {
+      "type": "chips_add",
+      "value": 50
+    },
+    "condition": {
+      "target": "pronoun",
+      "value": "yo"
+    },
+    "art": {
+      "icon": "toys",
+      "primary_color": "#FFC107",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_tuatu",
@@ -46,8 +94,20 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 50 },
-    "condition": { "target": "pronoun", "value": "tú" }
+    "effect": {
+      "type": "chips_add",
+      "value": 50
+    },
+    "condition": {
+      "target": "pronoun",
+      "value": "tú"
+    },
+    "art": {
+      "icon": "record_voice_over",
+      "primary_color": "#FF9800",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_tercera",
@@ -56,8 +116,24 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "pronoun_in", "value": ["él", "ella", "usted"] }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "pronoun_in",
+      "value": [
+        "él",
+        "ella",
+        "usted"
+      ]
+    },
+    "art": {
+      "icon": "diversity_3",
+      "primary_color": "#03A9F4",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_grupo",
@@ -66,8 +142,19 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "pronoun_plural" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "pronoun_plural"
+    },
+    "art": {
+      "icon": "groups",
+      "primary_color": "#4DB6AC",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_tilde",
@@ -76,8 +163,19 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 30 },
-    "condition": { "target": "has_accent" }
+    "effect": {
+      "type": "chips_add",
+      "value": 30
+    },
+    "condition": {
+      "target": "has_accent"
+    },
+    "art": {
+      "icon": "flag",
+      "primary_color": "#E91E63",
+      "bg_style": "noise",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_zeta",
@@ -86,8 +184,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 5 },
-    "condition": { "target": "contains_letter", "value": "z" }
+    "effect": {
+      "type": "mult_add",
+      "value": 5
+    },
+    "condition": {
+      "target": "contains_letter",
+      "value": "z"
+    },
+    "art": {
+      "icon": "bolt",
+      "primary_color": "#FFEB3B",
+      "bg_style": "stripes",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_jota",
@@ -96,8 +206,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 5 },
-    "condition": { "target": "contains_letter", "value": "j" }
+    "effect": {
+      "type": "mult_add",
+      "value": 5
+    },
+    "condition": {
+      "target": "contains_letter",
+      "value": "j"
+    },
+    "art": {
+      "icon": "music_note",
+      "primary_color": "#8BC34A",
+      "bg_style": "grid",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_enie",
@@ -106,8 +228,20 @@
     "rarity": "common",
     "cost": 5,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 6 },
-    "condition": { "target": "contains_letter", "value": "ñ" }
+    "effect": {
+      "type": "mult_add",
+      "value": 6
+    },
+    "condition": {
+      "target": "contains_letter",
+      "value": "ñ"
+    },
+    "art": {
+      "icon": "spa",
+      "primary_color": "#CDDC39",
+      "bg_style": "noise",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_doblell",
@@ -116,8 +250,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "contains_substring", "value": "ll" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "contains_substring",
+      "value": "ll"
+    },
+    "art": {
+      "icon": "all_inclusive",
+      "primary_color": "#00BCD4",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_mudo",
@@ -126,8 +272,20 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 30 },
-    "condition": { "target": "contains_letter", "value": "h" }
+    "effect": {
+      "type": "chips_add",
+      "value": 30
+    },
+    "condition": {
+      "target": "contains_letter",
+      "value": "h"
+    },
+    "art": {
+      "icon": "hearing_disabled",
+      "primary_color": "#607D8B",
+      "bg_style": "noise",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_corto",
@@ -136,8 +294,20 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 6 },
-    "condition": { "target": "input_length_lte", "value": 4 }
+    "effect": {
+      "type": "mult_add",
+      "value": 6
+    },
+    "condition": {
+      "target": "input_length_lte",
+      "value": 4
+    },
+    "art": {
+      "icon": "content_cut",
+      "primary_color": "#FF5722",
+      "bg_style": "noise",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_charlatan",
@@ -146,8 +316,20 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 40 },
-    "condition": { "target": "input_length_gte", "value": 8 }
+    "effect": {
+      "type": "chips_add",
+      "value": 40
+    },
+    "condition": {
+      "target": "input_length_gte",
+      "value": 8
+    },
+    "art": {
+      "icon": "chat_bubble",
+      "primary_color": "#F06292",
+      "bg_style": "stripes",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_vocalista",
@@ -156,8 +338,19 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 3 },
-    "condition": { "target": "starts_with_vowel" }
+    "effect": {
+      "type": "mult_add",
+      "value": 3
+    },
+    "condition": {
+      "target": "starts_with_vowel"
+    },
+    "art": {
+      "icon": "mic",
+      "primary_color": "#FF7043",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_consonante",
@@ -166,8 +359,19 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 3 },
-    "condition": { "target": "ends_with_consonant" }
+    "effect": {
+      "type": "mult_add",
+      "value": 3
+    },
+    "condition": {
+      "target": "ends_with_consonant"
+    },
+    "art": {
+      "icon": "abc",
+      "primary_color": "#3F51B5",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_vocal_abierta",
@@ -176,8 +380,24 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 3 },
-    "condition": { "target": "ends_with_any", "value": ["a", "e", "o"] }
+    "effect": {
+      "type": "mult_add",
+      "value": 3
+    },
+    "condition": {
+      "target": "ends_with_any",
+      "value": [
+        "a",
+        "e",
+        "o"
+      ]
+    },
+    "art": {
+      "icon": "sensors",
+      "primary_color": "#FF8A65",
+      "bg_style": "noise",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_cronometro",
@@ -186,8 +406,20 @@
     "rarity": "common",
     "cost": 5,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 5 },
-    "condition": { "target": "response_time_lt", "value": 3 }
+    "effect": {
+      "type": "mult_add",
+      "value": 5
+    },
+    "condition": {
+      "target": "response_time_lt",
+      "value": 3
+    },
+    "art": {
+      "icon": "timer",
+      "primary_color": "#00BCD4",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_pareja",
@@ -196,8 +428,19 @@
     "rarity": "common",
     "cost": 4,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add_per_pair", "value": 10 },
-    "condition": { "target": "double_letter_pairs" }
+    "effect": {
+      "type": "chips_add_per_pair",
+      "value": 10
+    },
+    "condition": {
+      "target": "double_letter_pairs"
+    },
+    "art": {
+      "icon": "favorite",
+      "primary_color": "#EC407A",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_binario",
@@ -206,8 +449,19 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 4 },
-    "condition": { "target": "even_length" }
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "even_length"
+    },
+    "art": {
+      "icon": "data_object",
+      "primary_color": "#7E57C2",
+      "bg_style": "grid",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_impar",
@@ -216,8 +470,19 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 30 },
-    "condition": { "target": "odd_length" }
+    "effect": {
+      "type": "chips_add",
+      "value": 30
+    },
+    "condition": {
+      "target": "odd_length"
+    },
+    "art": {
+      "icon": "filter_7",
+      "primary_color": "#8D6E63",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_cafe",
@@ -226,8 +491,17 @@
     "rarity": "common",
     "cost": 5,
     "trigger_type": "passive",
-    "effect": { "type": "mult_add", "value": 2 },
-    "condition": null
+    "effect": {
+      "type": "mult_add",
+      "value": 2
+    },
+    "condition": null,
+    "art": {
+      "icon": "local_cafe",
+      "primary_color": "#795548",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_mochila",
@@ -236,8 +510,17 @@
     "rarity": "common",
     "cost": 3,
     "trigger_type": "passive",
-    "effect": { "type": "chips_add", "value": 15 },
-    "condition": null
+    "effect": {
+      "type": "chips_add",
+      "value": 15
+    },
+    "condition": null,
+    "art": {
+      "icon": "backpack",
+      "primary_color": "#2196F3",
+      "bg_style": "stripes",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_vago",
@@ -246,8 +529,19 @@
     "rarity": "common",
     "cost": 5,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 10 },
-    "condition": { "target": "is_regular" }
+    "effect": {
+      "type": "mult_add",
+      "value": 10
+    },
+    "condition": {
+      "target": "is_regular"
+    },
+    "art": {
+      "icon": "hotel",
+      "primary_color": "#90A4AE",
+      "bg_style": "noise",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_bota",
@@ -256,8 +550,19 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 15 },
-    "condition": { "target": "stem_changing" }
+    "effect": {
+      "type": "mult_add",
+      "value": 15
+    },
+    "condition": {
+      "target": "stem_changing"
+    },
+    "art": {
+      "icon": "directions_walk",
+      "primary_color": "#A5D6A7",
+      "bg_style": "stripes",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_reflexivo",
@@ -266,8 +571,19 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add", "value": 100 },
-    "condition": { "target": "is_reflexive" }
+    "effect": {
+      "type": "chips_add",
+      "value": 100
+    },
+    "condition": {
+      "target": "is_reflexive"
+    },
+    "art": {
+      "icon": "psychology",
+      "primary_color": "#26C6DA",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_gooty",
@@ -276,8 +592,19 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 1.5 },
-    "condition": { "target": "is_irregular" }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 1.5
+    },
+    "condition": {
+      "target": "is_irregular"
+    },
+    "art": {
+      "icon": "sports_esports",
+      "primary_color": "#FFB300",
+      "bg_style": "noise",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_racha",
@@ -286,8 +613,17 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add_streak", "value": 2 },
-    "condition": null
+    "effect": {
+      "type": "mult_add_streak",
+      "value": 2
+    },
+    "condition": null,
+    "art": {
+      "icon": "local_fire_department",
+      "primary_color": "#F4511E",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_beca",
@@ -296,8 +632,24 @@
     "rarity": "uncommon",
     "cost": 6,
     "trigger_type": "on_score",
-    "effect": { "type": "money_add", "value": 1 },
-    "condition": { "target": "contains_any_letter", "value": ["k", "w", "x"] }
+    "effect": {
+      "type": "money_add",
+      "value": 1
+    },
+    "condition": {
+      "target": "contains_any_letter",
+      "value": [
+        "k",
+        "w",
+        "x"
+      ]
+    },
+    "art": {
+      "icon": "school",
+      "primary_color": "#42A5F5",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_hucha",
@@ -306,8 +658,18 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "money_interest", "value": 1, "max": 5 },
-    "condition": null
+    "effect": {
+      "type": "money_interest",
+      "value": 1,
+      "max": 5
+    },
+    "condition": null,
+    "art": {
+      "icon": "savings",
+      "primary_color": "#FFD700",
+      "bg_style": "stripes",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_reciclador",
@@ -316,8 +678,17 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "money_add", "value": 2 },
-    "condition": null
+    "effect": {
+      "type": "money_add",
+      "value": 2
+    },
+    "condition": null,
+    "art": {
+      "icon": "recycling",
+      "primary_color": "#4CAF50",
+      "bg_style": "grid",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_acento",
@@ -326,8 +697,19 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 1.2 },
-    "condition": { "target": "early_accent" }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 1.2
+    },
+    "condition": {
+      "target": "early_accent"
+    },
+    "art": {
+      "icon": "edit",
+      "primary_color": "#9E9E9E",
+      "bg_style": "noise",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_flashcard",
@@ -336,8 +718,17 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_add_per_common", "value": 50 },
-    "condition": null
+    "effect": {
+      "type": "chips_add_per_common",
+      "value": 50
+    },
+    "condition": null,
+    "art": {
+      "icon": "style",
+      "primary_color": "#AB47BC",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_dictado",
@@ -346,8 +737,19 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 10 },
-    "condition": { "target": "no_backspace" }
+    "effect": {
+      "type": "mult_add",
+      "value": 10
+    },
+    "condition": {
+      "target": "no_backspace"
+    },
+    "art": {
+      "icon": "record_voice_over",
+      "primary_color": "#29B6F6",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_medio_limon",
@@ -356,8 +758,20 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 12 },
-    "condition": { "target": "no_letter", "value": "a" }
+    "effect": {
+      "type": "mult_add",
+      "value": 12
+    },
+    "condition": {
+      "target": "no_letter",
+      "value": "a"
+    },
+    "art": {
+      "icon": "emoji_food_beverage",
+      "primary_color": "#FFEE58",
+      "bg_style": "grid",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_media_naranja",
@@ -366,8 +780,20 @@
     "rarity": "uncommon",
     "cost": 7,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add", "value": 12 },
-    "condition": { "target": "no_letter", "value": "e" }
+    "effect": {
+      "type": "mult_add",
+      "value": 12
+    },
+    "condition": {
+      "target": "no_letter",
+      "value": "e"
+    },
+    "art": {
+      "icon": "favorite_border",
+      "primary_color": "#F06292",
+      "bg_style": "stripes",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_turista",
@@ -376,8 +802,17 @@
     "rarity": "uncommon",
     "cost": 6,
     "trigger_type": "passive",
-    "effect": { "type": "mult_add_per_boss", "value": 3 },
-    "condition": null
+    "effect": {
+      "type": "mult_add_per_boss",
+      "value": 3
+    },
+    "condition": null,
+    "art": {
+      "icon": "map",
+      "primary_color": "#4DD0E1",
+      "bg_style": "grid",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_chuleta",
@@ -386,8 +821,20 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "money_add", "value": 0 },
-    "condition": { "target": "auto_complete_chance", "value": 0.25 }
+    "effect": {
+      "type": "money_add",
+      "value": 0
+    },
+    "condition": {
+      "target": "auto_complete_chance",
+      "value": 0.25
+    },
+    "art": {
+      "icon": "sticky_note_2",
+      "primary_color": "#00ACC1",
+      "bg_style": "noise",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_voseo",
@@ -396,8 +843,23 @@
     "rarity": "uncommon",
     "cost": 8,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 1.3 },
-    "condition": { "target": "pronoun_in", "value": ["vos", "ustedes"] }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 1.3
+    },
+    "condition": {
+      "target": "pronoun_in",
+      "value": [
+        "vos",
+        "ustedes"
+      ]
+    },
+    "art": {
+      "icon": "translate",
+      "primary_color": "#8BC34A",
+      "bg_style": "stripes",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_rae",
@@ -406,8 +868,19 @@
     "rarity": "rare",
     "cost": 12,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 3 },
-    "condition": { "target": "no_clue_used" }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 3
+    },
+    "condition": {
+      "target": "no_clue_used"
+    },
+    "art": {
+      "icon": "gavel",
+      "primary_color": "#3E2723",
+      "bg_style": "grid",
+      "text_style": "shadow-block"
+    }
   },
   {
     "id": "joker_donquijote",
@@ -416,8 +889,17 @@
     "rarity": "rare",
     "cost": 13,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_add_per_letter", "value": 0.2 },
-    "condition": null
+    "effect": {
+      "type": "mult_add_per_letter",
+      "value": 0.2
+    },
+    "condition": null,
+    "art": {
+      "icon": "menu_book",
+      "primary_color": "#BDB76B",
+      "bg_style": "noise",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_vampiro",
@@ -426,8 +908,17 @@
     "rarity": "rare",
     "cost": 12,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 1.5 },
-    "condition": null
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 1.5
+    },
+    "condition": null,
+    "art": {
+      "icon": "dark_mode",
+      "primary_color": "#6A1B9A",
+      "bg_style": "stripes",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_perfeccionista",
@@ -436,8 +927,19 @@
     "rarity": "rare",
     "cost": 15,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 4 },
-    "condition": { "target": "no_errors_in_round" }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 4
+    },
+    "condition": {
+      "target": "no_errors_in_round"
+    },
+    "art": {
+      "icon": "check_circle",
+      "primary_color": "#00C853",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_poliglota",
@@ -446,8 +948,19 @@
     "rarity": "rare",
     "cost": 12,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 2 },
-    "condition": { "target": "cognate" }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 2
+    },
+    "condition": {
+      "target": "cognate"
+    },
+    "art": {
+      "icon": "public",
+      "primary_color": "#1E88E5",
+      "bg_style": "noise",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_dobloonada",
@@ -456,8 +969,17 @@
     "rarity": "rare",
     "cost": 11,
     "trigger_type": "on_score",
-    "effect": { "type": "coinflip_reward", "success_money": 5 },
-    "condition": null
+    "effect": {
+      "type": "coinflip_reward",
+      "success_money": 5
+    },
+    "condition": null,
+    "art": {
+      "icon": "casino",
+      "primary_color": "#FFB300",
+      "bg_style": "stripes",
+      "text_style": "glitch"
+    }
   },
   {
     "id": "joker_infinitivo",
@@ -466,8 +988,17 @@
     "rarity": "rare",
     "cost": 14,
     "trigger_type": "on_score",
-    "effect": { "type": "chips_from_infinitive", "value": 10 },
-    "condition": null
+    "effect": {
+      "type": "chips_from_infinitive",
+      "value": 10
+    },
+    "condition": null,
+    "art": {
+      "icon": "all_inclusive",
+      "primary_color": "#00ACC1",
+      "bg_style": "grid",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_cervantes",
@@ -476,8 +1007,16 @@
     "rarity": "rare",
     "cost": 15,
     "trigger_type": "on_score",
-    "effect": { "type": "double_apply" },
-    "condition": null
+    "effect": {
+      "type": "double_apply"
+    },
+    "condition": null,
+    "art": {
+      "icon": "auto_stories",
+      "primary_color": "#8E24AA",
+      "bg_style": "noise",
+      "text_style": "retro-3d"
+    }
   },
   {
     "id": "joker_futurista",
@@ -486,8 +1025,23 @@
     "rarity": "rare",
     "cost": 12,
     "trigger_type": "on_score",
-    "effect": { "type": "mult_multiplier", "value": 3 },
-    "condition": { "target": "tense_in", "value": ["futuro_simple", "condicional"] }
+    "effect": {
+      "type": "mult_multiplier",
+      "value": 3
+    },
+    "condition": {
+      "target": "tense_in",
+      "value": [
+        "futuro_simple",
+        "condicional"
+      ]
+    },
+    "art": {
+      "icon": "rocket_launch",
+      "primary_color": "#18FFFF",
+      "bg_style": "stripes",
+      "text_style": "outline-neon"
+    }
   },
   {
     "id": "joker_tabula",
@@ -496,7 +1050,16 @@
     "rarity": "rare",
     "cost": 10,
     "trigger_type": "passive",
-    "effect": { "type": "mult_add_per_common", "value": 0.5 },
-    "condition": null
+    "effect": {
+      "type": "mult_add_per_common",
+      "value": 0.5
+    },
+    "condition": null,
+    "art": {
+      "icon": "delete_forever",
+      "primary_color": "#B0BEC5",
+      "bg_style": "grid",
+      "text_style": "shadow-block"
+    }
   }
 ]

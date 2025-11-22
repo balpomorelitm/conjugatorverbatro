@@ -4685,6 +4685,11 @@ body.verbatro-mode #chuache-box {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 30%);
 }
 
+.joker-card.selected {
+  outline: 3px solid #ffd700;
+  box-shadow: 0 6px 0 #ffd700;
+}
+
 .joker-card:hover {
   transform: translateY(-5px) scale(1.02);
   z-index: 10;
@@ -4803,6 +4808,58 @@ body.verbatro-mode #chuache-box {
 .joker-card-empty .joker-footer { color: #7c8ba0; }
 
 .joker-actions { margin-top: 6px; display: flex; justify-content: center; }
+
+.verbatro-voucher-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.voucher-card {
+  background: linear-gradient(140deg, #0b1a2d, #142948);
+  border: 1px solid #244a7c;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 12px rgba(0, 229, 255, 0.08);
+  color: #e8f6ff;
+  display: grid;
+  gap: 8px;
+}
+
+.voucher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'PixelSerif', sans-serif;
+  text-transform: uppercase;
+  color: #ffd700;
+}
+
+.voucher-description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.voucher-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.voucher-price {
+  background: #0c1728;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #26456b;
+  font-weight: bold;
+}
+
+.voucher-empty {
+  margin: 0;
+  color: #8ea5c6;
+}
 
 .verbatro-card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 12px; }
 .verbatro-card {

@@ -63,6 +63,33 @@ const ASSET_URLS = {
 
 const pronouns = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
 
+const VERBATRO_PRONOUN_COLORS = {
+  yo: '#ffbe0b',
+  'tú': '#fb5607',
+  vos: '#ff8500',
+  'él': '#ff006e',
+  ella: '#ff006e',
+  usted: '#ff006e',
+  nosotros: '#8338ec',
+  nosotras: '#8338ec',
+  vosotros: '#3a86ff',
+  vosotras: '#3a86ff',
+  ellos: '#fffffc',
+  ellas: '#fffffc',
+  ustedes: '#fffffc'
+};
+
+const VERBATRO_TENSE_COLORS = {
+  present: '#b0b0b0',
+  past_simple: '#b71c1c',
+  present_perfect: '#d32f2f',
+  imperfect_indicative: '#e57373',
+  future_simple: '#00e5ff',
+  condicional_simple: '#4dd0e1',
+  imperative: '#ffca28',
+  imperative_negative: '#ff7043'
+};
+
 // Verbatro State Definition
 const verbatroState = {
   active: false,
@@ -4830,9 +4857,21 @@ function prepareNextQuestion() {
     ansEN.focus();
   }
 
-  if (verbatroPronounCard) verbatroPronounCard.textContent = displayPronoun || '—';
+  if (selectedGameMode === 'verbatro' && qPrompt) {
+    qPrompt.innerHTML = '<span class="verbatro-instruction">Conjuga en español</span>';
+  }
+
+  if (verbatroPronounCard) {
+    verbatroPronounCard.textContent = displayPronoun || '—';
+    const pronounColor = VERBATRO_PRONOUN_COLORS[(displayPronoun || '').toLowerCase()] || '#ffd700';
+    verbatroPronounCard.style.setProperty('--verbatro-pronoun-color', pronounColor);
+  }
   if (verbatroVerbCard) verbatroVerbCard.textContent = v.infinitive_es || '—';
-  if (verbatroTenseCard) verbatroTenseCard.textContent = tenseLabel || tKey;
+  if (verbatroTenseCard) {
+    verbatroTenseCard.textContent = tenseLabel || tKey;
+    const tenseColor = VERBATRO_TENSE_COLORS[tKey] || '#ff82c3';
+    verbatroTenseCard.style.setProperty('--verbatro-tense-color', tenseColor);
+  }
 
   const promptBadge = qPrompt.querySelector('.tense-badge');
   const promptIcon = qPrompt.querySelector('.context-info-icon');
@@ -5062,7 +5101,6 @@ function applyVerbatroBlindConfig() {
   if (verbatroState.welcomePack) {
     verbatroState.welcomeConsumable = generateWelcomeConsumable();
   }
-  offerVoucherOptions();
   updateVerbatroUI();
 }
 
@@ -5657,7 +5695,10 @@ function checkRoundWinCondition() {
     }
     applyRoundInterest();
     const clearedBlind = verbatroState.blindType;
-    feedback.textContent = `🎯 ${formatBlindName(clearedBlind)} cleared! Shop refreshed.`;
+    const vouchersRefreshed = clearedBlind === 'boss';
+    feedback.textContent = vouchersRefreshed
+      ? `🎯 ${formatBlindName(clearedBlind)} cleared! Chuletas renovadas.`
+      : `🎯 ${formatBlindName(clearedBlind)} cleared!`;
     verbatroState.currentScore = 0;
     verbatroState.blindsCleared += 1;
     if (clearedBlind === 'boss') {
@@ -5669,6 +5710,11 @@ function checkRoundWinCondition() {
     }
     setVerbatroBackgroundForBlind();
     applyVerbatroBlindConfig();
+    if (vouchersRefreshed) {
+      offerVoucherOptions();
+    } else {
+      renderVoucherOffers();
+    }
     renderShop();
     updateVerbatroUI();
   }
@@ -5769,6 +5815,7 @@ function startVerbatroMode() {
   document.body.classList.add('verbatro-mode');
   applyVerbatroBlindConfig();
   setVerbatroBackgroundForBlind();
+  offerVoucherOptions();
   renderShop();
   updateVerbatroUI();
   game.verbsInPhaseCount = 0;

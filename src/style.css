@@ -4571,6 +4571,11 @@ body.verbatro-mode #game-mechanics-bar {
   display: none;
 }
 
+body.verbatro-mode {
+  max-width: none;
+  padding: 12px 18px;
+}
+
 .verbatro-layer {
   display: none;
 }
@@ -4581,6 +4586,65 @@ body.verbatro-mode .verbatro-layer {
 
 body.verbatro-mode #chuache-box {
   display: none;
+}
+
+body.verbatro-mode #game-screen {
+  max-width: none;
+  width: 100%;
+  margin: 0 auto;
+}
+
+body.verbatro-mode #game-layout {
+  display: grid;
+  grid-template-columns: minmax(520px, 1.6fr) minmax(360px, 1fr);
+  grid-template-areas:
+    "main shop"
+    "vouchers shop";
+  gap: 18px;
+  align-items: start;
+}
+
+body.verbatro-mode #game-main-panel {
+  grid-area: main;
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid #4ea1ff;
+  border-radius: 16px;
+  background: radial-gradient(circle at 20% 20%, rgba(78, 161, 255, 0.08), transparent 45%),
+    linear-gradient(135deg, rgba(10, 19, 34, 0.8), rgba(12, 21, 38, 0.95));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(78, 161, 255, 0.25);
+}
+
+body.verbatro-mode #game-main-panel #question-area,
+body.verbatro-mode #game-main-panel #answer-row,
+body.verbatro-mode #game-main-panel #answer-area,
+body.verbatro-mode #game-main-panel #verbatro-card-row {
+  width: 100%;
+}
+
+body.verbatro-mode #verbatro-shop {
+  grid-area: shop;
+  align-self: stretch;
+  height: 100%;
+}
+
+body.verbatro-mode #verbatro-voucher-panel {
+  grid-area: vouchers;
+  margin-bottom: 0;
+}
+
+body.verbatro-mode #verbatro-voucher-panel .rack-header {
+  margin-bottom: 12px;
+}
+
+body.verbatro-mode #verbatro-hud,
+body.verbatro-mode #verbatro-joker-rack,
+body.verbatro-mode #verbatro-voucher-panel {
+  max-width: none;
+}
+
+body.verbatro-mode .verbatro-rack {
+  margin-bottom: 10px;
 }
 
 .verbatro-monitor {
@@ -4662,7 +4726,12 @@ body.verbatro-mode #chuache-box {
 .rack-header { display: flex; justify-content: space-between; align-items: center; font-family: 'PixelSerif', sans-serif; color: #b6c9ff; margin-bottom: 8px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
 .rack-cap { color: #ffd700; }
 
-.verbatro-joker-area { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+body.verbatro-mode .verbatro-joker-area {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
+  gap: 10px;
+  justify-items: center;
+}
 
 .joker-card {
   --card-w: 140px;
@@ -4861,7 +4930,12 @@ body.verbatro-mode #chuache-box {
   color: #8ea5c6;
 }
 
-.verbatro-card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 12px; }
+body.verbatro-mode .verbatro-card-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 .verbatro-card {
   background: linear-gradient(160deg, #0b1a2d, #0f2b45);
   border: 1px solid #28466b;
@@ -4905,6 +4979,29 @@ body.verbatro-mode #chuache-box {
 .verbatro-card.verb-card .card-value { color: #9efcff; }
 .verbatro-card.tense-card .card-value { color: #ff82c3; }
 
+body.verbatro-mode .verbatro-card {
+  flex: 1 1 0;
+  min-width: 160px;
+  max-width: 220px;
+}
+
+body.verbatro-mode .verbatro-card .card-label {
+  background: linear-gradient(135deg, rgba(79, 161, 255, 0.22), rgba(255, 215, 0, 0.16));
+  border-bottom: 1px solid #1f3b5c;
+}
+
+body.verbatro-mode .verbatro-card .card-value {
+  text-align: center;
+}
+
+body.verbatro-mode .verbatro-card.pronoun-card .card-value {
+  color: var(--verbatro-pronoun-color, #ffd700);
+}
+
+body.verbatro-mode .verbatro-card.tense-card .card-value {
+  color: var(--verbatro-tense-color, #ff82c3);
+}
+
 .verbatro-equation-float {
   display: none;
   margin: 12px auto;
@@ -4924,6 +5021,44 @@ body.verbatro-mode #chuache-box {
 }
 
 .verbatro-equation-float.active { display: block; opacity: 1; transform: translateY(0); animation: float-up 1.2s ease forwards; }
+
+body.verbatro-mode #question-area {
+  align-items: center;
+}
+
+body.verbatro-mode #question-prompt {
+  justify-content: center;
+  text-align: center;
+}
+
+body.verbatro-mode #tense-label {
+  display: none;
+}
+
+body.verbatro-mode #answer-row {
+  display: flex;
+  justify-content: center;
+}
+
+body.verbatro-mode #answer-area {
+  max-width: 520px;
+  width: 100%;
+}
+
+body.verbatro-mode #input-es-container input {
+  width: 100%;
+  text-align: center;
+  font-size: 1.05rem;
+  padding: 12px;
+}
+
+.verbatro-instruction {
+  font-family: 'PixelSerif', sans-serif;
+  letter-spacing: 1px;
+  color: #9efcff;
+  text-shadow: 0 0 8px rgba(158, 252, 255, 0.25);
+  width: 100%;
+}
 
 .verbatro-button {
   background: linear-gradient(90deg, #ffd700, #ff6b9d);
@@ -5008,9 +5143,31 @@ body.verbatro-mode #chuache-box {
   80% { transform: translate(1px, -1px) scale(1.05); }
 }
 
+@media (max-width: 1100px) {
+  body.verbatro-mode #game-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "shop"
+      "vouchers";
+  }
+
+  body.verbatro-mode #verbatro-shop {
+    height: auto;
+  }
+
+  body.verbatro-mode .verbatro-joker-area {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .monitor-block.wide { flex-basis: 100%; }
   .monitor-row.secondary { gap: 6px; }
-  .verbatro-card-row { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  body:not(.verbatro-mode) .verbatro-card-row { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  body.verbatro-mode .verbatro-card-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .shop-items-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 }

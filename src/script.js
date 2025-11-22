@@ -76,8 +76,23 @@ const verbatroState = {
   baseMult: 1,
   inventory: [],
   shopInventory: [],
-  jokerData: []
+  jokerData: [],
+  streak: 0,
+  roundMistakes: 0,
+  bossesDefeated: 0,
+  backspaceUsed: false
 };
+
+const verbatroRoundConfigs = [
+  { round: 1, targetScore: 300, maxHands: 8 },
+  { round: 2, targetScore: 800, maxHands: 8 },
+  { round: 3, targetScore: 2000, maxHands: 9 },
+  { round: 4, targetScore: 5000, maxHands: 10 },
+  { round: 5, targetScore: 10000, maxHands: 10 },
+  { round: 6, targetScore: 18000, maxHands: 11 },
+  { round: 7, targetScore: 30000, maxHands: 12 },
+  { round: 8, targetScore: 50000, maxHands: 12 }
+];
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -675,6 +690,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const multiplier = this.reappearanceMultiplier || 1;
         this.baseVerbsToComplete = this.baseVerbsToComplete || this.verbsToComplete;
         this.verbsToComplete = Math.floor(this.baseVerbsToComplete * multiplier);
+        this.timeLimit = this.verbsToComplete * 5;
 
         // Filter verbs from current game selection
         const selectedVerbElements = Array.from(document.querySelectorAll('#verb-buttons .verb-button.selected'));
@@ -993,6 +1009,8 @@ function displayNextT1000Verb() {
   }
 
   game.boss.hintLevel = 0;
+  const mirrorActive = game.boss.verbsCompleted % 2 === 0;
+  game.boss.mirrorActive = mirrorActive;
 
   const tenseEl = document.getElementById('tense-label');
   if (tenseEl) {
@@ -1022,13 +1040,14 @@ function displayNextT1000Verb() {
   const infoKey = tenseObj.infoKey || '';
   const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
 
-  // NEW: Do not show the reversed answer
+  const mirrorLabel = mirrorActive ? '🪞 MIRROR:' : '➡️ NORMAL:';
   if (currentOptions.mode === 'receptive') {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.correctAnswer}" → <span class="t1000-hint">(Type the English translation backwards)</span>`;
+    const suffix = mirrorActive ? '<span class="t1000-hint">(Type the English translation backwards)</span>' : '<span class="t1000-hint">(Translate to English)</span>';
+    promptHTML = `${mirrorLabel} ${tenseBadge} "${currentChallenge.correctAnswer}" → ${suffix}`;
   } else if (currentOptions.mode === 'productive_easy') {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
+    promptHTML = `${mirrorLabel} ${tenseBadge} "${currentChallenge.infinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
   } else {
-    promptHTML = `🪞 MIRROR: ${tenseBadge} "${currentChallenge.englishInfinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
+    promptHTML = `${mirrorLabel} ${tenseBadge} "${currentChallenge.englishInfinitive}" – <span class="pronoun" id="${currentChallenge.pronoun}">${currentChallenge.pronoun}</span>`;
   }
 
   if (qPrompt) {
@@ -1052,7 +1071,7 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
 
   if (ansES) {
     ansES.value = '';
-    ansES.placeholder = 'Type the conjugation backwards...';
+    ansES.placeholder = mirrorActive ? 'Type the conjugation backwards...' : 'Type the conjugation';
     ansES.disabled = false;
     ansES.style.direction = 'ltr';
     ansES.focus();
@@ -1062,10 +1081,27 @@ const promptIcon = qPrompt.querySelector('.context-info-icon');
   isCheckingAnswer = false;
 }
 
-        function validateT1000Answer(userInput, currentChallenge) {
+function validateT1000Answer(userInput, currentChallenge) {
   let cleanInput = userInput.trim().toLowerCase();
   if (currentOptions.ignoreAccents) {
     cleanInput = removeAccents(cleanInput);
+  }
+
+  const mirrorActive = !(game.boss && game.boss.id === 'mirrorT1000' && game.boss.mirrorActive === false);
+
+  if (!mirrorActive) {
+    if (currentOptions.mode === 'receptive') {
+      const tense = currentChallenge.tenseKey || currentChallenge.tense;
+      const translations = getEnglishTranslation(currentChallenge, tense, currentChallenge.pronoun) || [];
+      return translations.some(translation => {
+        let candidate = translation.toLowerCase();
+        if (currentOptions.ignoreAccents) candidate = removeAccents(candidate);
+        return cleanInput === candidate;
+      });
+    }
+    let target = currentChallenge.correctAnswer.toLowerCase();
+    if (currentOptions.ignoreAccents) target = removeAccents(target);
+    return cleanInput === target;
   }
 
   if (currentOptions.mode === 'receptive') {
@@ -1362,12 +1398,15 @@ function displayNextBossVerb() {
     if (tenseEl) {
       tenseEl.innerHTML = `<span class="boss-title-with-tooltip" data-info-key="skynetGlitchBossInfo">Skynet Glitch (${game.boss.verbsCompleted + 1}/${game.boss.totalVerbsNeeded}) <span class="context-info-icon" data-info-key="skynetGlitchBossInfo"></span></span>`;
     }
+    const applyGlitch = game.boss.verbsCompleted % 2 === 0;
     const tKey = currentChallenge.tense;
     const tenseObj = tenses.find(t => t.value === tKey) || {};
     const tenseLabel = tenseObj.name || tKey;
     const infoKey = tenseObj.infoKey || '';
     const tenseBadge = `<span class="tense-badge ${tKey}" data-info-key="${infoKey}">${tenseLabel}<span class="context-info-icon" data-info-key="${infoKey}"></span></span>`;
-    promptHTML = `${tenseBadge}: <span class="boss-challenge">${currentChallenge.glitchedInfinitive}</span> – <span class="boss-challenge-pronoun">${currentChallenge.glitchedPronoun}</span>`;
+    const shownInfinitive = applyGlitch ? currentChallenge.glitchedInfinitive : currentChallenge.infinitive;
+    const shownPronoun = applyGlitch ? currentChallenge.glitchedPronoun : currentChallenge.pronoun;
+    promptHTML = `${tenseBadge}: <span class="boss-challenge">${shownInfinitive}</span> – <span class="boss-challenge-pronoun">${shownPronoun}</span>`;
 
   } else if (game.boss.id === 'nuclearBomb') {
     if (tenseEl) {
@@ -1465,6 +1504,9 @@ function endBossBattle(playerWon, message = "", isGameOver = false) {
     const bonusPoints = 500 * (game.boss?.reappearanceMultiplier || 1);
     game.score += bonusPoints;
     score = game.score; // keep legacy score in sync
+    if (selectedGameMode === 'verbatro') {
+      verbatroState.bossesDefeated += 1;
+    }
     if (qPrompt) qPrompt.textContent = 'SYSTEM RESTORED';
     if (tenseEl) tenseEl.textContent = 'Boss defeated!';
     if (feedback) feedback.innerHTML = `<span class="feedback-points">Boss Bonus: +${bonusPoints} Points!</span>`;
@@ -4510,6 +4552,9 @@ function prepareNextQuestion() {
     tenseKey: tKey,
     hintLevel: 0
   };
+  if (selectedGameMode === 'verbatro') {
+    verbatroState.backspaceUsed = false;
+  }
   startTime = Date.now();
   questionStartTime = Date.now();
   totalQuestions++;
@@ -4751,6 +4796,29 @@ levelState.currentBossNumber++;
 }
 
 // Verbatro helpers
+function getVerbatroRoundConfig(roundNumber) {
+  const matched = verbatroRoundConfigs.find(cfg => cfg.round === roundNumber);
+  if (matched) return matched;
+  const lastConfig = verbatroRoundConfigs[verbatroRoundConfigs.length - 1];
+  const scale = Math.pow(1.6, Math.max(0, roundNumber - lastConfig.round));
+  return {
+    round: roundNumber,
+    targetScore: Math.round(lastConfig.targetScore * scale),
+    maxHands: lastConfig.maxHands
+  };
+}
+
+function applyVerbatroRoundConfig(roundNumber) {
+  const cfg = getVerbatroRoundConfig(roundNumber);
+  verbatroState.round = roundNumber;
+  verbatroState.targetScore = cfg.targetScore;
+  verbatroState.maxHands = cfg.maxHands;
+  verbatroState.handsRemaining = cfg.maxHands;
+  verbatroState.roundMistakes = 0;
+  verbatroState.backspaceUsed = false;
+  updateVerbatroUI();
+}
+
 async function loadVerbatroData() {
   if (verbatroState.jokerData.length > 0) return true;
   const data = await jokersJsonPromise;
@@ -4759,6 +4827,37 @@ async function loadVerbatroData() {
     return true;
   }
   return false;
+}
+
+function rollJokerRarity() {
+  const roll = Math.random();
+  if (roll < 0.7) return 'common';
+  if (roll < 0.95) return 'uncommon';
+  return 'rare';
+}
+
+function pickJokersForShop() {
+  const available = verbatroState.jokerData.filter(j => !verbatroState.inventory.some(inv => inv.id === j.id));
+  const byRarity = available.reduce((acc, joker) => {
+    acc[joker.rarity] = acc[joker.rarity] || [];
+    acc[joker.rarity].push(joker);
+    return acc;
+  }, {});
+
+  const result = [];
+  for (let i = 0; i < 3; i++) {
+    let rarity = rollJokerRarity();
+    let pool = byRarity[rarity] || [];
+    if (pool.length === 0) {
+      const fallbackOrder = ['common', 'uncommon', 'rare'];
+      rarity = fallbackOrder.find(r => (byRarity[r] || []).length > 0) || rarity;
+      pool = byRarity[rarity] || [];
+    }
+    if (!pool.length) break;
+    const choice = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+    result.push(choice);
+  }
+  return result;
 }
 
 function renderVerbatroJokers(jokers = verbatroState.inventory) {
@@ -4815,44 +4914,226 @@ function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: v
   updateScore();
 }
 
-function calculateVerbatroScore(verbObj, userInput) {
+function stripAccents(str = '') {
+  return str.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+}
+
+function countDoubleLetterPairs(str = '') {
+  let pairs = 0;
+  for (let i = 0; i < str.length - 1; i++) {
+    if (str[i] === str[i + 1]) pairs++;
+  }
+  return pairs;
+}
+
+function isCognate(verbObj = {}) {
+  const es = stripAccents((verbObj.infinitive_es || '').replace(/se$/i, '')).toLowerCase();
+  const en = ((verbObj.infinitive_en || '').split('/')[0] || '').replace(/^to\s+/, '').trim().toLowerCase();
+  return es && en && es.slice(0, 3) === en.slice(0, 3);
+}
+
+function evaluateJokerCondition(joker, context) {
+  const { question, verbObj, userInput, responseTime } = context;
+  if (!joker.condition || !joker.condition.target) return true;
+
+  const infinitive = (verbObj?.infinitive_es || '').toLowerCase();
+  const pronoun = question?.pronoun || '';
+  const normalizedInput = userInput.toLowerCase();
+  const tenseKey = question?.tenseKey || '';
+  const typesForTense = verbObj?.types?.[tenseKey] || [];
+  const length = normalizedInput.length;
+
+  switch (joker.condition.target) {
+    case 'verb_ending':
+      return infinitive.endsWith(String(joker.condition.value).toLowerCase());
+    case 'input_length_lte':
+      return length <= Number(joker.condition.value);
+    case 'input_length_gte':
+      return length >= Number(joker.condition.value);
+    case 'starts_with_vowel':
+      return /^[aeiouáéíóúü]/i.test(normalizedInput);
+    case 'ends_with_consonant':
+      return /[bcdfghjklmnñpqrstvwxyz]$/i.test(normalizedInput);
+    case 'ends_with_any':
+      return Array.isArray(joker.condition.value)
+        ? joker.condition.value.some(letter => normalizedInput.endsWith(letter))
+        : false;
+    case 'contains_letter':
+      return normalizedInput.includes(String(joker.condition.value || '').toLowerCase());
+    case 'contains_substring':
+      return normalizedInput.includes(String(joker.condition.value || '').toLowerCase());
+    case 'contains_any_letter':
+      return (joker.condition.value || []).some(letter => normalizedInput.includes(String(letter).toLowerCase()));
+    case 'has_accent':
+      return /[áéíóúü]/i.test(userInput);
+    case 'response_time_lt':
+      return responseTime > 0 && responseTime < Number(joker.condition.value);
+    case 'pronoun':
+      return pronoun === joker.condition.value;
+    case 'pronoun_in':
+      return (joker.condition.value || []).includes(pronoun);
+    case 'pronoun_plural':
+      return ['nosotros', 'vosotros', 'ellos', 'ustedes'].includes(pronoun);
+    case 'even_length':
+      return length % 2 === 0;
+    case 'odd_length':
+      return length % 2 === 1;
+    case 'double_letter_pairs':
+      return countDoubleLetterPairs(normalizedInput) > 0;
+    case 'is_reflexive':
+      return infinitive.endsWith('se');
+    case 'is_irregular':
+      return (typesForTense || []).some(t => t !== 'regular');
+    case 'is_regular':
+      return (typesForTense || []).every(t => t === 'regular') && typesForTense.length > 0;
+    case 'stem_changing':
+      return (typesForTense || []).includes('stem_changing');
+    case 'no_letter':
+      return !infinitive.includes(String(joker.condition.value || '').toLowerCase());
+    case 'early_accent': {
+      const accentIndex = userInput.search(/[áéíóúü]/i);
+      return accentIndex >= 0 && accentIndex < Math.max(0, userInput.length - 2);
+    }
+    case 'no_backspace':
+      return !verbatroState.backspaceUsed;
+    case 'no_clue_used':
+      return (question?.hintLevel || 0) === 0;
+    case 'no_errors_in_round':
+      return verbatroState.roundMistakes === 0;
+    case 'cognate':
+      return isCognate(verbObj);
+    case 'tense_in':
+      return (joker.condition.value || []).includes(tenseKey);
+    case 'double_letter_pairs_count':
+      return countDoubleLetterPairs(normalizedInput) >= Number(joker.condition.value || 1);
+    case 'auto_complete_chance':
+      return Math.random() < Number(joker.condition.value || 0);
+    default:
+      return false;
+  }
+}
+
+function calculateVerbatroScore(question, userInput, responseTime = 0) {
+  const verbObj = question?.verb || {};
+  const normalizedInput = (userInput || '').trim();
+
+  verbatroState.streak += 1;
+
   let chips = verbatroState.baseChips;
   let mult = verbatroState.baseMult;
+  let bonusMoney = 0;
+  let coinflipFailed = false;
+  const triggeredEffects = [];
+
+  const context = { question, verbObj, userInput: normalizedInput, responseTime };
+
+  const applyEffect = effect => {
+    if (!effect || !effect.type) return;
+    switch (effect.type) {
+      case 'mult_add':
+        mult += Number(effect.value) || 0;
+        break;
+      case 'chips_add':
+        chips += Number(effect.value) || 0;
+        break;
+      case 'mult_multiplier':
+        mult *= Number(effect.value) || 1;
+        break;
+      case 'chips_multiplier':
+        chips *= Number(effect.value) || 1;
+        break;
+      case 'chips_add_per_pair': {
+        const pairs = countDoubleLetterPairs(normalizedInput.toLowerCase());
+        chips += pairs * (Number(effect.value) || 0);
+        break;
+      }
+      case 'mult_add_per_letter':
+        mult += normalizedInput.length * (Number(effect.value) || 0);
+        break;
+      case 'chips_add_per_common': {
+        const commons = verbatroState.inventory.filter(j => j.rarity === 'common').length;
+        chips += commons * (Number(effect.value) || 0);
+        break;
+      }
+      case 'money_add':
+        bonusMoney += Number(effect.value) || 0;
+        break;
+      case 'money_interest': {
+        const interest = Math.min(Number(effect.max) || 0, Math.floor(verbatroState.money / 5)) * (Number(effect.value) || 0);
+        bonusMoney += interest;
+        break;
+      }
+      case 'mult_add_streak':
+        mult += verbatroState.streak * (Number(effect.value) || 0);
+        break;
+      case 'mult_add_per_boss':
+        mult += verbatroState.bossesDefeated * (Number(effect.value) || 0);
+        break;
+      case 'coinflip_reward': {
+        if (Math.random() < 0.5) {
+          bonusMoney += Number(effect.success_money) || 0;
+        } else {
+          coinflipFailed = true;
+        }
+        break;
+      }
+      case 'chips_from_infinitive': {
+        const rawInf = (verbObj.infinitive_es || '').replace(/se$/i, '');
+        chips = rawInf.length * (Number(effect.value) || 0);
+        break;
+      }
+      case 'double_apply':
+        triggeredEffects.push(effect);
+        break;
+      default:
+        break;
+    }
+  };
 
   verbatroState.inventory.forEach(joker => {
-    let triggered = false;
-    if (!joker.condition || !joker.condition.target) {
-      triggered = true;
-    } else if (joker.condition.target === 'verb_ending') {
-      const infinitive = (verbObj?.infinitive_es || '').toLowerCase();
-      triggered = infinitive.endsWith(String(joker.condition.value).toLowerCase());
-    } else if (joker.condition.target === 'input_length_lte') {
-      triggered = userInput.length <= Number(joker.condition.value);
-    }
-
+    const triggered = evaluateJokerCondition(joker, context);
     if (triggered) {
-      if (joker.effect?.type === 'mult_add') {
-        mult += Number(joker.effect.value) || 0;
-      } else if (joker.effect?.type === 'chips_add') {
-        chips += Number(joker.effect.value) || 0;
+      applyEffect(joker.effect);
+      if (joker.effect?.type !== 'double_apply') {
+        triggeredEffects.push(joker.effect);
       }
       triggerJokerAnimation(joker.id);
     }
   });
 
+  if (triggeredEffects.some(e => e?.type === 'double_apply')) {
+    triggeredEffects
+      .filter(e => e && e.type !== 'double_apply')
+      .forEach(applyEffect);
+  }
+
+  if (coinflipFailed) {
+    verbatroState.streak = 0;
+    return { chips: 0, mult: 0, score: 0 };
+  }
+
   const finalScore = chips * mult;
   verbatroState.currentScore += finalScore;
-  verbatroState.money += 1;
+
+  let moneyGain = 2;
+  if (verbatroState.streak >= 6) moneyGain = 4;
+  else if (verbatroState.streak >= 3) moneyGain = 3;
+  moneyGain += bonusMoney;
+  verbatroState.money += Math.max(0, Math.floor(moneyGain));
+
   return { chips, mult, score: finalScore };
 }
 
 function checkRoundWinCondition() {
   if (verbatroState.currentScore >= verbatroState.targetScore) {
+    const unusedBonus = verbatroState.handsRemaining * 5;
+    if (unusedBonus > 0) {
+      verbatroState.money += unusedBonus;
+    }
     feedback.textContent = '🎯 Blind cleared! Shop refreshed.';
     verbatroState.round += 1;
-    verbatroState.targetScore = Math.round(verbatroState.targetScore * 1.25);
-    verbatroState.handsRemaining = verbatroState.maxHands;
     verbatroState.currentScore = 0;
+    applyVerbatroRoundConfig(verbatroState.round);
     renderShop();
     updateVerbatroUI();
   }
@@ -4868,9 +5149,7 @@ function checkRoundLossCondition() {
 
 function renderShop() {
   if (!verbatroShop) return;
-  const available = verbatroState.jokerData.filter(j => !verbatroState.inventory.some(inv => inv.id === j.id));
-  const shuffled = [...available].sort(() => Math.random() - 0.5);
-  verbatroState.shopInventory = shuffled.slice(0, 3);
+  verbatroState.shopInventory = pickJokersForShop();
 
   verbatroShop.innerHTML = '';
   verbatroState.shopInventory.forEach(joker => {
@@ -4879,7 +5158,7 @@ function renderShop() {
     card.innerHTML = `
       <div class="joker-name">${joker.name}</div>
       <div class="joker-desc">${joker.description}</div>
-      <div class="joker-cost">Cost: $${joker.cost}</div>
+      <div class="joker-cost">Cost: $${joker.cost} • ${joker.rarity}</div>
     `;
 
     const buyBtn = document.createElement('button');
@@ -4903,15 +5182,19 @@ function buyJoker(joker) {
 
 function startVerbatroMode() {
   verbatroState.active = true;
-  verbatroState.round = 1;
   verbatroState.money = 4;
   verbatroState.currentScore = 0;
-  verbatroState.targetScore = 300;
-  verbatroState.handsRemaining = verbatroState.maxHands;
+  verbatroState.streak = 0;
+  verbatroState.roundMistakes = 0;
+  verbatroState.bossesDefeated = 0;
   verbatroState.inventory = [];
   verbatroState.shopInventory = [];
   verbatroState.baseChips = 10;
   verbatroState.baseMult = 1;
+  verbatroState.backspaceUsed = false;
+  applyVerbatroRoundConfig(1);
+  renderShop();
+  updateVerbatroUI();
   game.verbsInPhaseCount = 0;
   game.gameState = 'PLAYING';
   levelState.bossesEncounteredTotal = 0;
@@ -5350,7 +5633,7 @@ correct = possibleCorrectAnswers.includes(ans);
       const rawInput = (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy')
         ? ansES.value.trim()
         : ansEN.value.trim();
-      const handResult = calculateVerbatroScore(currentQuestion.verb, rawInput);
+      const handResult = calculateVerbatroScore(currentQuestion, rawInput, responseTime);
       feedback.textContent = `✅ (${handResult.chips} chips) x${handResult.mult} = ${handResult.score}`;
       updateVerbatroUI(handResult);
       prepareNextQuestion();
@@ -5530,6 +5813,8 @@ if (reflexiveBonus > 0) {
 
     if (selectedGameMode === 'verbatro') {
       verbatroState.handsRemaining = Math.max(0, verbatroState.handsRemaining - 1);
+      verbatroState.streak = 0;
+      verbatroState.roundMistakes += 1;
       feedback.textContent = '❌ Mano perdida. -1 hand';
       updateVerbatroUI();
       prepareNextQuestion();
@@ -6348,6 +6633,14 @@ if (irregularitiesContainer) {
     const endButton         = document.getElementById('end-button');
     const ansES             = document.getElementById('answer-input-es');
     const ansEN             = document.getElementById('answer-input-en');
+
+    const trackBackspace = e => {
+      if (selectedGameMode === 'verbatro' && e.key === 'Backspace') {
+        verbatroState.backspaceUsed = true;
+      }
+    };
+    if (ansES) ansES.addEventListener('keydown', trackBackspace);
+    if (ansEN) ansEN.addEventListener('keydown', trackBackspace);
 
     if (endButton) {
       endButton.disabled = false;

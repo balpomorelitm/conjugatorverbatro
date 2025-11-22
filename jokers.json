@@ -1,47 +1,502 @@
 [
   {
     "id": "joker_novato",
-    "name": "El Novato",
-    "description": "+4 Mult si el verbo termina en -AR",
+    "name": "El Novato (-AR)",
+    "description": "+4 Mult en verbos terminados en -AR.",
     "rarity": "common",
-    "cost": 2,
+    "cost": 4,
     "trigger_type": "on_score",
-    "effect": {
-      "type": "mult_add",
-      "value": 4
-    },
-    "condition": {
-      "target": "verb_ending",
-      "value": "ar"
-    }
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "verb_ending", "value": "ar" }
   },
   {
-    "id": "joker_mochila",
-    "name": "La Mochila",
-    "description": "+15 Fichas",
+    "id": "joker_aprendiz",
+    "name": "El Aprendiz (-ER)",
+    "description": "+4 Mult en verbos terminados en -ER.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "verb_ending", "value": "er" }
+  },
+  {
+    "id": "joker_experto",
+    "name": "El Experto (-IR)",
+    "description": "+4 Mult en verbos terminados en -IR.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "verb_ending", "value": "ir" }
+  },
+  {
+    "id": "joker_yoyo",
+    "name": "El Yo-Yo",
+    "description": "+50 Fichas si el pronombre es \"Yo\".",
     "rarity": "common",
     "cost": 3,
-    "trigger_type": "passive",
-    "effect": {
-      "type": "chips_add",
-      "value": 15
-    },
-    "condition": null
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 50 },
+    "condition": { "target": "pronoun", "value": "yo" }
+  },
+  {
+    "id": "joker_tuatu",
+    "name": "El Tú a Tú",
+    "description": "+50 Fichas si el pronombre es \"Tú\".",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 50 },
+    "condition": { "target": "pronoun", "value": "tú" }
+  },
+  {
+    "id": "joker_tercera",
+    "name": "La Tercera Persona",
+    "description": "+4 Mult si el pronombre es Él/Ella/Usted.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "pronoun_in", "value": ["él", "ella", "usted"] }
+  },
+  {
+    "id": "joker_grupo",
+    "name": "El Grupo",
+    "description": "+4 Mult si el pronombre es plural.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "pronoun_plural" }
+  },
+  {
+    "id": "joker_tilde",
+    "name": "La Tilde Básica",
+    "description": "+30 Fichas si la respuesta lleva tilde.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 30 },
+    "condition": { "target": "has_accent" }
+  },
+  {
+    "id": "joker_zeta",
+    "name": "Letra de Cambio (Z)",
+    "description": "+5 Mult si la respuesta tiene \"Z\".",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 5 },
+    "condition": { "target": "contains_letter", "value": "z" }
+  },
+  {
+    "id": "joker_jota",
+    "name": "La Jota Aragonesa",
+    "description": "+5 Mult si la respuesta tiene \"J\".",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 5 },
+    "condition": { "target": "contains_letter", "value": "j" }
+  },
+  {
+    "id": "joker_enie",
+    "name": "Eñe de España",
+    "description": "+6 Mult si la respuesta tiene \"Ñ\".",
+    "rarity": "common",
+    "cost": 5,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 6 },
+    "condition": { "target": "contains_letter", "value": "ñ" }
+  },
+  {
+    "id": "joker_doblell",
+    "name": "Doble LL",
+    "description": "+4 Mult si la respuesta tiene \"LL\".",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "contains_substring", "value": "ll" }
+  },
+  {
+    "id": "joker_mudo",
+    "name": "El Mudo (H)",
+    "description": "+30 Fichas si la respuesta tiene \"H\".",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 30 },
+    "condition": { "target": "contains_letter", "value": "h" }
   },
   {
     "id": "joker_corto",
     "name": "Corto y Cambio",
-    "description": "+6 Mult si la respuesta tiene <= 4 letras",
+    "description": "+6 Mult si la respuesta tiene <= 4 letras.",
     "rarity": "common",
     "cost": 3,
     "trigger_type": "on_score",
-    "effect": {
-      "type": "mult_add",
-      "value": 6
-    },
-    "condition": {
-      "target": "input_length_lte",
-      "value": 4
-    }
+    "effect": { "type": "mult_add", "value": 6 },
+    "condition": { "target": "input_length_lte", "value": 4 }
+  },
+  {
+    "id": "joker_charlatan",
+    "name": "El Charlatán",
+    "description": "+40 Fichas si la respuesta tiene >= 8 letras.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 40 },
+    "condition": { "target": "input_length_gte", "value": 8 }
+  },
+  {
+    "id": "joker_vocalista",
+    "name": "Vocalista",
+    "description": "+3 Mult si empieza por vocal.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 3 },
+    "condition": { "target": "starts_with_vowel" }
+  },
+  {
+    "id": "joker_consonante",
+    "name": "Consonante Fuerte",
+    "description": "+3 Mult si termina en consonante.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 3 },
+    "condition": { "target": "ends_with_consonant" }
+  },
+  {
+    "id": "joker_vocal_abierta",
+    "name": "Vocal Abierta",
+    "description": "+3 Mult si termina en A, E, O.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 3 },
+    "condition": { "target": "ends_with_any", "value": ["a", "e", "o"] }
+  },
+  {
+    "id": "joker_cronometro",
+    "name": "El Cronómetro",
+    "description": "+5 Mult si respondes < 3 segundos.",
+    "rarity": "common",
+    "cost": 5,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 5 },
+    "condition": { "target": "response_time_lt", "value": 3 }
+  },
+  {
+    "id": "joker_pareja",
+    "name": "La Pareja",
+    "description": "+10 Fichas por cada par de letras iguales.",
+    "rarity": "common",
+    "cost": 4,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add_per_pair", "value": 10 },
+    "condition": { "target": "double_letter_pairs" }
+  },
+  {
+    "id": "joker_binario",
+    "name": "El Binario",
+    "description": "+4 Mult si el nº de letras es par.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 4 },
+    "condition": { "target": "even_length" }
+  },
+  {
+    "id": "joker_impar",
+    "name": "El Impar",
+    "description": "+30 Fichas si el nº de letras es impar.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 30 },
+    "condition": { "target": "odd_length" }
+  },
+  {
+    "id": "joker_cafe",
+    "name": "Café para todos",
+    "description": "+2 Mult incondicional.",
+    "rarity": "common",
+    "cost": 5,
+    "trigger_type": "passive",
+    "effect": { "type": "mult_add", "value": 2 },
+    "condition": null
+  },
+  {
+    "id": "joker_mochila",
+    "name": "La Mochila",
+    "description": "+15 Fichas incondicional.",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "passive",
+    "effect": { "type": "chips_add", "value": 15 },
+    "condition": null
+  },
+  {
+    "id": "joker_vago",
+    "name": "El Comodín Vago",
+    "description": "+10 Mult, inactivo si el verbo es irregular.",
+    "rarity": "common",
+    "cost": 5,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 10 },
+    "condition": { "target": "is_regular" }
+  },
+  {
+    "id": "joker_bota",
+    "name": "La Bota",
+    "description": "+15 Mult en verbos con cambio de raíz.",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 15 },
+    "condition": { "target": "stem_changing" }
+  },
+  {
+    "id": "joker_reflexivo",
+    "name": "El Reflexivo",
+    "description": "+100 Fichas si usa pronombre reflexivo.",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add", "value": 100 },
+    "condition": { "target": "is_reflexive" }
+  },
+  {
+    "id": "joker_gooty",
+    "name": "El Gooty (Irregular)",
+    "description": "x1.5 Mult en verbos irregulares.",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 1.5 },
+    "condition": { "target": "is_irregular" }
+  },
+  {
+    "id": "joker_racha",
+    "name": "Racha Estudiantil",
+    "description": "+2 Mult permanente por acierto consecutivo (reset al fallar).",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add_streak", "value": 2 },
+    "condition": null
+  },
+  {
+    "id": "joker_beca",
+    "name": "Beca Erasmus",
+    "description": "+$1 por acierto con letras K, W, X.",
+    "rarity": "uncommon",
+    "cost": 6,
+    "trigger_type": "on_score",
+    "effect": { "type": "money_add", "value": 1 },
+    "condition": { "target": "contains_any_letter", "value": ["k", "w", "x"] }
+  },
+  {
+    "id": "joker_hucha",
+    "name": "La Hucha",
+    "description": "Interés de $1 por cada $5 (Max $5).",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "money_interest", "value": 1, "max": 5 },
+    "condition": null
+  },
+  {
+    "id": "joker_reciclador",
+    "name": "El Reciclador",
+    "description": "Permite saltar 1 verbo por ronda sin coste y da $2.",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "money_add", "value": 2 },
+    "condition": null
+  },
+  {
+    "id": "joker_acento",
+    "name": "El Acento Crítico",
+    "description": "x1.2 Mult en palabras esdrújulas.",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 1.2 },
+    "condition": { "target": "early_accent" }
+  },
+  {
+    "id": "joker_flashcard",
+    "name": "Flashcard Dorada",
+    "description": "+50 Fichas por cada Joker Común equipado.",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_add_per_common", "value": 50 },
+    "condition": null
+  },
+  {
+    "id": "joker_dictado",
+    "name": "El Dictado",
+    "description": "+10 Mult si escribes sin borrar (Backspace).",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 10 },
+    "condition": { "target": "no_backspace" }
+  },
+  {
+    "id": "joker_medio_limon",
+    "name": "Medio Limón",
+    "description": "+12 Mult si el verbo NO tiene \"A\".",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 12 },
+    "condition": { "target": "no_letter", "value": "a" }
+  },
+  {
+    "id": "joker_media_naranja",
+    "name": "Media Naranja",
+    "description": "+12 Mult si el verbo NO tiene \"E\".",
+    "rarity": "uncommon",
+    "cost": 7,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add", "value": 12 },
+    "condition": { "target": "no_letter", "value": "e" }
+  },
+  {
+    "id": "joker_turista",
+    "name": "El Turista",
+    "description": "+3 Mult permanente al vencer a un Boss.",
+    "rarity": "uncommon",
+    "cost": 6,
+    "trigger_type": "passive",
+    "effect": { "type": "mult_add_per_boss", "value": 3 },
+    "condition": null
+  },
+  {
+    "id": "joker_chuleta",
+    "name": "La Chuleta",
+    "description": "25% probabilidad de autocompletar la respuesta gratis.",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "money_add", "value": 0 },
+    "condition": { "target": "auto_complete_chance", "value": 0.25 }
+  },
+  {
+    "id": "joker_voseo",
+    "name": "El Voseo",
+    "description": "x1.3 Mult si es conjugación Latam (Ustedes/Vos).",
+    "rarity": "uncommon",
+    "cost": 8,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 1.3 },
+    "condition": { "target": "pronoun_in", "value": ["vos", "ustedes"] }
+  },
+  {
+    "id": "joker_rae",
+    "name": "La RAE",
+    "description": "x3 Mult si aciertas sin ver el verbo (a ciegas/oculto).",
+    "rarity": "rare",
+    "cost": 12,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 3 },
+    "condition": { "target": "no_clue_used" }
+  },
+  {
+    "id": "joker_donquijote",
+    "name": "Don Quijote",
+    "description": "x0.2 Mult por cada letra de la respuesta.",
+    "rarity": "rare",
+    "cost": 13,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_add_per_letter", "value": 0.2 },
+    "condition": null
+  },
+  {
+    "id": "joker_vampiro",
+    "name": "El Vampiro",
+    "description": "x1.5 Mult, pero -20% tiempo límite.",
+    "rarity": "rare",
+    "cost": 12,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 1.5 },
+    "condition": null
+  },
+  {
+    "id": "joker_perfeccionista",
+    "name": "El Perfeccionista",
+    "description": "x4 Mult si tienes 100% precisión en la ronda.",
+    "rarity": "rare",
+    "cost": 15,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 4 },
+    "condition": { "target": "no_errors_in_round" }
+  },
+  {
+    "id": "joker_poliglota",
+    "name": "El Políglota",
+    "description": "x2 Mult en cognados (parecidos al inglés).",
+    "rarity": "rare",
+    "cost": 12,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 2 },
+    "condition": { "target": "cognate" }
+  },
+  {
+    "id": "joker_dobloonada",
+    "name": "Doble o Nada",
+    "description": "50% ganar $5 / 50% no puntuar esa mano.",
+    "rarity": "rare",
+    "cost": 11,
+    "trigger_type": "on_score",
+    "effect": { "type": "coinflip_reward", "success_money": 5 },
+    "condition": null
+  },
+  {
+    "id": "joker_infinitivo",
+    "name": "El Infinitivo",
+    "description": "Fichas = (Letras del Infinitivo x 10). Ignora dificultad real.",
+    "rarity": "rare",
+    "cost": 14,
+    "trigger_type": "on_score",
+    "effect": { "type": "chips_from_infinitive", "value": 10 },
+    "condition": null
+  },
+  {
+    "id": "joker_cervantes",
+    "name": "Cervantes Renacido",
+    "description": "Reactiva todos los Jokers una vez más.",
+    "rarity": "rare",
+    "cost": 15,
+    "trigger_type": "on_score",
+    "effect": { "type": "double_apply" },
+    "condition": null
+  },
+  {
+    "id": "joker_futurista",
+    "name": "El Futurista",
+    "description": "x3 Mult en Tiempos Futuros/Condicionales.",
+    "rarity": "rare",
+    "cost": 12,
+    "trigger_type": "on_score",
+    "effect": { "type": "mult_multiplier", "value": 3 },
+    "condition": { "target": "tense_in", "value": ["futuro_simple", "condicional"] }
+  },
+  {
+    "id": "joker_tabula",
+    "name": "Tabula Rasa",
+    "description": "Destruye Jokers Comunes -> Gana x0.5 Mult permanente por cada uno.",
+    "rarity": "rare",
+    "cost": 10,
+    "trigger_type": "passive",
+    "effect": { "type": "mult_add_per_common", "value": 0.5 },
+    "condition": null
   }
 ]

@@ -266,25 +266,68 @@
       </div>
     </div>
 
-    <div id="verbatro-hud" class="verbatro-hud" style="display:none;">
-      <div class="verbatro-joker-area" id="verbatro-joker-area"></div>
-      <div class="verbatro-dashboard">
-        <div class="verbatro-metric"><span class="metric-label">Round</span><span id="verbatro-round" class="metric-value">1</span></div>
-        <div class="verbatro-metric chips"><span class="metric-label">Chips</span><span id="verbatro-chips" class="metric-value">0</span></div>
-        <div class="verbatro-metric mult"><span class="metric-label">Mult</span><span id="verbatro-mult" class="metric-value">x1</span></div>
-        <div class="verbatro-metric score"><span class="metric-label">Round Score</span><span id="verbatro-score" class="metric-value">0</span></div>
-        <div class="verbatro-metric target"><span class="metric-label">Target</span><span id="verbatro-target" class="metric-value">300</span></div>
-        <div class="verbatro-metric energy"><span class="metric-label">Hands</span><span id="verbatro-hands" class="metric-value">8</span></div>
-        <div class="verbatro-metric money"><span class="metric-label">Money</span><span id="verbatro-money" class="metric-value">$4</span></div>
-        <button id="verbatro-shop-button" class="verbatro-button">🛒 Shop</button>
+    <div id="verbatro-hud" class="verbatro-monitor verbatro-layer" style="display:none;">
+      <div class="monitor-scanlines"></div>
+      <div class="monitor-inner">
+        <div class="monitor-row primary">
+          <div class="monitor-block wide">
+            <span class="monitor-label">PUNTOS</span>
+            <span class="hud-chip" id="verbatro-chips">0</span>
+            <span class="monitor-separator">X</span>
+            <span class="hud-mult" id="verbatro-mult">x1</span>
+          </div>
+          <div class="monitor-block">
+            <span class="monitor-label">OBJETIVO</span>
+            <span class="hud-target" id="verbatro-target">300</span>
+          </div>
+        </div>
+        <div class="monitor-row secondary">
+          <div class="monitor-block">
+            <span class="monitor-label">ENERGÍA</span>
+            <span class="hud-energy" id="verbatro-hands">8</span>
+          </div>
+          <div class="monitor-block">
+            <span class="monitor-label">DINERO</span>
+            <span class="hud-money" id="verbatro-money">$4</span>
+          </div>
+          <div class="monitor-block">
+            <span class="monitor-label">RONDA</span>
+            <span class="hud-round" id="verbatro-round">1</span>
+          </div>
+          <div class="monitor-block">
+            <span class="monitor-label">PUNTAJE</span>
+            <span class="hud-score" id="verbatro-score">0</span>
+          </div>
+        </div>
       </div>
-      <div id="verbatro-shop" class="verbatro-shop" style="display:none;"></div>
     </div>
+
+    <section id="verbatro-joker-rack" class="verbatro-rack verbatro-layer" style="display:none;">
+      <div class="rack-header">
+        <span class="rack-title">Rack de Comodines</span>
+        <span class="rack-cap">Max 5</span>
+      </div>
+      <div class="verbatro-joker-area" id="verbatro-joker-area"></div>
+    </section>
 
     <div id="game-layout">
       <div id="game-main-panel">
         <canvas id="life-confetti-canvas"></canvas>
         <div id="question-area">
+          <div id="verbatro-card-row" class="verbatro-card-row verbatro-layer" style="display:none;">
+            <div class="verbatro-card pronoun-card">
+              <div class="card-label">PRONOMBRE</div>
+              <div class="card-value" id="verbatro-pronoun">—</div>
+            </div>
+            <div class="verbatro-card verb-card">
+              <div class="card-label">VERBO</div>
+              <div class="card-value" id="verbatro-verb">—</div>
+            </div>
+            <div class="verbatro-card tense-card">
+              <div class="card-label">TIEMPO</div>
+              <div class="card-value" id="verbatro-tense">—</div>
+            </div>
+          </div>
           <div id="tense-label" class="tense-label"></div>
           <div id="question-prompt">Loading…</div>
         </div>
@@ -308,6 +351,7 @@
             </div>
           </div>
         </div>
+        <div id="verbatro-equation-float" class="verbatro-equation-float verbatro-layer" style="display:none;"></div>
         <div id="feedback-container">
           <div id="feedback-area">
             <div id="feedback-fixed">[FEEDBACK / CLUE BOX]</div>
@@ -321,6 +365,14 @@
           </div>
         </div>
       </div>
+
+      <footer id="verbatro-shop" class="verbatro-shop verbatro-layer" style="display:none;">
+        <div class="shop-header">
+          <div class="shop-title">Mercado Negro</div>
+          <button id="verbatro-reroll-button" class="verbatro-button">Refrescar: $2 🔄</button>
+        </div>
+        <div id="verbatro-shop-items" class="shop-items-container"></div>
+      </footer>
 
       <div id="chuache-box">
         <div id="character-container">

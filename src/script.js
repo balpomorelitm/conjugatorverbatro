@@ -80,19 +80,28 @@ const verbatroState = {
   streak: 0,
   roundMistakes: 0,
   bossesDefeated: 0,
-  backspaceUsed: false
+  backspaceUsed: false,
+  blindsCleared: 0,
+  blindType: 'small',
+  initialBgColor: ''
 };
 
-const verbatroRoundConfigs = [
-  { round: 1, targetScore: 300, maxHands: 8 },
-  { round: 2, targetScore: 800, maxHands: 8 },
-  { round: 3, targetScore: 2000, maxHands: 9 },
-  { round: 4, targetScore: 5000, maxHands: 10 },
-  { round: 5, targetScore: 10000, maxHands: 10 },
-  { round: 6, targetScore: 18000, maxHands: 11 },
-  { round: 7, targetScore: 30000, maxHands: 12 },
-  { round: 8, targetScore: 50000, maxHands: 12 }
+const verbatroAnteConfigs = [
+  { ante: 1, baseScore: 300, maxHands: 8 },
+  { ante: 2, baseScore: 800, maxHands: 8 },
+  { ante: 3, baseScore: 2800, maxHands: 9 },
+  { ante: 4, baseScore: 6000, maxHands: 10 },
+  { ante: 5, baseScore: 11000, maxHands: 10 },
+  { ante: 6, baseScore: 20000, maxHands: 11 },
+  { ante: 7, baseScore: 35000, maxHands: 12 },
+  { ante: 8, baseScore: 50000, maxHands: 12 },
+  { ante: 9, baseScore: 110000, maxHands: 12 },
+  { ante: 10, baseScore: 560000, maxHands: 12 },
+  { ante: 11, baseScore: 7200000, maxHands: 12 },
+  { ante: 12, baseScore: 300000000, maxHands: 12 }
 ];
+
+const VERBATRO_BG_COLORS = ['#0a1322', '#102a44', '#20152e', '#19341f', '#271b2d', '#1e1e33'];
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -2011,6 +2020,7 @@ function displayClue() {
   const verbatroTargetEl = document.getElementById('verbatro-target');
   const verbatroHandsEl = document.getElementById('verbatro-hands');
   const verbatroMoneyEl = document.getElementById('verbatro-money');
+  const verbatroBlindEl = document.getElementById('verbatro-blind');
   const verbatroPronounCard = document.getElementById('verbatro-pronoun');
   const verbatroVerbCard = document.getElementById('verbatro-verb');
   const verbatroTenseCard = document.getElementById('verbatro-tense');
@@ -4817,22 +4827,50 @@ levelState.currentBossNumber++;
 }
 
 // Verbatro helpers
-function getVerbatroRoundConfig(roundNumber) {
-  const matched = verbatroRoundConfigs.find(cfg => cfg.round === roundNumber);
+function getVerbatroAnteConfig(anteNumber) {
+  const matched = verbatroAnteConfigs.find(cfg => cfg.ante === anteNumber);
   if (matched) return matched;
-  const lastConfig = verbatroRoundConfigs[verbatroRoundConfigs.length - 1];
-  const scale = Math.pow(1.6, Math.max(0, roundNumber - lastConfig.round));
+  const lastConfig = verbatroAnteConfigs[verbatroAnteConfigs.length - 1];
+  const scale = Math.pow(1.6, Math.max(0, anteNumber - lastConfig.ante));
   return {
-    round: roundNumber,
-    targetScore: Math.round(lastConfig.targetScore * scale),
+    ante: anteNumber,
+    baseScore: Math.round(lastConfig.baseScore * scale),
     maxHands: lastConfig.maxHands
   };
 }
 
-function applyVerbatroRoundConfig(roundNumber) {
-  const cfg = getVerbatroRoundConfig(roundNumber);
-  verbatroState.round = roundNumber;
-  verbatroState.targetScore = cfg.targetScore;
+function getBlindType(blindsCleared) {
+  const mod = blindsCleared % 3;
+  if (mod === 0) return 'small';
+  if (mod === 1) return 'big';
+  return 'boss';
+}
+
+function getBlindMultiplier(type) {
+  if (type === 'big') return 1.5;
+  if (type === 'boss') return 2;
+  return 1;
+}
+
+function formatBlindName(type) {
+  if (type === 'big') return 'Big Blind';
+  if (type === 'boss') return 'Boss Blind';
+  return 'Small Blind';
+}
+
+function setVerbatroBackgroundForBlind() {
+  if (!document?.body) return;
+  const color = VERBATRO_BG_COLORS[verbatroState.blindsCleared % VERBATRO_BG_COLORS.length];
+  document.body.style.setProperty('--bg-color', color);
+}
+
+function applyVerbatroBlindConfig() {
+  const cfg = getVerbatroAnteConfig(verbatroState.round);
+  const blindType = getBlindType(verbatroState.blindsCleared);
+  const multiplier = getBlindMultiplier(blindType);
+
+  verbatroState.blindType = blindType;
+  verbatroState.targetScore = Math.round(cfg.baseScore * multiplier);
   verbatroState.maxHands = cfg.maxHands;
   verbatroState.handsRemaining = cfg.maxHands;
   verbatroState.roundMistakes = 0;
@@ -4999,12 +5037,13 @@ function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: v
   if (verbatroTargetEl) verbatroTargetEl.textContent = verbatroState.targetScore;
   if (verbatroHandsEl) verbatroHandsEl.textContent = verbatroState.handsRemaining;
   if (verbatroMoneyEl) verbatroMoneyEl.textContent = `$${verbatroState.money}`;
+  if (verbatroBlindEl) verbatroBlindEl.textContent = formatBlindName(verbatroState.blindType);
   if (verbatroChipsEl) verbatroChipsEl.textContent = latestHand.chips;
   if (verbatroMultEl) verbatroMultEl.textContent = `x${latestHand.mult}`;
   if (verbatroRerollBtn) verbatroRerollBtn.disabled = verbatroState.money < 2;
   const levelTextEl = document.getElementById('level-text');
   if (levelTextEl) {
-    levelTextEl.textContent = `Verbatro Round ${verbatroState.round} | Target: ${verbatroState.targetScore}`;
+    levelTextEl.textContent = `Verbatro Ante ${verbatroState.round} | ${formatBlindName(verbatroState.blindType)} | Target: ${verbatroState.targetScore}`;
   }
   renderVerbatroJokers();
 
@@ -5260,10 +5299,16 @@ function checkRoundWinCondition() {
     if (unusedBonus > 0) {
       verbatroState.money += unusedBonus;
     }
-    feedback.textContent = '🎯 Blind cleared! Shop refreshed.';
-    verbatroState.round += 1;
+    const clearedBlind = verbatroState.blindType;
+    feedback.textContent = `🎯 ${formatBlindName(clearedBlind)} cleared! Shop refreshed.`;
     verbatroState.currentScore = 0;
-    applyVerbatroRoundConfig(verbatroState.round);
+    verbatroState.blindsCleared += 1;
+    if (clearedBlind === 'boss') {
+      verbatroState.round += 1;
+      verbatroState.bossesDefeated += 1;
+    }
+    setVerbatroBackgroundForBlind();
+    applyVerbatroBlindConfig();
     renderShop();
     updateVerbatroUI();
   }
@@ -5316,6 +5361,10 @@ function buyJoker(joker) {
 
 function startVerbatroMode() {
   verbatroState.active = true;
+  verbatroState.round = 1;
+  verbatroState.blindsCleared = 0;
+  verbatroState.blindType = getBlindType(verbatroState.blindsCleared);
+  verbatroState.initialBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color') || '';
   verbatroState.money = 4;
   verbatroState.currentScore = 0;
   verbatroState.streak = 0;
@@ -5327,7 +5376,8 @@ function startVerbatroMode() {
   verbatroState.baseMult = 1;
   verbatroState.backspaceUsed = false;
   document.body.classList.add('verbatro-mode');
-  applyVerbatroRoundConfig(1);
+  applyVerbatroBlindConfig();
+  setVerbatroBackgroundForBlind();
   renderShop();
   updateVerbatroUI();
   game.verbsInPhaseCount = 0;
@@ -5345,8 +5395,6 @@ function startVerbatroMode() {
   if (livesMechanicsDisplay) livesMechanicsDisplay.style.display = 'none';
   if (feedback) feedback.innerHTML = '';
   score = verbatroState.currentScore;
-  renderShop();
-  updateVerbatroUI();
 }
 
 function deactivateVerbatroMode() {
@@ -5354,6 +5402,13 @@ function deactivateVerbatroMode() {
   if (verbatroHud) verbatroHud.style.display = 'none';
   if (verbatroShop) verbatroShop.style.display = 'none';
   document.body.classList.remove('verbatro-mode');
+  if (verbatroState.initialBgColor) {
+    document.body.style.setProperty('--bg-color', verbatroState.initialBgColor);
+  } else {
+    document.body.style.removeProperty('--bg-color');
+  }
+  verbatroState.blindsCleared = 0;
+  verbatroState.blindType = 'small';
 }
 
 function checkAnswer() {

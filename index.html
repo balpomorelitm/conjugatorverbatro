@@ -135,6 +135,10 @@
             ❤️‍🩹 Survival ❤️‍🩹
             <span class="context-info-icon" data-info-key="livesMode"></span>
           </button>
+          <button class="mode-button config-flow-button" data-mode="verbatro" data-infokey="verbatroMode">
+            🃏 Verbatro 🃏
+            <span class="context-info-icon" data-info-key="verbatroMode"></span>
+          </button>
           <button class="mode-button config-flow-button" data-mode="study" data-infokey="studyMode">
             📚 Study Mode ✏️
             <span class="context-info-icon" data-info-key="studyMode"></span>
@@ -260,6 +264,21 @@
           <div id="total-time" class="timer-item">🏁 0:00</div>
         </div>
       </div>
+    </div>
+
+    <div id="verbatro-hud" class="verbatro-hud" style="display:none;">
+      <div class="verbatro-joker-area" id="verbatro-joker-area"></div>
+      <div class="verbatro-dashboard">
+        <div class="verbatro-metric"><span class="metric-label">Round</span><span id="verbatro-round" class="metric-value">1</span></div>
+        <div class="verbatro-metric chips"><span class="metric-label">Chips</span><span id="verbatro-chips" class="metric-value">0</span></div>
+        <div class="verbatro-metric mult"><span class="metric-label">Mult</span><span id="verbatro-mult" class="metric-value">x1</span></div>
+        <div class="verbatro-metric score"><span class="metric-label">Round Score</span><span id="verbatro-score" class="metric-value">0</span></div>
+        <div class="verbatro-metric target"><span class="metric-label">Target</span><span id="verbatro-target" class="metric-value">300</span></div>
+        <div class="verbatro-metric energy"><span class="metric-label">Hands</span><span id="verbatro-hands" class="metric-value">8</span></div>
+        <div class="verbatro-metric money"><span class="metric-label">Money</span><span id="verbatro-money" class="metric-value">$4</span></div>
+        <button id="verbatro-shop-button" class="verbatro-button">🛒 Shop</button>
+      </div>
+      <div id="verbatro-shop" class="verbatro-shop" style="display:none;"></div>
     </div>
 
     <div id="game-layout">

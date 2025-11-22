@@ -2003,6 +2003,7 @@ function displayClue() {
   const hallOfFameNewBtn = document.getElementById('hall-of-fame-new-btn');
   const verbatroHud = document.getElementById('verbatro-hud');
   const verbatroJokerArea = document.getElementById('verbatro-joker-area');
+  const verbatroRack = document.getElementById('verbatro-joker-rack');
   const verbatroRoundEl = document.getElementById('verbatro-round');
   const verbatroChipsEl = document.getElementById('verbatro-chips');
   const verbatroMultEl = document.getElementById('verbatro-mult');
@@ -2010,7 +2011,13 @@ function displayClue() {
   const verbatroTargetEl = document.getElementById('verbatro-target');
   const verbatroHandsEl = document.getElementById('verbatro-hands');
   const verbatroMoneyEl = document.getElementById('verbatro-money');
+  const verbatroPronounCard = document.getElementById('verbatro-pronoun');
+  const verbatroVerbCard = document.getElementById('verbatro-verb');
+  const verbatroTenseCard = document.getElementById('verbatro-tense');
+  const verbatroEquationFloat = document.getElementById('verbatro-equation-float');
+  const verbatroShopItems = document.getElementById('verbatro-shop-items');
   const verbatroShopBtn = document.getElementById('verbatro-shop-button');
+  const verbatroRerollBtn = document.getElementById('verbatro-reroll-button');
   const verbatroShop = document.getElementById('verbatro-shop');
   const closeSettingsModalBtn = document.getElementById('close-settings-modal-btn');
   const settingsModal = document.getElementById('settings-modal');
@@ -2039,6 +2046,16 @@ function displayClue() {
       if (nextDisplay !== 'none') {
         renderShop();
       }
+    });
+  }
+
+  if (verbatroRerollBtn) {
+    verbatroRerollBtn.addEventListener('click', () => {
+      if (!verbatroState.active) return;
+      if (verbatroState.money < 2) return;
+      verbatroState.money -= 2;
+      renderShop();
+      updateVerbatroUI();
     });
   }
 
@@ -4621,6 +4638,10 @@ function prepareNextQuestion() {
     ansEN.focus();
   }
 
+  if (verbatroPronounCard) verbatroPronounCard.textContent = displayPronoun || '—';
+  if (verbatroVerbCard) verbatroVerbCard.textContent = v.infinitive_es || '—';
+  if (verbatroTenseCard) verbatroTenseCard.textContent = tenseLabel || tKey;
+
   const promptBadge = qPrompt.querySelector('.tense-badge');
   const promptIcon = qPrompt.querySelector('.context-info-icon');
   if (promptBadge && promptBadge.dataset.infoKey) {
@@ -4860,28 +4881,39 @@ function pickJokersForShop() {
   return result;
 }
 
+function summarizeJokerEffect(joker = {}) {
+  const description = String(joker.description || '');
+  const mainLine = description.split('.')[0] || description;
+  return mainLine.trim() || '---';
+}
+
 function renderVerbatroJokers(jokers = verbatroState.inventory) {
   if (!verbatroJokerArea) return;
   verbatroJokerArea.innerHTML = '';
-  if (!jokers.length) {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'verbatro-joker-card';
-    placeholder.textContent = 'No Jokers equipped yet';
-    verbatroJokerArea.appendChild(placeholder);
-    return;
-  }
 
-  jokers.forEach(joker => {
-    const card = document.createElement('div');
-    card.className = 'verbatro-joker-card';
-    card.dataset.jokerId = joker.id;
-    card.innerHTML = `
-      <span class="joker-name">${joker.name}</span>
-      <span class="joker-desc">${joker.description}</span>
-      <span class="joker-cost">$${joker.cost}</span>
-    `;
-    verbatroJokerArea.appendChild(card);
-  });
+  const maxSlots = 5;
+  for (let i = 0; i < maxSlots; i++) {
+    const slot = document.createElement('div');
+    const joker = jokers[i];
+    slot.className = 'joker-slot';
+
+    if (joker) {
+      slot.classList.add('equipped', joker.rarity || 'common');
+      slot.dataset.jokerId = joker.id;
+      slot.innerHTML = `
+        <div class="slot-title">${joker.name}</div>
+        <div class="slot-effect">${summarizeJokerEffect(joker)}</div>
+      `;
+    } else {
+      slot.classList.add('empty');
+      slot.innerHTML = `
+        <div class="slot-title">VACÍO</div>
+        <div class="slot-effect">---</div>
+      `;
+    }
+
+    verbatroJokerArea.appendChild(slot);
+  }
 }
 
 function triggerJokerAnimation(jokerId) {
@@ -4895,7 +4927,13 @@ function triggerJokerAnimation(jokerId) {
 function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: verbatroState.baseMult }) {
   if (!verbatroHud) return;
   verbatroHud.style.display = selectedGameMode === 'verbatro' ? 'block' : 'none';
-  if (!verbatroState.active) return;
+  if (verbatroRack) verbatroRack.style.display = selectedGameMode === 'verbatro' ? 'block' : 'none';
+  if (verbatroShop) verbatroShop.style.display = selectedGameMode === 'verbatro' ? 'block' : 'none';
+  if (!verbatroState.active) {
+    if (verbatroShop) verbatroShop.style.display = 'none';
+    if (verbatroRack) verbatroRack.style.display = 'none';
+    return;
+  }
 
   if (verbatroRoundEl) verbatroRoundEl.textContent = verbatroState.round;
   if (verbatroScoreEl) verbatroScoreEl.textContent = verbatroState.currentScore;
@@ -4904,6 +4942,7 @@ function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: v
   if (verbatroMoneyEl) verbatroMoneyEl.textContent = `$${verbatroState.money}`;
   if (verbatroChipsEl) verbatroChipsEl.textContent = latestHand.chips;
   if (verbatroMultEl) verbatroMultEl.textContent = `x${latestHand.mult}`;
+  if (verbatroRerollBtn) verbatroRerollBtn.disabled = verbatroState.money < 2;
   const levelTextEl = document.getElementById('level-text');
   if (levelTextEl) {
     levelTextEl.textContent = `Verbatro Round ${verbatroState.round} | Target: ${verbatroState.targetScore}`;
@@ -4912,6 +4951,38 @@ function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: v
 
   score = verbatroState.currentScore;
   updateScore();
+}
+
+function animateVerbatroHud() {
+  [verbatroChipsEl, verbatroMultEl].forEach(el => {
+    if (!el) return;
+    el.classList.add('verbatro-hud-pulse');
+    setTimeout(() => el.classList.remove('verbatro-hud-pulse'), 650);
+  });
+}
+
+function showVerbatroEquation(handResult) {
+  if (!verbatroEquationFloat) return;
+  const baseChips = verbatroState.baseChips;
+  const baseMult = verbatroState.baseMult;
+  const chipBonus = handResult.chips - baseChips;
+  const multBonus = handResult.mult - baseMult;
+
+  const formatPiece = (base, bonus) => {
+    if (bonus === 0) return `${base}`;
+    const sign = bonus > 0 ? '+' : '-';
+    return `${base} ${sign} ${Math.abs(bonus)}`;
+  };
+
+  verbatroEquationFloat.textContent = `(${formatPiece(baseChips, chipBonus)}) x (${formatPiece(baseMult, multBonus)}) = ${handResult.score}`;
+  verbatroEquationFloat.style.display = 'block';
+  verbatroEquationFloat.classList.add('active');
+  setTimeout(() => verbatroEquationFloat.classList.remove('active'), 1200);
+  setTimeout(() => {
+    if (!verbatroEquationFloat.classList.contains('active')) {
+      verbatroEquationFloat.style.display = 'none';
+    }
+  }, 1400);
 }
 
 function stripAccents(str = '') {
@@ -5148,26 +5219,29 @@ function checkRoundLossCondition() {
 }
 
 function renderShop() {
-  if (!verbatroShop) return;
+  if (!verbatroShop || !verbatroShopItems) return;
   verbatroState.shopInventory = pickJokersForShop();
 
-  verbatroShop.innerHTML = '';
+  verbatroShopItems.innerHTML = '';
   verbatroState.shopInventory.forEach(joker => {
     const card = document.createElement('div');
     card.className = 'shop-card';
     card.innerHTML = `
       <div class="joker-name">${joker.name}</div>
       <div class="joker-desc">${joker.description}</div>
-      <div class="joker-cost">Cost: $${joker.cost} • ${joker.rarity}</div>
+      <div class="joker-cost">$${joker.cost} • ${joker.rarity}</div>
     `;
 
     const buyBtn = document.createElement('button');
-    buyBtn.textContent = 'Buy';
+    buyBtn.textContent = `COMPRAR $${joker.cost}`;
     buyBtn.disabled = verbatroState.money < joker.cost || verbatroState.inventory.length >= 5;
     buyBtn.addEventListener('click', () => buyJoker(joker));
     card.appendChild(buyBtn);
-    verbatroShop.appendChild(card);
+    verbatroShopItems.appendChild(card);
   });
+
+  if (verbatroRerollBtn) verbatroRerollBtn.disabled = verbatroState.money < 2;
+  verbatroShop.style.display = verbatroState.active && selectedGameMode === 'verbatro' ? 'block' : 'none';
 }
 
 function buyJoker(joker) {
@@ -5192,6 +5266,7 @@ function startVerbatroMode() {
   verbatroState.baseChips = 10;
   verbatroState.baseMult = 1;
   verbatroState.backspaceUsed = false;
+  document.body.classList.add('verbatro-mode');
   applyVerbatroRoundConfig(1);
   renderShop();
   updateVerbatroUI();
@@ -5202,7 +5277,7 @@ function startVerbatroMode() {
   levelState.freeClues = 0;
   updateClueButtonUI(clueButton, selectedGameMode);
   if (verbatroHud) verbatroHud.style.display = 'block';
-  if (verbatroShop) verbatroShop.style.display = 'none';
+  if (verbatroShop) verbatroShop.style.display = 'block';
   if (document.getElementById('timer-container')) {
     document.getElementById('timer-container').style.display = 'none';
   }
@@ -5218,6 +5293,7 @@ function deactivateVerbatroMode() {
   verbatroState.active = false;
   if (verbatroHud) verbatroHud.style.display = 'none';
   if (verbatroShop) verbatroShop.style.display = 'none';
+  document.body.classList.remove('verbatro-mode');
 }
 
 function checkAnswer() {
@@ -5635,6 +5711,8 @@ correct = possibleCorrectAnswers.includes(ans);
         : ansEN.value.trim();
       const handResult = calculateVerbatroScore(currentQuestion, rawInput, responseTime);
       feedback.textContent = `✅ (${handResult.chips} chips) x${handResult.mult} = ${handResult.score}`;
+      showVerbatroEquation(handResult);
+      animateVerbatroHud();
       updateVerbatroUI(handResult);
       prepareNextQuestion();
       checkRoundWinCondition();

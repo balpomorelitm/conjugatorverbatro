@@ -4881,10 +4881,86 @@ function pickJokersForShop() {
   return result;
 }
 
-function summarizeJokerEffect(joker = {}) {
-  const description = String(joker.description || '');
-  const mainLine = description.split('.')[0] || description;
-  return mainLine.trim() || '---';
+const DEFAULT_JOKER_ART = {
+  icon: 'casino',
+  primary_color: '#9efcff',
+  bg_style: 'grid',
+  text_style: 'shadow-block',
+};
+
+function getJokerArt(joker = {}) {
+  const art = joker.art || {};
+  return {
+    ...DEFAULT_JOKER_ART,
+    ...art,
+  };
+}
+
+function createJokerCard(joker) {
+  const art = getJokerArt(joker);
+  const textStyle = `text-style-${(art.text_style || 'shadow-block').replace(/[^a-z0-9-]/gi, '-')}`;
+  const bgStyle = `bg-${(art.bg_style || 'grid').replace(/[^a-z0-9-]/gi, '-')}`;
+
+  const card = document.createElement('div');
+  card.className = `joker-card ${joker.rarity || 'common'}`;
+  card.dataset.jokerId = joker.id || '';
+  card.style.setProperty('--theme', art.primary_color || DEFAULT_JOKER_ART.primary_color);
+
+  const costBadge = document.createElement('div');
+  costBadge.className = 'joker-cost-badge';
+  costBadge.textContent = `$${joker.cost ?? '?'}`;
+
+  const header = document.createElement('div');
+  header.className = 'joker-header';
+  const title = document.createElement('span');
+  title.className = `joker-title ${textStyle}`;
+  title.textContent = joker.name || 'Joker';
+  header.appendChild(title);
+
+  const body = document.createElement('div');
+  body.className = 'joker-body';
+  const bgLayer = document.createElement('div');
+  bgLayer.className = `bg-layer ${bgStyle}`;
+  const icon = document.createElement('span');
+  icon.className = 'joker-icon';
+  icon.textContent = art.icon || DEFAULT_JOKER_ART.icon;
+  body.appendChild(bgLayer);
+  body.appendChild(icon);
+
+  const footer = document.createElement('div');
+  footer.className = 'joker-footer';
+  footer.textContent = joker.description || '';
+
+  card.append(costBadge, header, body, footer);
+  return card;
+}
+
+function createEmptyJokerCard() {
+  const card = document.createElement('div');
+  card.className = 'joker-card joker-card-empty';
+
+  const header = document.createElement('div');
+  header.className = 'joker-header';
+  const title = document.createElement('span');
+  title.className = 'joker-title text-style-shadow-block';
+  title.textContent = 'VACÍO';
+  header.appendChild(title);
+
+  const body = document.createElement('div');
+  body.className = 'joker-body';
+  const bgLayer = document.createElement('div');
+  bgLayer.className = 'bg-layer bg-grid';
+  const icon = document.createElement('span');
+  icon.className = 'joker-icon';
+  icon.textContent = 'hourglass_empty';
+  body.append(bgLayer, icon);
+
+  const footer = document.createElement('div');
+  footer.className = 'joker-footer';
+  footer.textContent = '---';
+
+  card.append(header, body, footer);
+  return card;
 }
 
 function renderVerbatroJokers(jokers = verbatroState.inventory) {
@@ -4893,26 +4969,9 @@ function renderVerbatroJokers(jokers = verbatroState.inventory) {
 
   const maxSlots = 5;
   for (let i = 0; i < maxSlots; i++) {
-    const slot = document.createElement('div');
     const joker = jokers[i];
-    slot.className = 'joker-slot';
-
-    if (joker) {
-      slot.classList.add('equipped', joker.rarity || 'common');
-      slot.dataset.jokerId = joker.id;
-      slot.innerHTML = `
-        <div class="slot-title">${joker.name}</div>
-        <div class="slot-effect">${summarizeJokerEffect(joker)}</div>
-      `;
-    } else {
-      slot.classList.add('empty');
-      slot.innerHTML = `
-        <div class="slot-title">VACÍO</div>
-        <div class="slot-effect">---</div>
-      `;
-    }
-
-    verbatroJokerArea.appendChild(slot);
+    const card = joker ? createJokerCard(joker) : createEmptyJokerCard();
+    verbatroJokerArea.appendChild(card);
   }
 }
 
@@ -5226,17 +5285,18 @@ function renderShop() {
   verbatroState.shopInventory.forEach(joker => {
     const card = document.createElement('div');
     card.className = 'shop-card';
-    card.innerHTML = `
-      <div class="joker-name">${joker.name}</div>
-      <div class="joker-desc">${joker.description}</div>
-      <div class="joker-cost">$${joker.cost} • ${joker.rarity}</div>
-    `;
 
+    const jokerCard = createJokerCard(joker);
+    card.appendChild(jokerCard);
+
+    const actions = document.createElement('div');
+    actions.className = 'joker-actions';
     const buyBtn = document.createElement('button');
     buyBtn.textContent = `COMPRAR $${joker.cost}`;
     buyBtn.disabled = verbatroState.money < joker.cost || verbatroState.inventory.length >= 5;
     buyBtn.addEventListener('click', () => buyJoker(joker));
-    card.appendChild(buyBtn);
+    actions.appendChild(buyBtn);
+    card.appendChild(actions);
     verbatroShopItems.appendChild(card);
   });
 

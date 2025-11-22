@@ -83,8 +83,183 @@ const verbatroState = {
   backspaceUsed: false,
   blindsCleared: 0,
   blindType: 'small',
-  initialBgColor: ''
+  initialBgColor: '',
+  ownedVouchers: [],
+  voucherDeck: [],
+  voucherOffers: [],
+  maxJokers: 5,
+  saleMultiplier: 0.5,
+  shopSlots: 3,
+  freeRerollEachRound: false,
+  rerollFreeAvailable: false,
+  welcomePack: false,
+  welcomeConsumable: null,
+  interestDivider: 5,
+  interestCap: 5,
+  bonusMoneyPerVerb: 0,
+  extraHandsPerRound: 0,
+  extraTimePerVerb: 0,
+  failShieldActive: false,
+  failShieldUsed: false,
+  perBossMultBonus: 0,
+  grammarBonusChips: 0,
+  precisionExpert: false,
+  freeRarePerBoss: false
 };
+
+const VERBATRO_VOUCHERS = [
+  {
+    id: 'certificado_dele_a1',
+    name: 'Certificado DELE A1',
+    category: 'Economía',
+    description: 'El interés al final de la ronda mejora a $1 por cada $4.',
+    price: 8,
+    apply: state => {
+      state.interestDivider = 4;
+    }
+  },
+  {
+    id: 'beca_estudios',
+    name: 'Beca de Estudios',
+    category: 'Economía',
+    description: 'Ganas +$1 adicional por cada verbo acertado.',
+    price: 10,
+    apply: state => {
+      state.bonusMoneyPerVerb += 1;
+    }
+  },
+  {
+    id: 'cuenta_ahorros_premium',
+    name: 'Cuenta de Ahorros Premium',
+    category: 'Economía',
+    description: 'El límite de interés sube de $5 a $10 por ronda.',
+    price: 10,
+    apply: state => {
+      state.interestCap = 10;
+    }
+  },
+  {
+    id: 'libreria_ampliada',
+    name: 'Librería Ampliada',
+    category: 'Tienda',
+    description: 'La tienda ahora muestra 4 slots en lugar de 3.',
+    price: 10,
+    apply: state => {
+      state.shopSlots = 4;
+    }
+  },
+  {
+    id: 'descuento_estudiante',
+    name: 'Descuento de Estudiante',
+    category: 'Tienda',
+    description: 'El primer Reroll de cada ronda es gratis.',
+    price: 8,
+    apply: state => {
+      state.freeRerollEachRound = true;
+      state.rerollFreeAvailable = true;
+    }
+  },
+  {
+    id: 'paquete_bienvenida',
+    name: 'Paquete de Bienvenida',
+    category: 'Tienda',
+    description: 'Al inicio de cada ronda, 1 consumible aleatorio aparece gratis en la tienda.',
+    price: 12,
+    apply: state => {
+      state.welcomePack = true;
+    }
+  },
+  {
+    id: 'mochila_extra',
+    name: 'Mochila Extra',
+    category: 'Comodines',
+    description: 'Puedes equipar 6 Comodines en lugar de 5.',
+    price: 12,
+    apply: state => {
+      state.maxJokers = 6;
+    }
+  },
+  {
+    id: 'programa_reciclaje',
+    name: 'Programa de Reciclaje',
+    category: 'Comodines',
+    description: 'Puedes vender Comodines por el 75% de su precio.',
+    price: 8,
+    apply: state => {
+      state.saleMultiplier = 0.75;
+    }
+  },
+  {
+    id: 'comodin_oro',
+    name: 'Comodín de Oro Garantizado',
+    category: 'Comodines',
+    description: 'Cada Boss vencido añade 1 Comodín Raro gratis a tu inventario.',
+    price: 15,
+    apply: state => {
+      state.freeRarePerBoss = true;
+    }
+  },
+  {
+    id: 'tiempo_extra',
+    name: 'Tiempo Extra',
+    category: 'Gameplay',
+    description: 'Ganas +2 segundos adicionales para responder cada verbo.',
+    price: 8,
+    apply: state => {
+      state.extraTimePerVerb += 2;
+    }
+  },
+  {
+    id: 'bateria_adicional',
+    name: 'Batería Adicional',
+    category: 'Gameplay',
+    description: 'Empiezas cada ronda con +1 Verbo extra disponible.',
+    price: 10,
+    apply: state => {
+      state.extraHandsPerRound += 1;
+    }
+  },
+  {
+    id: 'seguro_suspenso',
+    name: 'Seguro de Suspenso',
+    category: 'Gameplay',
+    description: 'La primera vez que falles un verbo en una ronda, no cuenta como error.',
+    price: 12,
+    apply: state => {
+      state.failShieldActive = true;
+    }
+  },
+  {
+    id: 'manual_gramatica',
+    name: 'Manual de Gramática Avanzada',
+    category: 'Puntuación',
+    description: 'Todos los verbos irregulares dan +50 Fichas base adicionales.',
+    price: 10,
+    apply: state => {
+      state.grammarBonusChips = 50;
+    }
+  },
+  {
+    id: 'precision_experto',
+    name: 'Precisión de Experto',
+    category: 'Puntuación',
+    description: 'Si aciertas 5 verbos consecutivos, el 6º tiene x1.5 Mult automáticamente.',
+    price: 10,
+    apply: state => {
+      state.precisionExpert = true;
+    }
+  },
+  {
+    id: 'diploma_honor',
+    name: 'Diploma de Honor',
+    category: 'Puntuación',
+    description: 'Cada Boss vencido añade +0.1x Mult permanente acumulativo.',
+    price: 15,
+    apply: state => {
+      state.perBossMultBonus = 0.1;
+    }
+  }
+];
 
 const verbatroAnteConfigs = [
   { ante: 1, baseScore: 300, maxHands: 8 },
@@ -2029,6 +2204,9 @@ function displayClue() {
   const verbatroShopBtn = document.getElementById('verbatro-shop-button');
   const verbatroRerollBtn = document.getElementById('verbatro-reroll-button');
   const verbatroShop = document.getElementById('verbatro-shop');
+  const voucherPanel = document.getElementById('verbatro-voucher-panel');
+  const voucherOffersContainer = document.getElementById('verbatro-voucher-offers');
+  const voucherOwnedCount = document.getElementById('voucher-owned-count');
   const closeSettingsModalBtn = document.getElementById('close-settings-modal-btn');
   const settingsModal = document.getElementById('settings-modal');
   const settingsBackdrop = document.getElementById('settings-modal-backdrop');
@@ -2062,8 +2240,12 @@ function displayClue() {
   if (verbatroRerollBtn) {
     verbatroRerollBtn.addEventListener('click', () => {
       if (!verbatroState.active) return;
-      if (verbatroState.money < 2) return;
-      verbatroState.money -= 2;
+      if (verbatroState.money < 2 && !verbatroState.rerollFreeAvailable) return;
+      if (verbatroState.rerollFreeAvailable) {
+        verbatroState.rerollFreeAvailable = false;
+      } else {
+        verbatroState.money -= 2;
+      }
       renderShop();
       updateVerbatroUI();
     });
@@ -4871,10 +5053,16 @@ function applyVerbatroBlindConfig() {
 
   verbatroState.blindType = blindType;
   verbatroState.targetScore = Math.round(cfg.baseScore * multiplier);
-  verbatroState.maxHands = cfg.maxHands;
-  verbatroState.handsRemaining = cfg.maxHands;
+  verbatroState.maxHands = cfg.maxHands + (verbatroState.extraHandsPerRound || 0);
+  verbatroState.handsRemaining = verbatroState.maxHands;
   verbatroState.roundMistakes = 0;
   verbatroState.backspaceUsed = false;
+  verbatroState.failShieldUsed = false;
+  verbatroState.rerollFreeAvailable = verbatroState.freeRerollEachRound;
+  if (verbatroState.welcomePack) {
+    verbatroState.welcomeConsumable = generateWelcomeConsumable();
+  }
+  offerVoucherOptions();
   updateVerbatroUI();
 }
 
@@ -4904,7 +5092,8 @@ function pickJokersForShop() {
   }, {});
 
   const result = [];
-  for (let i = 0; i < 3; i++) {
+  const shopSlots = verbatroState.shopSlots || 3;
+  for (let i = 0; i < shopSlots; i++) {
     let rarity = rollJokerRarity();
     let pool = byRarity[rarity] || [];
     if (pool.length === 0) {
@@ -4917,6 +5106,106 @@ function pickJokersForShop() {
     result.push(choice);
   }
   return result;
+}
+
+function generateWelcomeConsumable() {
+  const randomEmoji = ['🍀', '🎲', '📘', '🚀'][Math.floor(Math.random() * 4)];
+  return {
+    id: `consumable_${Date.now()}`,
+    name: `${randomEmoji} Consumible Gratis`,
+    description: 'Un consumible promocional gracias al Paquete de Bienvenida.',
+    rarity: 'uncommon',
+    cost: 0,
+    trigger_type: 'on_score',
+    effect: { type: 'chips_add', value: 5 }
+  };
+}
+
+function getRemainingVouchers() {
+  const owned = new Set(verbatroState.ownedVouchers);
+  return (verbatroState.voucherDeck || []).filter(v => !owned.has(v.id));
+}
+
+function offerVoucherOptions() {
+  if (!verbatroState.active) return;
+  const remaining = getRemainingVouchers();
+  if (!remaining.length) {
+    verbatroState.voucherOffers = [];
+    renderVoucherOffers();
+    return;
+  }
+
+  const shuffled = [...remaining].sort(() => Math.random() - 0.5);
+  verbatroState.voucherOffers = shuffled.slice(0, 2);
+  const offeredIds = new Set(verbatroState.voucherOffers.map(v => v.id));
+  verbatroState.voucherDeck = remaining.filter(v => !offeredIds.has(v.id));
+  renderVoucherOffers();
+}
+
+function applyVoucherEffect(voucher) {
+  if (!voucher) return;
+  if (verbatroState.ownedVouchers.includes(voucher.id)) return;
+  verbatroState.ownedVouchers.push(voucher.id);
+  if (typeof voucher.apply === 'function') {
+    voucher.apply(verbatroState);
+  }
+}
+
+function buyVoucher(voucher) {
+  if (!voucher) return;
+  if (verbatroState.money < voucher.price) return;
+  if (verbatroState.ownedVouchers.includes(voucher.id)) return;
+  verbatroState.money -= voucher.price;
+  applyVoucherEffect(voucher);
+  verbatroState.voucherDeck = getRemainingVouchers();
+  verbatroState.voucherOffers = verbatroState.voucherOffers.filter(v => v.id !== voucher.id);
+  updateVerbatroUI();
+  renderVoucherOffers();
+}
+
+function renderVoucherOffers() {
+  if (!voucherOffersContainer || !voucherPanel) return;
+  const offers = verbatroState.voucherOffers || [];
+  voucherOffersContainer.innerHTML = '';
+  voucherPanel.style.display = selectedGameMode === 'verbatro' && verbatroState.active ? 'block' : 'none';
+  if (voucherOwnedCount) {
+    voucherOwnedCount.textContent = `${verbatroState.ownedVouchers.length} adquiridas`;
+  }
+
+  if (!offers.length) {
+    const empty = document.createElement('p');
+    empty.className = 'voucher-empty';
+    empty.textContent = 'Sin chuletas nuevas por ahora.';
+    voucherOffersContainer.appendChild(empty);
+    return;
+  }
+
+  offers.forEach(voucher => {
+    const card = document.createElement('div');
+    card.className = 'voucher-card';
+
+    const header = document.createElement('div');
+    header.className = 'voucher-header';
+    header.innerHTML = `<span class="voucher-name">${voucher.name}</span><span class="voucher-category">${voucher.category}</span>`;
+
+    const desc = document.createElement('p');
+    desc.className = 'voucher-description';
+    desc.textContent = voucher.description;
+
+    const footer = document.createElement('div');
+    footer.className = 'voucher-footer';
+    const price = document.createElement('span');
+    price.className = 'voucher-price';
+    price.textContent = `$${voucher.price}`;
+    const buyBtn = document.createElement('button');
+    buyBtn.textContent = 'COMPRAR CHULETA';
+    buyBtn.disabled = verbatroState.money < voucher.price;
+    buyBtn.addEventListener('click', () => buyVoucher(voucher));
+    footer.append(price, buyBtn);
+
+    card.append(header, desc, footer);
+    voucherOffersContainer.appendChild(card);
+  });
 }
 
 const DEFAULT_JOKER_ART = {
@@ -5005,11 +5294,42 @@ function renderVerbatroJokers(jokers = verbatroState.inventory) {
   if (!verbatroJokerArea) return;
   verbatroJokerArea.innerHTML = '';
 
-  const maxSlots = 5;
+  const maxSlots = verbatroState.maxJokers;
   for (let i = 0; i < maxSlots; i++) {
     const joker = jokers[i];
     const card = joker ? createJokerCard(joker) : createEmptyJokerCard();
+    if (joker) {
+      card.addEventListener('click', () => handleJokerSelection(card, joker));
+    }
     verbatroJokerArea.appendChild(card);
+  }
+}
+
+function getJokerSaleValue(joker = {}) {
+  const multiplier = verbatroState.saleMultiplier || 0.5;
+  return Math.floor((joker.cost || 0) * multiplier);
+}
+
+function sellJoker(joker) {
+  if (!joker) return;
+  const saleValue = getJokerSaleValue(joker);
+  verbatroState.inventory = verbatroState.inventory.filter(j => j.id !== joker.id);
+  verbatroState.money += saleValue;
+  renderVerbatroJokers();
+  updateVerbatroUI();
+}
+
+function handleJokerSelection(card, joker) {
+  if (!card || !joker) return;
+  const isSelected = card.classList.toggle('selected');
+  if (!isSelected) return;
+
+  const saleValue = getJokerSaleValue(joker);
+  const confirmSell = confirm(`¿Vender ${joker.name} por $${saleValue}?`);
+  if (confirmSell) {
+    sellJoker(joker);
+  } else {
+    card.classList.remove('selected');
   }
 }
 
@@ -5040,12 +5360,18 @@ function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: v
   if (verbatroBlindEl) verbatroBlindEl.textContent = formatBlindName(verbatroState.blindType);
   if (verbatroChipsEl) verbatroChipsEl.textContent = latestHand.chips;
   if (verbatroMultEl) verbatroMultEl.textContent = `x${latestHand.mult}`;
-  if (verbatroRerollBtn) verbatroRerollBtn.disabled = verbatroState.money < 2;
+  if (verbatroRerollBtn) {
+    const needsMoney = verbatroState.money < 2 && !verbatroState.rerollFreeAvailable;
+    verbatroRerollBtn.disabled = needsMoney;
+  }
   const levelTextEl = document.getElementById('level-text');
   if (levelTextEl) {
     levelTextEl.textContent = `Verbatro Ante ${verbatroState.round} | ${formatBlindName(verbatroState.blindType)} | Target: ${verbatroState.targetScore}`;
   }
+  const rackCap = verbatroRack?.querySelector('.rack-cap');
+  if (rackCap) rackCap.textContent = `Max ${verbatroState.maxJokers}`;
   renderVerbatroJokers();
+  renderVoucherOffers();
 
   score = verbatroState.currentScore;
   updateScore();
@@ -5185,16 +5511,23 @@ function evaluateJokerCondition(joker, context) {
 function calculateVerbatroScore(question, userInput, responseTime = 0) {
   const verbObj = question?.verb || {};
   const normalizedInput = (userInput || '').trim();
+  const tenseKey = question?.tenseKey || '';
+  const typesForTense = verbObj?.types?.[tenseKey] || [];
+  const isIrregularVerb = (typesForTense || []).some(t => t !== 'regular');
 
   verbatroState.streak += 1;
 
   let chips = verbatroState.baseChips;
-  let mult = verbatroState.baseMult;
+  let mult = verbatroState.baseMult + verbatroState.bossesDefeated * (verbatroState.perBossMultBonus || 0);
   let bonusMoney = 0;
   let coinflipFailed = false;
   const triggeredEffects = [];
 
   const context = { question, verbObj, userInput: normalizedInput, responseTime };
+
+  if (verbatroState.grammarBonusChips && isIrregularVerb) {
+    chips += verbatroState.grammarBonusChips;
+  }
 
   const applyEffect = effect => {
     if (!effect || !effect.type) return;
@@ -5281,16 +5614,39 @@ function calculateVerbatroScore(question, userInput, responseTime = 0) {
     return { chips: 0, mult: 0, score: 0 };
   }
 
+  if (verbatroState.precisionExpert && verbatroState.streak > 0 && verbatroState.streak % 6 === 0) {
+    mult *= 1.5;
+  }
+
   const finalScore = chips * mult;
   verbatroState.currentScore += finalScore;
 
-  let moneyGain = 2;
-  if (verbatroState.streak >= 6) moneyGain = 4;
-  else if (verbatroState.streak >= 3) moneyGain = 3;
+  const baseReward = 1 + (verbatroState.bonusMoneyPerVerb || 0);
+  let moneyGain = baseReward;
+  if (verbatroState.streak >= 6) moneyGain = baseReward + 2;
+  else if (verbatroState.streak >= 3) moneyGain = baseReward + 1;
   moneyGain += bonusMoney;
   verbatroState.money += Math.max(0, Math.floor(moneyGain));
 
   return { chips, mult, score: finalScore };
+}
+
+function applyRoundInterest() {
+  const divisor = verbatroState.interestDivider || 5;
+  const cap = verbatroState.interestCap || 0;
+  const interestUnits = Math.min(cap, Math.floor(verbatroState.money / divisor));
+  if (interestUnits > 0) {
+    verbatroState.money += interestUnits;
+  }
+}
+
+function grantRareJokerReward() {
+  const rarePool = verbatroState.jokerData.filter(j => j.rarity === 'rare' && !verbatroState.inventory.some(inv => inv.id === j.id));
+  if (!rarePool.length) return;
+  if (verbatroState.inventory.length >= verbatroState.maxJokers) return;
+  const gift = rarePool[Math.floor(Math.random() * rarePool.length)];
+  verbatroState.inventory.push(gift);
+  renderVerbatroJokers();
 }
 
 function checkRoundWinCondition() {
@@ -5299,6 +5655,7 @@ function checkRoundWinCondition() {
     if (unusedBonus > 0) {
       verbatroState.money += unusedBonus;
     }
+    applyRoundInterest();
     const clearedBlind = verbatroState.blindType;
     feedback.textContent = `🎯 ${formatBlindName(clearedBlind)} cleared! Shop refreshed.`;
     verbatroState.currentScore = 0;
@@ -5306,6 +5663,9 @@ function checkRoundWinCondition() {
     if (clearedBlind === 'boss') {
       verbatroState.round += 1;
       verbatroState.bossesDefeated += 1;
+      if (verbatroState.freeRarePerBoss) {
+        grantRareJokerReward();
+      }
     }
     setVerbatroBackgroundForBlind();
     applyVerbatroBlindConfig();
@@ -5324,7 +5684,11 @@ function checkRoundLossCondition() {
 
 function renderShop() {
   if (!verbatroShop || !verbatroShopItems) return;
-  verbatroState.shopInventory = pickJokersForShop();
+  const shopItems = pickJokersForShop();
+  if (verbatroState.welcomeConsumable) {
+    shopItems.unshift(verbatroState.welcomeConsumable);
+  }
+  verbatroState.shopInventory = shopItems;
 
   verbatroShopItems.innerHTML = '';
   verbatroState.shopInventory.forEach(joker => {
@@ -5338,23 +5702,29 @@ function renderShop() {
     actions.className = 'joker-actions';
     const buyBtn = document.createElement('button');
     buyBtn.textContent = `COMPRAR $${joker.cost}`;
-    buyBtn.disabled = verbatroState.money < joker.cost || verbatroState.inventory.length >= 5;
+    buyBtn.disabled = verbatroState.money < joker.cost || verbatroState.inventory.length >= verbatroState.maxJokers;
     buyBtn.addEventListener('click', () => buyJoker(joker));
     actions.appendChild(buyBtn);
     card.appendChild(actions);
     verbatroShopItems.appendChild(card);
   });
 
-  if (verbatroRerollBtn) verbatroRerollBtn.disabled = verbatroState.money < 2;
+  if (verbatroRerollBtn) {
+    const needsMoney = verbatroState.money < 2 && !verbatroState.rerollFreeAvailable;
+    verbatroRerollBtn.disabled = needsMoney;
+  }
   verbatroShop.style.display = verbatroState.active && selectedGameMode === 'verbatro' ? 'block' : 'none';
 }
 
 function buyJoker(joker) {
   if (verbatroState.money < joker.cost) return;
   if (verbatroState.inventory.some(j => j.id === joker.id)) return;
-  if (verbatroState.inventory.length >= 5) return;
+  if (verbatroState.inventory.length >= verbatroState.maxJokers) return;
   verbatroState.money -= joker.cost;
   verbatroState.inventory.push(joker);
+  if (verbatroState.welcomeConsumable && joker.id === verbatroState.welcomeConsumable.id) {
+    verbatroState.welcomeConsumable = null;
+  }
   renderShop();
   updateVerbatroUI();
 }
@@ -5375,6 +5745,27 @@ function startVerbatroMode() {
   verbatroState.baseChips = 10;
   verbatroState.baseMult = 1;
   verbatroState.backspaceUsed = false;
+  verbatroState.ownedVouchers = [];
+  verbatroState.voucherDeck = [...VERBATRO_VOUCHERS];
+  verbatroState.voucherOffers = [];
+  verbatroState.maxJokers = 5;
+  verbatroState.saleMultiplier = 0.5;
+  verbatroState.shopSlots = 3;
+  verbatroState.freeRerollEachRound = false;
+  verbatroState.rerollFreeAvailable = false;
+  verbatroState.welcomePack = false;
+  verbatroState.welcomeConsumable = null;
+  verbatroState.interestDivider = 5;
+  verbatroState.interestCap = 5;
+  verbatroState.bonusMoneyPerVerb = 0;
+  verbatroState.extraHandsPerRound = 0;
+  verbatroState.extraTimePerVerb = 0;
+  verbatroState.failShieldActive = false;
+  verbatroState.failShieldUsed = false;
+  verbatroState.perBossMultBonus = 0;
+  verbatroState.grammarBonusChips = 0;
+  verbatroState.precisionExpert = false;
+  verbatroState.freeRarePerBoss = false;
   document.body.classList.add('verbatro-mode');
   applyVerbatroBlindConfig();
   setVerbatroBackgroundForBlind();
@@ -6005,6 +6396,14 @@ if (reflexiveBonus > 0) {
     });
 
     if (selectedGameMode === 'verbatro') {
+      if (verbatroState.failShieldActive && !verbatroState.failShieldUsed) {
+        verbatroState.failShieldUsed = true;
+        feedback.textContent = '🛡️ Seguro de Suspenso activado. No pierdes mano.';
+        prepareNextQuestion();
+        if (ansES) ansES.value = '';
+        if (ansEN) ansEN.value = '';
+        return;
+      }
       verbatroState.handsRemaining = Math.max(0, verbatroState.handsRemaining - 1);
       verbatroState.streak = 0;
       verbatroState.roundMistakes += 1;

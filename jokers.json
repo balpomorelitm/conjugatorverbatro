@@ -1,0 +1,47 @@
+[
+  {
+    "id": "joker_novato",
+    "name": "El Novato",
+    "description": "+4 Mult si el verbo termina en -AR",
+    "rarity": "common",
+    "cost": 2,
+    "trigger_type": "on_score",
+    "effect": {
+      "type": "mult_add",
+      "value": 4
+    },
+    "condition": {
+      "target": "verb_ending",
+      "value": "ar"
+    }
+  },
+  {
+    "id": "joker_mochila",
+    "name": "La Mochila",
+    "description": "+15 Fichas",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "passive",
+    "effect": {
+      "type": "chips_add",
+      "value": 15
+    },
+    "condition": null
+  },
+  {
+    "id": "joker_corto",
+    "name": "Corto y Cambio",
+    "description": "+6 Mult si la respuesta tiene <= 4 letras",
+    "rarity": "common",
+    "cost": 3,
+    "trigger_type": "on_score",
+    "effect": {
+      "type": "mult_add",
+      "value": 6
+    },
+    "condition": {
+      "target": "input_length_lte",
+      "value": 4
+    }
+  }
+]

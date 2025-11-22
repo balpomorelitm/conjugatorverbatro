@@ -48,6 +48,7 @@ const assetUrl = relativePath => new URL(relativePath, import.meta.url).href;
 
 const ASSET_URLS = {
   verbosData: assetUrl('../verbos.json'),
+  jokersData: assetUrl('../jokers.json'),
   chuacheTalks: assetUrl('../assets/images/chuachetalks.gif'),
   conjuchuache: assetUrl('../assets/images/conjuchuache.webp'),
   bossPlaceholder: assetUrl('../assets/images/boss_imageplaceholder.png'),
@@ -61,6 +62,22 @@ const ASSET_URLS = {
 };
 
 const pronouns = ['yo', 'tú', 'vos', 'él', 'nosotros', 'vosotros', 'ellos'];
+
+// Verbatro State Definition
+const verbatroState = {
+  active: false,
+  round: 1,
+  money: 4,
+  currentScore: 0,
+  targetScore: 300,
+  handsRemaining: 8,
+  maxHands: 8,
+  baseChips: 10,
+  baseMult: 1,
+  inventory: [],
+  shopInventory: [],
+  jokerData: []
+};
 
 let typeInterval; // Variable global para controlar el intervalo de la animación
 let isCheckingAnswer = false;
@@ -83,6 +100,16 @@ const verbosJsonPromise = fetch(ASSET_URLS.verbosData)
   .catch(err => {
     console.error('Could not fetch verbos.json:', err);
     alert('Error cargando datos de los verbos.');
+    return [];
+  });
+
+const jokersJsonPromise = fetch(ASSET_URLS.jokersData)
+  .then(resp => {
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  })
+  .catch(err => {
+    console.error('Could not fetch jokers.json:', err);
     return [];
   });
 
@@ -1932,6 +1959,17 @@ function displayClue() {
   const salonButton = document.getElementById('salon-button');
   const hallOfFameBtn = document.getElementById('hall-of-fame-btn');
   const hallOfFameNewBtn = document.getElementById('hall-of-fame-new-btn');
+  const verbatroHud = document.getElementById('verbatro-hud');
+  const verbatroJokerArea = document.getElementById('verbatro-joker-area');
+  const verbatroRoundEl = document.getElementById('verbatro-round');
+  const verbatroChipsEl = document.getElementById('verbatro-chips');
+  const verbatroMultEl = document.getElementById('verbatro-mult');
+  const verbatroScoreEl = document.getElementById('verbatro-score');
+  const verbatroTargetEl = document.getElementById('verbatro-target');
+  const verbatroHandsEl = document.getElementById('verbatro-hands');
+  const verbatroMoneyEl = document.getElementById('verbatro-money');
+  const verbatroShopBtn = document.getElementById('verbatro-shop-button');
+  const verbatroShop = document.getElementById('verbatro-shop');
   const closeSettingsModalBtn = document.getElementById('close-settings-modal-btn');
   const settingsModal = document.getElementById('settings-modal');
   const settingsBackdrop = document.getElementById('settings-modal-backdrop');
@@ -1950,6 +1988,17 @@ function displayClue() {
   const toggleIgnoreAccentsBtn = document.getElementById('toggle-ignore-accents');
   const titleElement = document.querySelector('.glitch-title');
   const verbTypeLabels = Array.from(document.querySelectorAll('label[data-times]'));
+
+  if (verbatroShopBtn && verbatroShop) {
+    verbatroShopBtn.addEventListener('click', () => {
+      if (!verbatroState.active) return;
+      const nextDisplay = verbatroShop.style.display === 'none' || verbatroShop.style.display === '' ? 'grid' : 'none';
+      verbatroShop.style.display = nextDisplay;
+      if (nextDisplay !== 'none') {
+        renderShop();
+      }
+    });
+  }
 
   // --- Automatically load records into the splash screen box ---
   const recordsContainer = document.getElementById('records-display-container');
@@ -4701,6 +4750,193 @@ levelState.currentBossNumber++;
   }
 }
 
+// Verbatro helpers
+async function loadVerbatroData() {
+  if (verbatroState.jokerData.length > 0) return true;
+  const data = await jokersJsonPromise;
+  if (Array.isArray(data)) {
+    verbatroState.jokerData = data;
+    return true;
+  }
+  return false;
+}
+
+function renderVerbatroJokers(jokers = verbatroState.inventory) {
+  if (!verbatroJokerArea) return;
+  verbatroJokerArea.innerHTML = '';
+  if (!jokers.length) {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'verbatro-joker-card';
+    placeholder.textContent = 'No Jokers equipped yet';
+    verbatroJokerArea.appendChild(placeholder);
+    return;
+  }
+
+  jokers.forEach(joker => {
+    const card = document.createElement('div');
+    card.className = 'verbatro-joker-card';
+    card.dataset.jokerId = joker.id;
+    card.innerHTML = `
+      <span class="joker-name">${joker.name}</span>
+      <span class="joker-desc">${joker.description}</span>
+      <span class="joker-cost">$${joker.cost}</span>
+    `;
+    verbatroJokerArea.appendChild(card);
+  });
+}
+
+function triggerJokerAnimation(jokerId) {
+  if (!verbatroJokerArea) return;
+  const card = verbatroJokerArea.querySelector(`[data-joker-id="${jokerId}"]`);
+  if (!card) return;
+  card.classList.add('triggered');
+  setTimeout(() => card.classList.remove('triggered'), 700);
+}
+
+function updateVerbatroUI(latestHand = { chips: verbatroState.baseChips, mult: verbatroState.baseMult }) {
+  if (!verbatroHud) return;
+  verbatroHud.style.display = selectedGameMode === 'verbatro' ? 'block' : 'none';
+  if (!verbatroState.active) return;
+
+  if (verbatroRoundEl) verbatroRoundEl.textContent = verbatroState.round;
+  if (verbatroScoreEl) verbatroScoreEl.textContent = verbatroState.currentScore;
+  if (verbatroTargetEl) verbatroTargetEl.textContent = verbatroState.targetScore;
+  if (verbatroHandsEl) verbatroHandsEl.textContent = verbatroState.handsRemaining;
+  if (verbatroMoneyEl) verbatroMoneyEl.textContent = `$${verbatroState.money}`;
+  if (verbatroChipsEl) verbatroChipsEl.textContent = latestHand.chips;
+  if (verbatroMultEl) verbatroMultEl.textContent = `x${latestHand.mult}`;
+  const levelTextEl = document.getElementById('level-text');
+  if (levelTextEl) {
+    levelTextEl.textContent = `Verbatro Round ${verbatroState.round} | Target: ${verbatroState.targetScore}`;
+  }
+  renderVerbatroJokers();
+
+  score = verbatroState.currentScore;
+  updateScore();
+}
+
+function calculateVerbatroScore(verbObj, userInput) {
+  let chips = verbatroState.baseChips;
+  let mult = verbatroState.baseMult;
+
+  verbatroState.inventory.forEach(joker => {
+    let triggered = false;
+    if (!joker.condition || !joker.condition.target) {
+      triggered = true;
+    } else if (joker.condition.target === 'verb_ending') {
+      const infinitive = (verbObj?.infinitive_es || '').toLowerCase();
+      triggered = infinitive.endsWith(String(joker.condition.value).toLowerCase());
+    } else if (joker.condition.target === 'input_length_lte') {
+      triggered = userInput.length <= Number(joker.condition.value);
+    }
+
+    if (triggered) {
+      if (joker.effect?.type === 'mult_add') {
+        mult += Number(joker.effect.value) || 0;
+      } else if (joker.effect?.type === 'chips_add') {
+        chips += Number(joker.effect.value) || 0;
+      }
+      triggerJokerAnimation(joker.id);
+    }
+  });
+
+  const finalScore = chips * mult;
+  verbatroState.currentScore += finalScore;
+  verbatroState.money += 1;
+  return { chips, mult, score: finalScore };
+}
+
+function checkRoundWinCondition() {
+  if (verbatroState.currentScore >= verbatroState.targetScore) {
+    feedback.textContent = '🎯 Blind cleared! Shop refreshed.';
+    verbatroState.round += 1;
+    verbatroState.targetScore = Math.round(verbatroState.targetScore * 1.25);
+    verbatroState.handsRemaining = verbatroState.maxHands;
+    verbatroState.currentScore = 0;
+    renderShop();
+    updateVerbatroUI();
+  }
+}
+
+function checkRoundLossCondition() {
+  if (verbatroState.handsRemaining <= 0 && verbatroState.currentScore < verbatroState.targetScore) {
+    feedback.textContent = '❌ Out of hands! Blind failed.';
+    verbatroState.active = false;
+    triggerGameOver();
+  }
+}
+
+function renderShop() {
+  if (!verbatroShop) return;
+  const available = verbatroState.jokerData.filter(j => !verbatroState.inventory.some(inv => inv.id === j.id));
+  const shuffled = [...available].sort(() => Math.random() - 0.5);
+  verbatroState.shopInventory = shuffled.slice(0, 3);
+
+  verbatroShop.innerHTML = '';
+  verbatroState.shopInventory.forEach(joker => {
+    const card = document.createElement('div');
+    card.className = 'shop-card';
+    card.innerHTML = `
+      <div class="joker-name">${joker.name}</div>
+      <div class="joker-desc">${joker.description}</div>
+      <div class="joker-cost">Cost: $${joker.cost}</div>
+    `;
+
+    const buyBtn = document.createElement('button');
+    buyBtn.textContent = 'Buy';
+    buyBtn.disabled = verbatroState.money < joker.cost || verbatroState.inventory.length >= 5;
+    buyBtn.addEventListener('click', () => buyJoker(joker));
+    card.appendChild(buyBtn);
+    verbatroShop.appendChild(card);
+  });
+}
+
+function buyJoker(joker) {
+  if (verbatroState.money < joker.cost) return;
+  if (verbatroState.inventory.some(j => j.id === joker.id)) return;
+  if (verbatroState.inventory.length >= 5) return;
+  verbatroState.money -= joker.cost;
+  verbatroState.inventory.push(joker);
+  renderShop();
+  updateVerbatroUI();
+}
+
+function startVerbatroMode() {
+  verbatroState.active = true;
+  verbatroState.round = 1;
+  verbatroState.money = 4;
+  verbatroState.currentScore = 0;
+  verbatroState.targetScore = 300;
+  verbatroState.handsRemaining = verbatroState.maxHands;
+  verbatroState.inventory = [];
+  verbatroState.shopInventory = [];
+  verbatroState.baseChips = 10;
+  verbatroState.baseMult = 1;
+  game.verbsInPhaseCount = 0;
+  game.gameState = 'PLAYING';
+  levelState.bossesEncounteredTotal = 0;
+  levelState.currentBossNumber = 0;
+  levelState.freeClues = 0;
+  updateClueButtonUI(clueButton, selectedGameMode);
+  if (verbatroHud) verbatroHud.style.display = 'block';
+  if (verbatroShop) verbatroShop.style.display = 'none';
+  if (document.getElementById('timer-container')) {
+    document.getElementById('timer-container').style.display = 'none';
+  }
+  const livesMechanicsDisplay = document.getElementById('lives-mechanics-display');
+  if (livesMechanicsDisplay) livesMechanicsDisplay.style.display = 'none';
+  if (feedback) feedback.innerHTML = '';
+  score = verbatroState.currentScore;
+  renderShop();
+  updateVerbatroUI();
+}
+
+function deactivateVerbatroMode() {
+  verbatroState.active = false;
+  if (verbatroHud) verbatroHud.style.display = 'none';
+  if (verbatroShop) verbatroShop.style.display = 'none';
+}
+
 function checkAnswer() {
   try {
   // --- Boss Battle Logic ---
@@ -5110,6 +5346,20 @@ correct = possibleCorrectAnswers.includes(ans);
       return;
     }
 
+    if (selectedGameMode === 'verbatro') {
+      const rawInput = (currentOptions.mode === 'productive' || currentOptions.mode === 'productive_easy')
+        ? ansES.value.trim()
+        : ansEN.value.trim();
+      const handResult = calculateVerbatroScore(currentQuestion.verb, rawInput);
+      feedback.textContent = `✅ (${handResult.chips} chips) x${handResult.mult} = ${handResult.score}`;
+      updateVerbatroUI(handResult);
+      prepareNextQuestion();
+      checkRoundWinCondition();
+      if (ansES) ansES.value = '';
+      if (ansEN) ansEN.value = '';
+      return;
+    }
+
     // El resto de la lógica para una respuesta correcta DEBE ESTAR AQUÍ DENTRO
     streak++;
     if (streak > bestStreak) bestStreak = streak;
@@ -5278,6 +5528,17 @@ if (reflexiveBonus > 0) {
       tense: currentQuestion.tenseKey
     });
 
+    if (selectedGameMode === 'verbatro') {
+      verbatroState.handsRemaining = Math.max(0, verbatroState.handsRemaining - 1);
+      feedback.textContent = '❌ Mano perdida. -1 hand';
+      updateVerbatroUI();
+      prepareNextQuestion();
+      checkRoundLossCondition();
+      if (ansES) ansES.value = '';
+      if (ansEN) ansEN.value = '';
+      return;
+    }
+
     if (isStudyMode) {
       safePlay(soundWrongStudy);
     } else {
@@ -5345,6 +5606,7 @@ if (!hintIsAlreadyShowing) {
 }
 	
 function startTimerMode() {
+  deactivateVerbatroMode();
   if (game.boss && game.boss.countdownInterval) {
     clearInterval(game.boss.countdownInterval);
     game.boss.countdownInterval = null;
@@ -5429,6 +5691,7 @@ levelState.bossesEncounteredTotal = 0;
 }
 
 function startLivesMode() {
+  deactivateVerbatroMode();
   if (game.boss && game.boss.countdownInterval) {
     clearInterval(game.boss.countdownInterval);
     game.boss.countdownInterval = null;
@@ -5910,6 +6173,13 @@ finalStartGameButton.addEventListener('click', async () => {
     // cuando se confirma el modo. Ej: selectedGameMode = selectedMode;
 
     if (!await loadVerbs()) return; // loadVerbs necesita usar los filtros correctos
+    if (window.selectedGameMode === 'verbatro') {
+        const jokersLoaded = await loadVerbatroData();
+        if (!jokersLoaded) {
+            alert('No se pudieron cargar los Jokers.');
+            return;
+        }
+    }
 
     // Ocultar pantalla de configuración de flujo y mostrar pantalla de juego
     configFlowScreen.style.display = 'none';
@@ -5952,7 +6222,32 @@ finalStartGameButton.addEventListener('click', async () => {
         startTimerMode();
     } else if (window.selectedGameMode === 'lives') {
         startLivesMode();
+    } else if (window.selectedGameMode === 'verbatro') {
+        startVerbatroMode();
+        safePlay(soundStart);
+        fadeOutAudio(menuMusic, 1000);
+        setTimeout(() => {
+            if (currentMusic !== gameMusic) {
+                currentMusic = gameMusic;
+            }
+            if (selectedGameMode !== 'study' && gameMusic.paused && musicPlaying) {
+                gameMusic.volume = targetVolume;
+                safePlay(gameMusic);
+            } else {
+                gameMusic.pause();
+                if (musicIcon) {
+                    musicIcon.src = ASSET_URLS.musicOff;
+                    musicIcon.alt = 'Music off';
+                }
+            }
+            musicToggle.style.display = 'block';
+            volumeSlider.style.display = 'block';
+            volumeSlider.value = targetVolume;
+            volumeSlider.disabled = gameMusic.paused;
+        }, 1000);
+        prepareNextQuestion();
     } else {
+        deactivateVerbatroMode();
         game.verbsInPhaseCount = 0;
         game.gameState = 'PLAYING';
         levelState.bossesEncounteredTotal = 0;

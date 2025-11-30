@@ -30,6 +30,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body id="game-container" class="is-loading">
+  <div id="orientation-overlay" class="orientation-overlay" aria-live="polite" aria-label="Rotar dispositivo">
+    <div class="orientation-overlay__content">
+      <span class="material-icons-sharp" aria-hidden="true">screen_rotation</span>
+      <p>Gira tu dispositivo para jugar en horizontal.</p>
+    </div>
+  </div>
   <div id="specific-modal-backdrop" class="specific-modal-backdrop" style="display:none;"></div>
   <div id="specific-info-modal" class="specific-modal" style="display:none;">
     <div class="specific-modal-content">

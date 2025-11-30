@@ -90,6 +90,33 @@ const VERBATRO_TENSE_COLORS = {
   imperative_negative: '#ff7043'
 };
 
+let orientationLocked = false;
+
+async function lockLandscapeOrientation() {
+  if (!('orientation' in screen) || typeof screen.orientation.lock !== 'function') return;
+
+  try {
+    await screen.orientation.lock('landscape');
+    orientationLocked = true;
+  } catch (err) {
+    console.warn('Could not lock orientation', err);
+  }
+}
+
+function unlockOrientationLock() {
+  if (!orientationLocked) return;
+
+  try {
+    if (typeof screen.orientation.unlock === 'function') {
+      screen.orientation.unlock();
+    }
+  } catch (err) {
+    console.warn('Could not unlock orientation', err);
+  }
+
+  orientationLocked = false;
+}
+
 // Verbatro State Definition
 const verbatroState = {
   active: false,
@@ -6895,13 +6922,16 @@ levelState.bossesEncounteredTotal = 0;
 
   // Limpiar clases del body
   document.body.classList.remove(
-    'boss-battle-bg', 
-    't1000-mode', 
-    'game-active', 
+    'boss-battle-bg',
+    't1000-mode',
+    'game-active',
+    'force-landscape',
     'iridescent-level',
     'level-up-shake',
     'tooltip-open-no-scroll'
   );
+  document.documentElement.classList.remove('game-active');
+  unlockOrientationLock();
   
   // Limpiar clases de elementos específicos
   if (gameScreen) {
@@ -7096,6 +7126,10 @@ finalStartGameButton.addEventListener('click', async () => {
     // Asegúrate de que `selectedGameMode` (variable global) se actualice con `selectedMode`
     // cuando se confirma el modo. Ej: selectedGameMode = selectedMode;
 
+    document.body.classList.add('game-active', 'force-landscape');
+    document.documentElement.classList.add('game-active');
+    lockLandscapeOrientation();
+
     if (!await loadVerbs()) return; // loadVerbs necesita usar los filtros correctos
     if (window.selectedGameMode === 'verbatro') {
         const jokersLoaded = await loadVerbatroData();
@@ -7107,7 +7141,7 @@ finalStartGameButton.addEventListener('click', async () => {
 
     // Ocultar pantalla de configuración de flujo y mostrar pantalla de juego
     configFlowScreen.style.display = 'none';
-    gameScreen.style.display = 'block';
+    gameScreen.style.display = 'flex';
     gameScreen.classList.remove('study-mode-active');
     if (selectedGameMode === 'study') {
         gameScreen.classList.add('study-mode-active');

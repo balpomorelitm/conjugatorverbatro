@@ -265,7 +265,22 @@ body {
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
-  
+
+}
+
+body.game-active {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+body.game-active::before {
+  display: none;
 }
 
 body::before {
@@ -2247,14 +2262,32 @@ button:active {
 /* Canvas de confeti, dentro de #game-screen con position:relative */
 #game-screen {
   position: relative;      /* en lugar de fixed */
-  /*width: 100vw;
-  height: 100vh;*/
   min-height: auto;
   overflow-y: hidden;
   max-width: 800px;
-  margin: 0 auto;  
+  margin: 0 auto;
   padding: 20px; /* Añadir padding interno si no lo hereda o lo quieres específico */
   display: none;
+}
+
+body.game-active #game-screen {
+  max-width: none;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(12px, 3vw, 28px);
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+}
+
+body.game-active #game-layout {
+  flex: 1;
+}
+
+body.game-active #game-main {
+  max-width: none;
+  flex: 1 1 65%;
 }
 #life-confetti-canvas {
   position: fixed;             /* fijo al viewport, no al contenedor */
@@ -2266,6 +2299,42 @@ button:active {
   display: none;               /* igual que antes */
   pointer-events: none;
   z-index: 1000;
+}
+
+.orientation-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  color: var(--title-color);
+  z-index: 2000;
+  padding: 20px;
+  text-align: center;
+}
+
+.orientation-overlay__content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.orientation-overlay .material-icons-sharp {
+  font-size: 2.4rem;
+}
+
+@media (orientation: portrait) {
+  body.force-landscape .orientation-overlay {
+    display: flex;
+  }
+
+  body.force-landscape #game-screen {
+    filter: blur(2px);
+    pointer-events: none;
+  }
 }
 
 /* Al activar el modo juego, deshabilita scroll exterior */
